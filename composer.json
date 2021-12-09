@@ -1,7 +1,7 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "bitbag/sylius-multi-cart-plugin",
     "type": "sylius-plugin",
-    "description": "Acme example plugin for Sylius.",
+    "description": "BitBag multi cart plugin for sylius",
     "keywords": [
         "sylius",
         "sylius-plugin"
@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4 || ^8.0",
+        "polishsymfonycommunity/symfony-mocker-container": "^1.0",
         "sylius/sylius": "~1.9.0 || ~1.10.0@beta"
     },
     "require-dev": {
@@ -51,8 +52,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/",
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "BitBag\\SyliusMultiCartPlugin\\": "src/",
+            "Tests\\BitBag\\SyliusMultiCartPlugin\\": "tests/"
         }
     },
     "autoload-dev": {
