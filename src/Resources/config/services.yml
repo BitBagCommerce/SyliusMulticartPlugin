@@ -1,0 +1,48 @@
+imports:
+    - { resource: "services/**/*.yml" }
+
+services:
+    BitBag\SyliusMultiCartPlugin\Controller\GreetingController: ~
+
+    bitbag_sylius_multi_cart_plugin.controller.new_cart:
+#    BitBag\SyliusMultiCartPlugin\Controller\NewCartAction:
+#        public: true
+        class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
+        arguments:
+            - '@sylius.context.cart.new_shop_based'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'controller.service_arguments' }
+#            - { name: 'container.service_subscriber' }
+        calls:
+            - [setContainer, ['@service_container']]
+
+#   dorobić skrót do dekoratora
+    BitBag\SyliusMultiCartPlugin\Cart\Context\CustomerAndChannelBasedMultiCartContext:
+        decorates: 'sylius.context.cart.customer_and_channel_based'
+        arguments:
+            - '@sylius.context.customer'
+            - '@sylius.context.channel'
+            - '@sylius.repository.order'
+        tags:
+            - {name: 'sylius.context.cart'}
+
+#            <argument type="service" id="sylius.context.customer" />
+#            <argument type="service" id="sylius.context.channel" />
+#            <argument type="service" id="sylius.repository.order" />
+#            <tag name="sylius.context.cart" priority="-555" />
+
+    BitBag\SyliusMultiCartPlugin\Cart\Context\ShopBasedMultiCartContext:
+        decorates: 'sylius.context.cart.new_shop_based'
+        arguments:
+            - '@sylius.context.cart.new_shop_based.inner'
+            - '@sylius.context.shopper'
+            - '@sylius.repository.order'
+        tags:
+            - {name: 'kernel.reset', method: 'reset'}
+
+
+#    <argument type="service" id="sylius.context.cart.new_shop_based.inner" />
+#    <argument type="service" id="sylius.context.shopper" />
+#    <tag name="kernel.reset" method="reset" />
+#    </service>

@@ -1,0 +1,28 @@
+<div class="right aligned column">
+    {{ render(url('sylius_shop_partial_cart_summary', {'template': '@SyliusShop/Cart/_widget.html.twig'})) }}
+</div>
+
+{#{{ path('bit_bag_sylius_multi_cart_plugin_new_cart', {'route': 'sylius_shop_homepage'}) }}#}
+
+<form action="{{ path('bit_bag_sylius_multi_cart_plugin_new_cart', {'route': 'sylius_shop_homepage'}) }}">
+    <input type="submit" value="New Cart" />
+</form>
+
+
+{#{{ dump(sylius.customer) }}#}
+{#{{ dump(sylius.localeCode) }}#}
+{#    {{ dump(app) }}#}
+{#<select name="carts" id="carts">#}
+{#    <option value="0">dupsko</option>#}
+{#    <option value="1">One</option>#}
+{#    <option value="2">Two</option>#}
+{#</select>#}
+
+{#<div class="right aligned column">#}
+{#    <div class="ui dropdown">#}
+{#        <option value="">Cart</option>#}
+{#        <option value="1">One</option>#}
+{#        <option value="0">Two</option>#}
+{#    </div>#}
+{#</div>#}
+
