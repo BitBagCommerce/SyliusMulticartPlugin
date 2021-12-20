@@ -4,6 +4,17 @@ imports:
 services:
     BitBag\SyliusMultiCartPlugin\Controller\GreetingController: ~
 
+    bitbag_sylius_multi_cart_plugin.controller.show_carts:
+        class: BitBag\SyliusMultiCartPlugin\Controller\ShowCartsController
+        arguments:
+            - '@sylius.context.customer'
+            - '@sylius.context.channel'
+            - '@sylius.repository.order'
+        tags:
+            - { name: 'controller.service_arguments' }
+        calls:
+            - [setContainer, ['@service_container']]
+
     bitbag_sylius_multi_cart_plugin.controller.new_cart:
 #    BitBag\SyliusMultiCartPlugin\Controller\NewCartAction:
 #        public: true
@@ -11,11 +22,32 @@ services:
         arguments:
             - '@sylius.context.cart.new_shop_based'
             - '@doctrine.orm.entity_manager'
+            - "@router"
         tags:
             - { name: 'controller.service_arguments' }
 #            - { name: 'container.service_subscriber' }
-        calls:
-            - [setContainer, ['@service_container']]
+#        calls:
+#            - [setContainer, ['@service_container']]
+
+    bitbag_sylius_multi_cart_plugin.controller.change_active_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction
+        arguments:
+            - '@sylius.context.customer'
+            - '@doctrine.orm.entity_manager'
+            - "@router"
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.delete_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartController
+        arguments:
+            - '@sylius.context.channel'
+            - '@sylius.context.customer'
+            - '@sylius.repository.order'
+            - '@doctrine.orm.entity_manager'
+            - "@router"
+        tags:
+            - { name: 'controller.service_arguments' }
 
 #   dorobić skrót do dekoratora
     BitBag\SyliusMultiCartPlugin\Cart\Context\CustomerAndChannelBasedMultiCartContext:

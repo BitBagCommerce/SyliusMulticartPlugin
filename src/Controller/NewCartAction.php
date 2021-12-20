@@ -7,38 +7,42 @@ namespace BitBag\SyliusMultiCartPlugin\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\Order\Context\CartContextInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class NewCartAction extends AbstractController
+class NewCartAction
 {
     private CartContextInterface $shopBasedMultiCartContext;
 
     private ObjectManager $em;
 
-    /**
-     * @param CartContextInterface $shopBasedMultiCartContext
-     * @param ObjectManager        $em
-     */
-    public function __construct(CartContextInterface $shopBasedMultiCartContext, ObjectManager $em)
-    {
+    private UrlGeneratorInterface $urlGenerator;
+
+    public function __construct(
+        CartContextInterface $shopBasedMultiCartContext,
+        ObjectManager $em,
+        UrlGeneratorInterface $urlGenerator
+    ) {
         $this->shopBasedMultiCartContext = $shopBasedMultiCartContext;
         $this->em = $em;
+        $this->urlGenerator = $urlGenerator;
     }
 
-
-    public function newAction(string $route): Response
+    public function __invoke(string $route): Response
     {
-//        dd($route);
-        $cart = $this->shopBasedMultiCartContext->getCart();
+        #todo dodac do security?
 
-//        $em = $this->container->get('doctrine.orm.entity_manager');
-//        $em->persist($cart);
-//        $em->flush();
+//        $customer = $this->customerContext->getCustomer();
+//        if (null === $customer) {
+//            throw new CartNotFoundException('Sylius was not able to find the cart, as there is no logged in user.');
+//        }
+
+        $cart = $this->shopBasedMultiCartContext->getCart();
 
         $this->em->persist($cart);
         $this->em->flush();
 
-        return $this->redirectToRoute($route);
+        return new RedirectResponse($this->urlGenerator->generate($route));
     }
 }

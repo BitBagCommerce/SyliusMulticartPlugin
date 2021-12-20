@@ -17,6 +17,14 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface as BaseOrderReposi
 
 interface OrderRepositoryInterface extends BaseOrderRepositoryInterface
 {
+    public function findCartsByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): array;
+
+    public function findCartByChannelAndCustomerAndCartNumber(
+        ChannelInterface $channel,
+        CustomerInterface $customer,
+        int $cartNumber
+    ): ?OrderInterface;
+
     public function countCartsByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): int;
 
     public function findLatestNotEmptyActiveCartByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): ?OrderInterface;
