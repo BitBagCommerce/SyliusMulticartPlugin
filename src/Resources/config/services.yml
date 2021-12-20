@@ -39,7 +39,7 @@ services:
             - { name: 'controller.service_arguments' }
 
     bitbag_sylius_multi_cart_plugin.controller.delete_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartController
+        class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction
         arguments:
             - '@sylius.context.channel'
             - '@sylius.context.customer'

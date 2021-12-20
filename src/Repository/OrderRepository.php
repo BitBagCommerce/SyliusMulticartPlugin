@@ -32,6 +32,27 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ;
     }
 
+    public function findCartsByChannelAndCustomerOverNumber(
+        ChannelInterface $channel,
+        CustomerInterface $customer,
+        int $cartNumber
+    ): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.state = :state')
+            ->andWhere('o.channel = :channel')
+            ->andWhere('o.customer = :customer')
+            ->andWhere('o.cartNumber > :cartNumber')
+            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('channel', $channel)
+            ->setParameter('customer', $customer)
+            ->setParameter('cartNumber', $cartNumber)
+            ->addOrderBy('o.cartNumber', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findCartByChannelAndCustomerAndCartNumber(
         ChannelInterface $channel,
         CustomerInterface $customer,
@@ -69,6 +90,7 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ->getSingleScalarResult()
             ;
     }
+
     #todo wydzielic czesc wspolna z obu zapytań
     public function findLatestNotEmptyActiveCartByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): ?OrderInterface
     {

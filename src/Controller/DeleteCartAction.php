@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class DeleteCartController
+final class DeleteCartAction
 {
     private ChannelContextInterface $channelContext;
 
@@ -54,6 +54,22 @@ final class DeleteCartController
         );
 
         $this->em->remove($cart);
+
+        $carts =  $this->orderRepository->findCartsByChannelAndCustomerOverNumber(
+            $channel,
+            $customer,
+            $cartNumber,
+        );
+
+        /**
+         * @var int $key
+         * @var OrderInterface $cart
+         */
+        foreach ($carts as $key => $cart) {
+            $cart->setCartNumber($key + $cartNumber);
+            $this->em->persist($cart);
+        }
+
         $this->em->flush();
 
         return new RedirectResponse($this->urlGenerator->generate($route));
