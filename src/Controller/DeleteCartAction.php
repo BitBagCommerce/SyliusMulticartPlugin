@@ -46,16 +46,11 @@ final class DeleteCartAction
         /** @var CustomerInterface $customer */
         $customer = $this->customerContext->getCustomer();
 
-        /** @var OrderInterface $cart */
-        $cart = $this->orderRepository->findCartByChannelAndCustomerAndCartNumber(
-            $channel,
-            $customer,
-            $cartNumber,
-        );
+        if ($cartNumber === $customer->getActiveCart()) {
+            throw new \Exception('Cant delete active cart!');
+        }
 
-        $this->em->remove($cart);
-
-        $carts =  $this->orderRepository->findCartsByChannelAndCustomerOverNumber(
+        $carts =  $this->orderRepository->findCartsByChannelAndCustomerGraterOrEqualNumber(
             $channel,
             $customer,
             $cartNumber,
@@ -66,7 +61,10 @@ final class DeleteCartAction
          * @var OrderInterface $cart
          */
         foreach ($carts as $key => $cart) {
-            $cart->setCartNumber($key + $cartNumber);
+            if ($cartNumber === $cart->getCartNumber()) {
+                $this->em->remove($cart);
+            }
+            $cart->setCartNumber($cartNumber + $key - 1);
             $this->em->persist($cart);
         }
 

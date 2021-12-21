@@ -19,13 +19,7 @@ interface OrderRepositoryInterface extends BaseOrderRepositoryInterface
 {
     public function findCartsByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): array;
 
-    public function findCartByChannelAndCustomerAndCartNumber(
-        ChannelInterface $channel,
-        CustomerInterface $customer,
-        int $cartNumber
-    ): ?OrderInterface;
-
-    public function findCartsByChannelAndCustomerOverNumber(
+    public function findCartsByChannelAndCustomerGraterOrEqualNumber(
         ChannelInterface $channel,
         CustomerInterface $customer,
         int $cartNumber

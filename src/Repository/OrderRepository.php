@@ -32,7 +32,7 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ;
     }
 
-    public function findCartsByChannelAndCustomerOverNumber(
+    public function findCartsByChannelAndCustomerGraterOrEqualNumber(
         ChannelInterface $channel,
         CustomerInterface $customer,
         int $cartNumber
@@ -42,7 +42,7 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ->andWhere('o.state = :state')
             ->andWhere('o.channel = :channel')
             ->andWhere('o.customer = :customer')
-            ->andWhere('o.cartNumber > :cartNumber')
+            ->andWhere('o.cartNumber >= :cartNumber')
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setParameter('channel', $channel)
             ->setParameter('customer', $customer)
@@ -50,28 +50,6 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ->addOrderBy('o.cartNumber', 'ASC')
             ->getQuery()
             ->getResult()
-            ;
-    }
-
-    public function findCartByChannelAndCustomerAndCartNumber(
-        ChannelInterface $channel,
-        CustomerInterface $customer,
-        int $cartNumber
-    ): ?OrderInterface
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state = :state')
-            ->andWhere('o.channel = :channel')
-            ->andWhere('o.customer = :customer')
-            ->andWhere('o.cartNumber = :cartNumber')
-            ->setParameter('state', OrderInterface::STATE_CART)
-            ->setParameter('channel', $channel)
-            ->setParameter('customer', $customer)
-            ->setParameter('cartNumber', $cartNumber)
-            ->addOrderBy('o.cartNumber', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult()
             ;
     }
 

@@ -4,10 +4,10 @@
 
 <div class="row">
     {% for cart in carts %}
-        <div id="sylius-button" class="ui circular button">
+        <div id="sylius-button" class="ui rectangular {% if cart.cartNumber == customer.activeCart %} red {% endif %} button">
 {#            <p>{{ cart.cartNumber }}</p>#}
             <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_change_active_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">
-                <input type="submit" value="koszyk {{ cart.cartNumber }}" />
+                <input type="submit" value="cart {{ cart.cartNumber }}" />
             </form>
             <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">
                 <input type="submit" value="delete" />

@@ -23,6 +23,7 @@ services:
             - '@sylius.context.cart.new_shop_based'
             - '@doctrine.orm.entity_manager'
             - "@router"
+            - '@sylius.context.customer'
         tags:
             - { name: 'controller.service_arguments' }
 #            - { name: 'container.service_subscriber' }

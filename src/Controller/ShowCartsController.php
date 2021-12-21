@@ -36,6 +36,12 @@ final class ShowCartsController extends AbstractController
         $customer = $this->customerContext->getCustomer();
         $carts = $this->orderRepository->findCartsByChannelAndCustomer($channel, $customer);
 
-        return $this->render('@BitBagSyliusMultiCartPlugin/Shop/_show_carts.html.twig', ['carts' => $carts]);
+        return $this->render(
+            '@BitBagSyliusMultiCartPlugin/Shop/_show_carts.html.twig',
+            [
+                'customer' => $customer,
+                'carts' => $carts,
+            ]
+        );
     }
 }
