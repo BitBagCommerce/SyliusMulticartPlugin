@@ -1,16 +1,18 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
 {#<div id="korek-test">#}
-{#    <button type="button" onclick="refreshPageTest()">REFRESZ</button>#}
+{#    <button type="button" onclick="refreshCartTest()">REFRESZ</button>#}
 {#</div>#}
 
-<div class="column">
-    {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts')) }}
-    <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_new_cart', {'route': 'sylius_shop_homepage'}) }}">
-        <input type="submit" value="New Cart" />
-    </form>
-</div>
-<div class="ui divider"></div>
+{% if sylius.customer is not null %}
+    <div class="column">
+        {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts')) }}
+        <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_new_cart', {'route': 'sylius_shop_homepage'}) }}">
+            <input type="submit" value="New Cart" />
+        </form>
+    </div>
+    <div class="ui divider"></div>
+{% endif %}
 
 {% if cart.empty %}
     {{ 'sylius.ui.your_cart_is_empty'|trans }}.
@@ -30,7 +32,7 @@
 {#    <script src="{{ asset('bundles/bitbagsyliusmulticartplugin/greeting.js') }}"></script>#}
 {#    <script src="{{ asset('bundles/bitbagsyliusmulticartplugin/greeting.js') }}"></script>#}
 {#    <script type="text/javascript">#}
-{#        function refreshPageTest(){#}
+{#        function refreshCartTest(){#}
 {#            // alert("I am an alert box!");#}
 {#            $.ajax({#}
 {#                type: "GET",#}
