@@ -17,9 +17,7 @@ use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-//use Sylius\Component\Core\Model\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-//use Sylius\Component\Core\Model\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
@@ -76,7 +74,7 @@ final class ShopBasedMultiCartContext implements CartContextInterface
 
         /** @var CustomerInterface|null $customer */
         $customer = $this->shopperContext->getCustomer();
-//        dd($customer);
+
         if (null !== $customer) {
             $this->setCustomerAndAddressOnCart($cart, $customer);
             $this->setCartNumberOnCart($channel, $customer, $cart);

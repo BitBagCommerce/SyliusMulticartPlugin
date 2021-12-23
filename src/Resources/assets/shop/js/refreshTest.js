@@ -1,3 +1,5 @@
-function refreshPageTest(){
-    alert("I am an alert box!");
-}
+// function refreshPageTest(){
+//     alert("I am an alert box!");
+// }
+
+console.log('test')

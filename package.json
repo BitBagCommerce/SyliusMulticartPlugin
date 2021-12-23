@@ -1,0 +1,9 @@
+{
+  "name": "@bitbag/multi-cart-plugin",
+  "description": "Multi cart plugin for sylius",
+  "repository": "https://github.com/BitBagCommerce/[...].git",
+  "license": "MIT",
+  "scripts": {
+    "dist": "yarn encore production --config-name bitbag-plugin-dist"
+  }
+}
