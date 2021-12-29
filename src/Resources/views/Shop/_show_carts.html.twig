@@ -1,17 +1,21 @@
-{#<div id="sylius-cart-button" class="ui circular cart button">#}
-{#    {{ sylius_template_event('sylius.shop.carts.show', {'cart': cart}) }}#}
+{#<div class="row">#}
+{#    {% for cart in carts %}#}
+{#        <div id="sylius-button" class="ui rectangular {% if cart.cartNumber == customer.activeCart %} red {% endif %} button">#}
+{#            <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_change_active_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">#}
+{#                <input type="submit" value="cart {{ cart.cartNumber }}" />#}
+{#            </form>#}
+{#            <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">#}
+{#                <input type="submit" value="delete" />#}
+{#            </form>#}
+{#        </div>#}
+{#    {% endfor %}#}
 {#</div>#}
 
 <div class="row">
+    Carts:
     {% for cart in carts %}
-        <div id="sylius-button" class="ui rectangular {% if cart.cartNumber == customer.activeCart %} red {% endif %} button">
-{#            <p>{{ cart.cartNumber }}</p>#}
-            <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_change_active_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">
-                <input type="submit" value="cart {{ cart.cartNumber }}" />
-            </form>
-            <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">
-                <input type="submit" value="delete" />
-            </form>
+        <div class="ui {% if cart.cartNumber == customer.activeCart %}primary{% endif %} button change-cart" data-value="{{ cart.cartNumber }}">
+            {{ cart.cartNumber }}
         </div>
     {% endfor %}
 </div>

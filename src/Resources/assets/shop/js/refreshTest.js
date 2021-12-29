@@ -1,8 +1,3 @@
-// function refreshPageTest(){
-//     alert("I am an alert box!");
-// }
-
-console.log('TESTO')
 // function changeCart(){
 //     $('#sylius-cart-total').html('TEST');
 //     $.ajax({
@@ -16,23 +11,57 @@ console.log('TESTO')
 //     });
 // }
 
-// global.changeCart = function() {
-//     console.log('testy')
-// }
+const changeCartButtons = document.querySelectorAll('.change-cart');
 
-function changeCart() {
-    console.log('testy')
+changeCartButtons.forEach(item => {
+    item.addEventListener('click', changeActiveCart)
+})
+
+function showAlert() {
+    alert('proper event listener')
 }
 
-// $(document).ready(function() {
-//     console.log('super test')
-//     $('#korek-test').click(function() {
-//         // alert("costam dziala");
-//     });
-// })
+function changeActiveCart(e) {
+    // fetch('/en_US/_partial/cart/summary', {
+    //     method: 'GET',
+    //     // headers: {
+    //     //     'Content-Type': 'text/html',
+    //     // },
+    //     params: { template: '@SyliusShop/Cart/_widget.html.twig' },
+    // }).then(data => alert(data));
 
-var refreshButton = document.getElementById('korek-test');
+    var numberString = e.target.getAttribute("data-value")
+    var changeCartUrl = '/en_US/ajax/cart/change-active-cart/' + numberString;
 
-refreshButton.addEventListener('click', function () {
-    alert('proper event listener')
-})
+    $.ajax({
+        type: "POST",
+        url: changeCartUrl,
+        success: function(response){
+            updateCart();
+        },
+    });
+
+    function updateCart() {
+        $.ajax({
+            type: "GET",
+            url: '/en_US/ajax/cart-contents',
+            success: function(response){
+                console.log(response.ajaxButton);
+                $('#ajax-button').html(response.ajaxButton);
+                $('#popup-carts').html(response.popupCarts);
+                $('#popup-items').html(response.popupItems);
+
+                var changeCartButtons = document.querySelectorAll('.change-cart');
+                changeCartButtons.forEach(item => {
+                    item.addEventListener('click', changeActiveCart)
+                })
+            },
+        });
+    }
+
+
+    // changeCartButtons.forEach(item => {
+    //     item.classList.remove('primary')
+    // })
+    // e.target.classList.add('primary')
+}

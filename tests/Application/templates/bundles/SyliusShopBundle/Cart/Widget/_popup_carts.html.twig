@@ -1,0 +1,8 @@
+{% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
+
+{% if sylius.customer is not null %}
+    <div class="column">
+        {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts')) }}
+    </div>
+    <div class="ui divider"></div>
+{% endif %}

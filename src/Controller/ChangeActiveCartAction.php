@@ -7,9 +7,7 @@ namespace BitBag\SyliusMultiCartPlugin\Controller;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class ChangeActiveCartAction
 {
@@ -17,19 +15,15 @@ final class ChangeActiveCartAction
 
     private ObjectManager $em;
 
-    private UrlGeneratorInterface $urlGenerator;
-
     public function __construct(
         CustomerContextInterface $customerContext,
-        ObjectManager $em,
-        UrlGeneratorInterface $urlGenerator
+        ObjectManager $em
     ) {
         $this->customerContext = $customerContext;
         $this->em = $em;
-        $this->urlGenerator = $urlGenerator;
     }
 
-    public function __invoke(string $route, int $cartNumber): Response
+    public function __invoke(int $cartNumber): Response
     {
         /** @var CustomerInterface $customer */
         $customer = $this->customerContext->getCustomer();
@@ -38,6 +32,6 @@ final class ChangeActiveCartAction
         $this->em->persist($customer);
         $this->em->flush();
 
-        return new RedirectResponse($this->urlGenerator->generate($route));
+        return new Response();
     }
 }

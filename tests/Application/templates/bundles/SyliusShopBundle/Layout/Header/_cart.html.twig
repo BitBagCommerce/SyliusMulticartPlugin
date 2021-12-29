@@ -1,19 +1,6 @@
-{#<div id="sylius-cart-button" class="ui circular cart button">#}
-{#    {{ sylius_template_event('sylius.shop.cart.widget.button', {'cart': cart}) }}#}
-{#</div>#}
 <div class="column">
-{#    {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts')) }}#}
-</div>
-<div id="test_click" class="column">
     {{ render(url('sylius_shop_partial_cart_summary', {'template': '@SyliusShop/Cart/_widget.html.twig'})) }}
 </div>
-{#<div class="column">#}
-{#    <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_new_cart', {'route': 'sylius_shop_homepage'}) }}">#}
-{#        <input type="submit" value="New Cart" />#}
-{#    </form>#}
-{#</div>#}
-{#<div class="column">#}
-{#    {{ dump(_context) }}#}
-{#</div>#}
+
 
 

@@ -1,60 +1,29 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
-{#<div id="korek-test">#}
-{#    <button type="button" onclick="changeCart()">REFRESZ</button>#}
-{#</div>#}
+{#{% if sylius.customer is not null %}#}
+{#    <div class="column">#}
+{#        {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts')) }}#}
+{#    </div>#}
+{#    <div class="ui divider"></div>#}
+{#{% endif %}#}
+{#{% if cart.empty %}#}
+{#    {{ 'sylius.ui.your_cart_is_empty'|trans }}.#}
+{#{% else %}#}
+{#    <div class="ui list">#}
+{#        {% for item in cart.items %}#}
+{#            <div class="item">{{ item.quantity }} x <strong>{{ item.product }}</strong> {{ money.convertAndFormat(item.unitPrice) }}</div>#}
+{#        {% endfor %}#}
+{#        <div class="item"><strong>{{ 'sylius.ui.subtotal'|trans }}</strong>: {{ money.convertAndFormat(cart.itemsTotal) }}</div>#}
+{#    </div>#}
+{#    <a href="{{ path('sylius_shop_cart_summary') }}" class="ui fluid basic text button">{{ 'sylius.ui.view_and_edit_cart'|trans }}</a>#}
+{#    <div class="ui divider"></div>#}
+{#    <a href="{{ path('sylius_shop_checkout_start') }}" class="ui fluid primary button">{{ 'sylius.ui.checkout'|trans }}</a>#}
+{#{% endif %}#}
 
-<div id="korek-test">
-    <button type="button">REFRESZ</button>
+<div id="popup-carts">
+    {{ include('@SyliusShop/Cart/Widget/_popup_carts.html.twig') }}
 </div>
 
-{% if sylius.customer is not null %}
-    <div class="column">
-        {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts')) }}
-        <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_new_cart', {'route': 'sylius_shop_homepage'}) }}">
-            <input type="submit" value="New Cart" />
-        </form>
-    </div>
-    <div class="ui divider"></div>
-{% endif %}
-
-{% if cart.empty %}
-    {{ 'sylius.ui.your_cart_is_empty'|trans }}.
-{% else %}
-    <div id="testo" class="ui list">
-        {% for item in cart.items %}
-            <div class="item">{{ item.quantity }} x <strong>{{ item.product }}</strong> {{ money.convertAndFormat(item.unitPrice) }}</div>
-        {% endfor %}
-        <div class="item"><strong>{{ 'sylius.ui.subtotal'|trans }}</strong>: {{ money.convertAndFormat(cart.itemsTotal) }}</div>
-    </div>
-    <a href="{{ path('sylius_shop_cart_summary') }}" class="ui fluid basic text button">{{ 'sylius.ui.view_and_edit_cart'|trans }}</a>
-    <div class="ui divider"></div>
-    <a href="{{ path('sylius_shop_checkout_start') }}" class="ui fluid primary button">{{ 'sylius.ui.checkout'|trans }}</a>
-{% endif %}
-
-{#{% block javascripts %}#}
-{#    <script src="{{ asset('bundles/bitbagsyliusmulticartplugin/refreshTest.js') }}"></script>#}
-{#    <script type="text/javascript">#}
-{#        function refreshCartTest(){#}
-{#            #}{#$('#sylius-cart-total').html('TEST');#}
-{#            #}{#$.ajax(#}{#}#}
-{#            #}{#    type: "GET",#}
-{#            #}{#    url: '/en_US/_partial/cart/summary',#}
-{#            #}{#    url: '#sylius_shop_partial_cart_summary',#}
-{#            #}{#    url: {{ path('sylius_shop_partial_cart_summary') }},#}
-{#            #}{#    data: {'template': '@SyliusShop/Cart/_widget.html.twig'},#}
-{#            #}{#    success:function(response)#}{#}#}
-{#            #}{#        $('#test_click').html(response);#}
-{#            #}{#        // $('#test_click').before(response).detach();#}
-{#            #}{#        $('#sylius-cart-total').content.replaceWith('DUPA');#}
-{#            #}{#    },#}
-{#            #}{#});#}
-
-{#            fetch('/en_US/_partial/cart/summary').then(res => {#}
-{#                    console.log(res)#}
-{#                })#}
-{#        }#}
-{#    </script>#}
-{#{% endblock %}#}
-
-{#/en_US/_partial/cart/summary?template=@SyliusShop/Cart/_widget.html.twig"#}
+<div id="popup-items">
+    {{ include('@SyliusShop/Cart/Widget/_popup_items.html.twig') }}
+</div>
