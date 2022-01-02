@@ -1,1 +1,2 @@
-import './refreshTest';
+// import './refreshTest';
+import './switchCartAjax';

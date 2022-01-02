@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace BitBag\SyliusMultiCartPlugin\Controller;
+
+use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface;
+use Sylius\Component\Order\Context\CartContextInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
+
+final class AjaxGetActiveCartAction
+{
+    private CartContextInterface $cartContext;
+
+    private SerializerInterface $serializer;
+
+    private AjaxPartialCartFactoryInterface $ajaxPartialCartFactory;
+
+    /**
+     * @param CartContextInterface $cartContext
+     * @param SerializerInterface $serializer
+     * @param AjaxPartialCartFactoryInterface $ajaxPartialCartFactory
+     */
+    public function __construct(
+        CartContextInterface $cartContext,
+        SerializerInterface $serializer,
+        AjaxPartialCartFactoryInterface $ajaxPartialCartFactory
+    ) {
+        $this->cartContext = $cartContext;
+        $this->serializer = $serializer;
+        $this->ajaxPartialCartFactory = $ajaxPartialCartFactory;
+    }
+
+    public function __invoke(): Response
+    {
+        /** @var OrderInterface $cart */
+        $cart = $this->cartContext->getCart();
+
+        $ajaxPartialCart = $this->ajaxPartialCartFactory->fromOrder($cart);
+
+        $jsonString = $this->serializer->serialize($ajaxPartialCart, 'json');
+
+        return JsonResponse::fromJsonString($jsonString);
+    }
+}

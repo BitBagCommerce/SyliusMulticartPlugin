@@ -45,12 +45,11 @@ services:
             - { name: 'controller.service_arguments' }
 
     bitbag_sylius_multi_cart_plugin.controller.get_active_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\GetActiveCartAction
+        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxGetActiveCartAction
         arguments:
-            - '@sylius.context.channel'
-            - '@sylius.context.customer'
-            - '@sylius.repository.order'
+            - '@sylius.context.cart'
             - '@serializer'
+            - '@bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart'
         tags:
             - { name: 'controller.service_arguments' }
 
@@ -62,6 +61,39 @@ services:
             - '@sylius.repository.order'
             - '@doctrine.orm.entity_manager'
             - "@router"
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface:
+        alias: 'bitbag_sylius_multi_cart_plugin.helper.ajax_partial_cart'
+
+    bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart:
+        class: BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactory
+        arguments:
+            - '@bitbag_sylius_multi_cart_plugin.helper.convert_and_format_money'
+            - '@bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart_item'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactoryInterface:
+        alias: 'bitbag_sylius_multi_cart_plugin.helper.ajax_partial_cart_item'
+
+    bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart_item:
+        class: BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactory
+        arguments:
+            - '@bitbag_sylius_multi_cart_plugin.helper.convert_and_format_money'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelperInterface:
+        alias: 'bitbag_sylius_multi_cart_plugin.helper.convert_and_format_money'
+
+    bitbag_sylius_multi_cart_plugin.helper.convert_and_format_money:
+        class: BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelper
+        arguments:
+            - '@sylius.context.shopper'
+            - '@sylius.currency_converter'
+            - '@sylius.money_formatter'
         tags:
             - { name: 'controller.service_arguments' }
 

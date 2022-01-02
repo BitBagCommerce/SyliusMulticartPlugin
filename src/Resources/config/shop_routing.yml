@@ -22,8 +22,8 @@ bit_bag_sylius_multi_cart_plugin_ajax_cart:
     defaults:
         _controller: bitbag_sylius_multi_cart_plugin.controller.ajax_cart
 
-bit_bag_sylius_multi_cart_plugin_get_active_cart:
-    path: /ajax/cart/get-active-cart
+bit_bag_sylius_multi_cart_plugin_ajax_get_active_cart:
+    path: /ajax/cart/get-active
     methods: [GET]
     defaults:
         _controller: bitbag_sylius_multi_cart_plugin.controller.get_active_cart
