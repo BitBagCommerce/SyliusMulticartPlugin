@@ -14,6 +14,7 @@
     
     $ (cd tests/Application && APP_ENV=dev bin/console doctrine:database:create)
     $ (cd tests/Application && APP_ENV=dev bin/console doctrine:schema:create)
+    $ (cd tests/Application && APP_ENV=dev bin/console doctrine:migration:migrate)
     $ (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
     ```
 
