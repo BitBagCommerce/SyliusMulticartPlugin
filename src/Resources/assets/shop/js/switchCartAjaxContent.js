@@ -11,6 +11,11 @@ console.log(deleteCartButtons)
 addEvents();
 
 function addEvents() {
+    // aby reaktywacja eventow dzialala, do przerobienia
+    var changeCartButtons = document.querySelectorAll('.change-cart');
+    var deleteCartButtons = document.querySelectorAll('.delete-cart');
+    var newCartButton = document.getElementById('new-cart-button');
+
     changeCartButtons.forEach(item => {
         item.addEventListener('click', changeActiveCart)
     })
