@@ -6,7 +6,6 @@ namespace BitBag\SyliusMultiCartPlugin\Cart\Context;
 
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
-//use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
@@ -47,7 +46,7 @@ final class CustomerAndChannelBasedMultiCartContext implements CartContextInterf
         if (null === $cart) {
             throw new CartNotFoundException('Sylius was not able to find the cart for currently logged in user.');
         }
-//        dump('customer and channel');
+
         return $cart;
     }
 }

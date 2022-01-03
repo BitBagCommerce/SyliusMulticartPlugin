@@ -17,10 +17,6 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('bit_bag_sylius_multi_cart_plugin');
         $rootNode = $treeBuilder->getRootNode();
 
-//        $rootNode
-//            ->children()
-//                ->arrayNode('resources')
-
         return $treeBuilder;
     }
 }

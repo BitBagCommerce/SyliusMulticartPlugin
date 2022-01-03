@@ -69,7 +69,6 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ;
     }
 
-    #todo wydzielic czesc wspolna z obu zapytań
     public function findLatestNotEmptyActiveCartByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): ?OrderInterface
     {
         return $this->createQueryBuilder('o')
