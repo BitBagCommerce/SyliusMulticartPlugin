@@ -27,10 +27,13 @@ final class ChangeActiveCartAction
     {
         /** @var CustomerInterface $customer */
         $customer = $this->customerContext->getCustomer();
-        $customer->setActiveCart($cartNumber);
 
-        $this->em->persist($customer);
-        $this->em->flush();
+        if ($cartNumber !== $customer->getActiveCart()) {
+            $customer->setActiveCart($cartNumber);
+
+            $this->em->persist($customer);
+            $this->em->flush();
+        }
 
         return new Response();
     }

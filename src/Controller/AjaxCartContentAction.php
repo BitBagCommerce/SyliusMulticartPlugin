@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class AjaxCartAction
+final class AjaxCartContentAction
 {
     private CartContextInterface $cartContext;
 

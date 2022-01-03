@@ -1,2 +1,3 @@
 // import './refreshTest';
-import './switchCartAjax';
+// import './switchCartAjax';
+import './switchCartAjaxContent';

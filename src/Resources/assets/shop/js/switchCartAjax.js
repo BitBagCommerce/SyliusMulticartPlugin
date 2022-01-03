@@ -1,5 +1,8 @@
 const changeCartButtons = document.querySelectorAll('.change-cart');
 
+const buttonCartTotal = document.getElementById('sylius-cart-total');
+const buttonItemsCount = document.getElementById('sylius-cart-items-count');
+
 changeCartButtons.forEach(item => {
     item.addEventListener('click', changeActiveCart)
 })
@@ -9,41 +12,51 @@ function showAlert() {
 }
 
 function changeActiveCart(e) {
+    const changeActiveCartUrl = '/en_US/ajax/cart/change/1';
+    const changeActiveCartRequest = new Request(changeActiveCartUrl, {
+        method: 'POST',
+    })
 
-    const changeActiveCartUrl = '/en_US/ajax/cart/get-active';
-    const ajaxCartUrl = '/en_US/ajax/cart/get-active';
-
-    const changeActiveCartRequest = new Request(changeActiveCartUrl, { method: 'POST'})
-    const ajaxCartRequest = new Request(ajaxCartUrl, { method: 'GET'});
-
-    fetch(ajaxCartRequest)
+    fetch(changeActiveCartRequest)
         .then(response => {
             if (response.ok) {
-                response.json().then(jsonData => {
-                    alert('test')
-                })
-                // throw new Error('Network response was not OK');
-                // console.log(data.formattedItemsTotal)
+                updateCart(e);
+            } else  {
+                throw new Error('Something went wrong');
             }
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
+}
 
+function updateCart(e) {
+    const ajaxCartUrl = '/en_US/ajax/cart/get-active';
+    const ajaxCartRequest = new Request(ajaxCartUrl, {
+        method: 'GET'
+    });
 
+    fetch(ajaxCartRequest)
+        .then(response => {
+            if (response.ok) {
+                response.json().then(jsonData => {
+                    updateElements(e, jsonData);
+                })
+            } else  {
+                throw new Error('Something went wrong');
+            }
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
 
-    // fetch(url, {
-    //     method: 'GET',
-    // }).then(response => {
-    //     // console.log(response)
-    // });
+function updateElements(e, jsonData) {
+    console.log(buttonCartTotal.innerText)
+    buttonCartTotal.innerText = jsonData.formattedItemsTotal;
 
-    // var numberString = e.target.getAttribute("data-value")
-    // var changeCartUrl = '/en_US/ajax/cart/change-active-cart/' + numberString;
-
-
-    // changeCartButtons.forEach(item => {
-    //     item.classList.remove('primary')
-    // })
-    // e.target.classList.add('primary')
+    changeCartButtons.forEach(item => {
+        item.classList.remove('primary')
+    })
+    e.target.classList.add('primary')
 }

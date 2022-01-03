@@ -1,21 +1,18 @@
-{#<div class="row">#}
-{#    {% for cart in carts %}#}
-{#        <div id="sylius-button" class="ui rectangular {% if cart.cartNumber == customer.activeCart %} red {% endif %} button">#}
-{#            <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_change_active_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">#}
-{#                <input type="submit" value="cart {{ cart.cartNumber }}" />#}
-{#            </form>#}
-{#            <form method="POST" action="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', {'cartNumber': cart.cartNumber, 'route': 'sylius_shop_homepage'}) }}">#}
-{#                <input type="submit" value="delete" />#}
-{#            </form>#}
-{#        </div>#}
-{#    {% endfor %}#}
-{#</div>#}
-
 <div class="row">
-    Carts:
     {% for cart in carts %}
-        <div class="ui {% if cart.cartNumber == customer.activeCart %}primary{% endif %} button change-cart" data-value="{{ cart.cartNumber }}">
-            {{ cart.cartNumber }}
+        {% set isActive = cart.cartNumber == customer.activeCart %}
+        <div class="ui buttons">
+            <div class="ui {% if isActive == true %}primary{% endif %} button change-cart" data-value="{{ cart.cartNumber }}">
+                {{ cart.cartNumber }}
+            </div>
+            {% if isActive == false %}
+                <div class="ui red button delete-cart" data-value="{{ cart.cartNumber }}">
+                    X
+                </div>
+            {% endif %}
         </div>
     {% endfor %}
+    <div id="new-cart-button" class="ui green button">
+        New
+    </div>
 </div>

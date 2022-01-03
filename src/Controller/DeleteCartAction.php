@@ -10,9 +10,7 @@ use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class DeleteCartAction
 {
@@ -24,23 +22,19 @@ final class DeleteCartAction
 
     private ObjectManager $em;
 
-    private UrlGeneratorInterface $urlGenerator;
-
     public function __construct(
         ChannelContextInterface $channelContext,
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
-        ObjectManager $em,
-        UrlGeneratorInterface $urlGenerator
+        ObjectManager $em
     ) {
         $this->channelContext = $channelContext;
         $this->customerContext = $customerContext;
         $this->orderRepository = $orderRepository;
         $this->em = $em;
-        $this->urlGenerator = $urlGenerator;
     }
 
-    public function __invoke(string $route, int $cartNumber): Response
+    public function __invoke(int $cartNumber): Response
     {
         $channel = $this->channelContext->getChannel();
         /** @var CustomerInterface $customer */
@@ -70,6 +64,6 @@ final class DeleteCartAction
 
         $this->em->flush();
 
-        return new RedirectResponse($this->urlGenerator->generate($route));
+        return new Response();
     }
 }

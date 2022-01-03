@@ -1,17 +1,14 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
-{#{% if sylius.customer is not null %}#}
-{#    <div class="column">#}
-{#        {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts')) }}#}
-{#    </div>#}
-{#    <div class="ui divider"></div>#}
-{#{% endif %}#}
+{#<div id="popup-carts">#}
+{#    {{ include('@SyliusShop/Cart/Widget/_popup_carts.html.twig') }}#}
+{#</div>#}
 {#{% if cart.empty %}#}
 {#    {{ 'sylius.ui.your_cart_is_empty'|trans }}.#}
 {#{% else %}#}
 {#    <div class="ui list">#}
 {#        {% for item in cart.items %}#}
-{#            <div class="item">{{ item.quantity }} x <strong>{{ item.product }}</strong> {{ money.convertAndFormat(item.unitPrice) }}</div>#}
+{#            <div class="item">{{ item.quantity }} x <strong id="item-name">{{ item.product }}</strong> {{ money.convertAndFormat(item.unitPrice) }}</div>#}
 {#        {% endfor %}#}
 {#        <div class="item"><strong>{{ 'sylius.ui.subtotal'|trans }}</strong>: {{ money.convertAndFormat(cart.itemsTotal) }}</div>#}
 {#    </div>#}
