@@ -27,7 +27,7 @@ function addEvents() {
 
 function changeActiveCart(e) {
     var cartNumber = e.target.getAttribute('data-value');
-    const changeActiveCartUrl = '/en_US/ajax/cart/change/' + cartNumber;
+    const changeActiveCartUrl = '/ajax/cart/change/' + cartNumber;
 
     const changeActiveCartRequest = new Request(changeActiveCartUrl, {
         method: 'POST',
@@ -47,7 +47,7 @@ function changeActiveCart(e) {
 }
 
 function updateCart(e) {
-    const ajaxCartUrl = '/en_US/ajax/cart-contents';
+    const ajaxCartUrl = '/ajax/cart-contents';
     const ajaxCartRequest = new Request(ajaxCartUrl, {
         method: 'GET'
     });
@@ -77,7 +77,7 @@ function updateElements(e, jsonData) {
 
 function deleteCart(e) {
     var cartNumber = e.target.getAttribute('data-value');
-    const deleteCartUrl = '/en_US/ajax/cart/delete/' + cartNumber;
+    const deleteCartUrl = '/ajax/cart/delete/' + cartNumber;
 
     const deleteCartRequest = new Request(deleteCartUrl, {
         method: 'POST',
@@ -97,7 +97,7 @@ function deleteCart(e) {
 }
 
 function newCart(e) {
-    const newCartUrl = '/en_US/ajax/cart/new';
+    const newCartUrl = '/ajax/cart/new';
     const newCartRequest = new Request(newCartUrl, {
         method: 'POST',
     })

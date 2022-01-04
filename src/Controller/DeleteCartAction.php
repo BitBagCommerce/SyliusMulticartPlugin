@@ -13,7 +13,7 @@ namespace BitBag\SyliusMultiCartPlugin\Controller;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,18 +26,18 @@ final class DeleteCartAction
 
     private OrderRepositoryInterface $orderRepository;
 
-    private ObjectManager $em;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         ChannelContextInterface $channelContext,
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
-        ObjectManager $em
+        EntityManagerInterface $entityManager
     ) {
         $this->channelContext = $channelContext;
         $this->customerContext = $customerContext;
         $this->orderRepository = $orderRepository;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     public function __invoke(int $cartNumber): Response
@@ -62,13 +62,13 @@ final class DeleteCartAction
          */
         foreach ($carts as $key => $cart) {
             if ($cartNumber === $cart->getCartNumber()) {
-                $this->em->remove($cart);
+                $this->entityManager->remove($cart);
             }
             $cart->setCartNumber($cartNumber + $key - 1);
-            $this->em->persist($cart);
+            $this->entityManager->persist($cart);
         }
 
-        $this->em->flush();
+        $this->entityManager->flush();
 
         return new Response();
     }

@@ -10,27 +10,27 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
-class NewCartAction
+final class NewCartAction
 {
     private CartContextInterface $shopBasedMultiCartContext;
 
-    private ObjectManager $em;
+    private EntityManagerInterface $entityManager;
 
     private CustomerContextInterface $customerContext;
 
     public function __construct(
         CartContextInterface $shopBasedMultiCartContext,
-        ObjectManager $em,
+        EntityManagerInterface $entityManager,
         CustomerContextInterface $customerContext
     ) {
         $this->shopBasedMultiCartContext = $shopBasedMultiCartContext;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
         $this->customerContext = $customerContext;
     }
 
@@ -43,8 +43,8 @@ class NewCartAction
 
         $cart = $this->shopBasedMultiCartContext->getCart();
 
-        $this->em->persist($cart);
-        $this->em->flush();
+        $this->entityManager->persist($cart);
+        $this->entityManager->flush();
 
         return new Response();
     }

@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,14 +19,14 @@ final class ChangeActiveCartAction
 {
     private CustomerContextInterface $customerContext;
 
-    private ObjectManager $em;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         CustomerContextInterface $customerContext,
-        ObjectManager $em
+        EntityManagerInterface $entityManager
     ) {
         $this->customerContext = $customerContext;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     public function __invoke(int $cartNumber): Response
@@ -37,8 +37,8 @@ final class ChangeActiveCartAction
         if ($cartNumber !== $customer->getActiveCart()) {
             $customer->setActiveCart($cartNumber);
 
-            $this->em->persist($customer);
-            $this->em->flush();
+            $this->entityManager->persist($customer);
+            $this->entityManager->flush();
         }
 
         return new Response();
