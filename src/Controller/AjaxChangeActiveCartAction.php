@@ -37,7 +37,6 @@ final class AjaxChangeActiveCartAction
         if ($cartNumber !== $customer->getActiveCart()) {
             $customer->setActiveCart($cartNumber);
 
-            $this->entityManager->persist($customer);
             $this->entityManager->flush();
         }
 

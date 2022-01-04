@@ -65,7 +65,6 @@ final class AjaxDeleteCartAction
                 $this->entityManager->remove($cart);
             }
             $cart->setCartNumber($cartNumber + $key - 1);
-            $this->entityManager->persist($cart);
         }
 
         $this->entityManager->flush();
