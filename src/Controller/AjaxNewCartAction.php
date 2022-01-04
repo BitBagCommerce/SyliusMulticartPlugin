@@ -16,7 +16,7 @@ use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
-final class NewCartAction
+final class AjaxNewCartAction
 {
     private CartContextInterface $shopBasedMultiCartContext;
 

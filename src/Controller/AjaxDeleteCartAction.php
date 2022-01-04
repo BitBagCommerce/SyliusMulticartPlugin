@@ -18,7 +18,7 @@ use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-final class DeleteCartAction
+final class AjaxDeleteCartAction
 {
     private ChannelContextInterface $channelContext;
 

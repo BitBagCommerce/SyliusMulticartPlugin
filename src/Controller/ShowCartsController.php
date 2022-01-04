@@ -14,10 +14,10 @@ use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
-final class ShowCartsController extends AbstractController
+final class ShowCartsController
 {
     private CustomerContextInterface $customerContext;
 
@@ -25,14 +25,18 @@ final class ShowCartsController extends AbstractController
 
     private OrderRepositoryInterface $orderRepository;
 
+    private Environment $twig;
+
     public function __construct(
         CustomerContextInterface $customerContext,
         ChannelContextInterface $channelContext,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        Environment $twig
     ) {
         $this->customerContext = $customerContext;
         $this->channelContext = $channelContext;
         $this->orderRepository = $orderRepository;
+        $this->twig = $twig;
     }
 
     public function __invoke(): Response
@@ -42,12 +46,14 @@ final class ShowCartsController extends AbstractController
         $customer = $this->customerContext->getCustomer();
         $carts = $this->orderRepository->findCarts($channel, $customer);
 
-        return $this->render(
+        $content = $this->twig->render(
             '@BitBagSyliusMultiCartPlugin/Shop/_show_carts.html.twig',
             [
                 'customer' => $customer,
                 'carts' => $carts,
             ]
         );
+
+        return new Response($content);
     }
 }
