@@ -12,13 +12,13 @@ namespace BitBag\SyliusMultiCartPlugin\DTO;
 
 class AjaxPartialCartItem
 {
-    public int $id;
+    private int $id;
 
-    public string $name;
+    private string $name;
 
-    public int $quantity;
+    private int $quantity;
 
-    public string $formattedUnitPrice;
+    private string $formattedUnitPrice;
 
     public function __construct(int $id, string $name, int $quantity, string $formattedUnitPrice)
     {
@@ -26,5 +26,25 @@ class AjaxPartialCartItem
         $this->name = $name;
         $this->quantity = $quantity;
         $this->formattedUnitPrice = $formattedUnitPrice;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function getFormattedUnitPrice(): string
+    {
+        return $this->formattedUnitPrice;
     }
 }

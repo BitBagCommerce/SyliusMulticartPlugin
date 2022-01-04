@@ -12,16 +12,16 @@ namespace BitBag\SyliusMultiCartPlugin\DTO;
 
 class AjaxPartialCart
 {
-    public ?int $cartNumber;
+    private ?int $cartNumber;
 
-    public string $formattedItemsTotal;
+    private string $formattedItemsTotal;
 
-    public ?string $currency;
+    private ?string $currency;
 
     /** @var AjaxPartialCartItem[] */
-    public array $items;
+    private array $items;
 
-    public int $itemsCount = 0;
+    private int $itemsCount = 0;
 
     public function __construct(?int $cartNumber, string $formattedItemsTotal, ?string $currency, array $items, int $itemsCount)
     {
@@ -30,5 +30,33 @@ class AjaxPartialCart
         $this->currency = $currency;
         $this->items = $items;
         $this->itemsCount = $itemsCount;
+    }
+
+    public function getCartNumber(): ?int
+    {
+        return $this->cartNumber;
+    }
+
+    public function getFormattedItemsTotal(): string
+    {
+        return $this->formattedItemsTotal;
+    }
+
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    /**
+     * @return AjaxPartialCartItem[]
+     */
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function getItemsCount(): int
+    {
+        return $this->itemsCount;
     }
 }
