@@ -6,12 +6,9 @@ const buttonCartWidget = document.getElementById('ajax-cart-button');
 const popupCartsWidget = document.getElementById('popup-carts');
 const popupCartItemsWidget = document.getElementById('popup-items');
 
-console.log(deleteCartButtons)
-// dodanie eventow
 addEvents();
 
 function addEvents() {
-    // aby reaktywacja eventow dzialala, do przerobienia
     var changeCartButtons = document.querySelectorAll('.change-cart');
     var deleteCartButtons = document.querySelectorAll('.delete-cart');
     var newCartButton = document.getElementById('new-cart-button');
