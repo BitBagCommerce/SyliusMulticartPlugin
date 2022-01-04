@@ -1,4 +1,4 @@
-## dev usage
+## Installation for development
 
 1. Run `composer install` from root directory.
 
@@ -20,5 +20,4 @@
 
 To be able to setup a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
 
-## Usage
 
