@@ -23,9 +23,7 @@ function addEvents() {
 }
 
 function changeActiveCart(e) {
-    var cartNumber = e.target.getAttribute('data-value');
-    const changeActiveCartUrl = '/en_US/ajax/cart/change/' + cartNumber;
-
+    const changeActiveCartUrl = e.target.getAttribute('data-url-change');
     const changeActiveCartRequest = new Request(changeActiveCartUrl, {
         method: 'POST',
     })
@@ -44,7 +42,7 @@ function changeActiveCart(e) {
 }
 
 function updateCart(e) {
-    const ajaxCartUrl = '/en_US/ajax/cart-contents';
+    const ajaxCartUrl = e.target.getAttribute('data-url-update');
     const ajaxCartRequest = new Request(ajaxCartUrl, {
         method: 'GET'
     });
@@ -73,9 +71,7 @@ function updateElements(e, jsonData) {
 }
 
 function deleteCart(e) {
-    var cartNumber = e.target.getAttribute('data-value');
-    const deleteCartUrl = '/en_US/ajax/cart/delete/' + cartNumber;
-
+    const deleteCartUrl = e.target.getAttribute('data-url-delete');
     const deleteCartRequest = new Request(deleteCartUrl, {
         method: 'POST',
     })
@@ -94,7 +90,7 @@ function deleteCart(e) {
 }
 
 function newCart(e) {
-    const newCartUrl = '/en_US/ajax/cart/new';
+    const newCartUrl = e.target.getAttribute('data-url-new');
     const newCartRequest = new Request(newCartUrl, {
         method: 'POST',
     })
