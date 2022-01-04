@@ -1,83 +1,9 @@
 imports:
-    - { resource: "services/**/*.yml" }
+    - { resource: "services/decorator.yml" }
+    - { resource: "services/controller.yml" }
+    - { resource: "services/factory.yml" }
 
 services:
-    bitbag_sylius_multi_cart_plugin.controller.show_carts:
-        class: BitBag\SyliusMultiCartPlugin\Controller\ShowCartsController
-        arguments:
-            - '@sylius.context.customer'
-            - '@sylius.context.channel'
-            - '@sylius.repository.order'
-        tags:
-            - { name: 'controller.service_arguments' }
-        calls:
-            - [setContainer, ['@service_container']]
-
-    bitbag_sylius_multi_cart_plugin.controller.new_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
-        arguments:
-            - '@sylius.context.cart.new_shop_based'
-            - '@doctrine.orm.entity_manager'
-            - '@sylius.context.customer'
-        tags:
-            - { name: 'controller.service_arguments' }
-
-    bitbag_sylius_multi_cart_plugin.controller.change_active_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction
-        arguments:
-            - '@sylius.context.customer'
-            - '@doctrine.orm.entity_manager'
-        tags:
-            - { name: 'controller.service_arguments' }
-
-    bitbag_sylius_multi_cart_plugin.controller.ajax_cart_content:
-        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxCartContentAction
-        arguments:
-            - '@sylius.context.cart'
-            - '@twig'
-        tags:
-            - { name: 'controller.service_arguments' }
-
-    bitbag_sylius_multi_cart_plugin.controller.get_active_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxGetActiveCartAction
-        arguments:
-            - '@sylius.context.cart'
-            - '@serializer'
-            - '@bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart'
-        tags:
-            - { name: 'controller.service_arguments' }
-
-    bitbag_sylius_multi_cart_plugin.controller.delete_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction
-        arguments:
-            - '@sylius.context.channel'
-            - '@sylius.context.customer'
-            - '@sylius.repository.order'
-            - '@doctrine.orm.entity_manager'
-        tags:
-            - { name: 'controller.service_arguments' }
-
-    BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface:
-        alias: 'bitbag_sylius_multi_cart_plugin.helper.ajax_partial_cart'
-
-    bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart:
-        class: BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactory
-        arguments:
-            - '@bitbag_sylius_multi_cart_plugin.helper.convert_and_format_money'
-            - '@bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart_item'
-        tags:
-            - { name: 'controller.service_arguments' }
-
-    BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactoryInterface:
-        alias: 'bitbag_sylius_multi_cart_plugin.helper.ajax_partial_cart_item'
-
-    bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart_item:
-        class: BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactory
-        arguments:
-            - '@bitbag_sylius_multi_cart_plugin.helper.convert_and_format_money'
-        tags:
-            - { name: 'controller.service_arguments' }
-
     BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelperInterface:
         alias: 'bitbag_sylius_multi_cart_plugin.helper.convert_and_format_money'
 
@@ -89,21 +15,3 @@ services:
             - '@sylius.money_formatter'
         tags:
             - { name: 'controller.service_arguments' }
-
-    BitBag\SyliusMultiCartPlugin\Cart\Context\CustomerAndChannelBasedMultiCartContext:
-        decorates: 'sylius.context.cart.customer_and_channel_based'
-        arguments:
-            - '@sylius.context.customer'
-            - '@sylius.context.channel'
-            - '@sylius.repository.order'
-        tags:
-            - {name: 'sylius.context.cart'}
-
-    BitBag\SyliusMultiCartPlugin\Cart\Context\ShopBasedMultiCartContext:
-        decorates: 'sylius.context.cart.new_shop_based'
-        arguments:
-            - '@sylius.context.cart.new_shop_based.inner'
-            - '@sylius.context.shopper'
-            - '@sylius.repository.order'
-        tags:
-            - {name: 'kernel.reset', method: 'reset'}

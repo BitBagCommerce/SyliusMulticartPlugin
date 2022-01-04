@@ -1,0 +1,55 @@
+services:
+    bitbag_sylius_multi_cart_plugin.controller.show_carts:
+        class: BitBag\SyliusMultiCartPlugin\Controller\ShowCartsController
+        arguments:
+            - '@sylius.context.customer'
+            - '@sylius.context.channel'
+            - '@sylius.repository.order'
+        tags:
+            - { name: 'controller.service_arguments' }
+        calls:
+            - [setContainer, ['@service_container']]
+
+    bitbag_sylius_multi_cart_plugin.controller.new_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
+        arguments:
+            - '@sylius.context.cart.new_shop_based'
+            - '@doctrine.orm.entity_manager'
+            - '@sylius.context.customer'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.change_active_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction
+        arguments:
+            - '@sylius.context.customer'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.ajax_cart_content:
+        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxCartContentAction
+        arguments:
+            - '@sylius.context.cart'
+            - '@twig'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.get_active_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxGetActiveCartAction
+        arguments:
+            - '@sylius.context.cart'
+            - '@serializer'
+            - '@bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.delete_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction
+        arguments:
+            - '@sylius.context.channel'
+            - '@sylius.context.customer'
+            - '@sylius.repository.order'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'controller.service_arguments' }
