@@ -3,7 +3,3 @@ bitbag_sylius_multi_cart_plugin_shop:
     prefix: /{_locale}
     requirements:
         _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
-
-bitbag_sylius_multi_cart_plugin_ajax:
-    resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing/shop.yml"
-    prefix: /ajax

@@ -1,5 +1,10 @@
+bitbag_sylius_multi_cart_plugin_ajax:
+  resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing/shop/ajax.yml"
+  prefix: /ajax
+
 bit_bag_sylius_multi_cart_plugin_show_carts:
-  path: /carts/show
-  methods: [GET]
-  defaults:
-    _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
+    path: /carts/show
+    methods: [GET]
+    defaults:
+        _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
+
