@@ -23,8 +23,13 @@ class AjaxPartialCart
 
     private int $itemsCount = 0;
 
-    public function __construct(?int $cartNumber, string $formattedItemsTotal, ?string $currency, array $items, int $itemsCount)
-    {
+    public function __construct(
+        ?int $cartNumber,
+        string $formattedItemsTotal,
+        ?string $currency,
+        array $items,
+        int $itemsCount
+    ) {
         $this->cartNumber = $cartNumber;
         $this->formattedItemsTotal = $formattedItemsTotal;
         $this->currency = $currency;

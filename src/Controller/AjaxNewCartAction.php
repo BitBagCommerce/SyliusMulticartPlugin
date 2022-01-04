@@ -38,7 +38,9 @@ final class AjaxNewCartAction
     {
         $customer = $this->customerContext->getCustomer();
         if (null === $customer) {
-            throw new CartNotFoundException('Sylius was not able to find the cart, as there is no logged in user.');
+            throw new CartNotFoundException(
+                'Sylius was not able to find the cart, as there is no logged in user.'
+            );
         }
 
         $cart = $this->shopBasedMultiCartContext->getCart();
