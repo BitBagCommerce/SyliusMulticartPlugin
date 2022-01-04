@@ -91,7 +91,7 @@ final class ShopBasedMultiCartContext implements CartContextInterface
 
     private function setCartNumberOnCart(ChannelInterface $channel,CustomerInterface $customer, OrderInterface $cart): void
     {
-        $counter = $this->orderRepository->countCartsByChannelAndCustomer($channel, $customer);
+        $counter = $this->orderRepository->countCarts($channel, $customer);
         $cart->setCartNumber($counter + 1);
     }
 

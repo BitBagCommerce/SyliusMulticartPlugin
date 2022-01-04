@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInterface
 {
-    public function findCartsByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): array
+    public function findCarts(ChannelInterface $channel, CustomerInterface $customer): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
@@ -32,7 +32,7 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ;
     }
 
-    public function findCartsByChannelAndCustomerGraterOrEqualNumber(
+    public function findCartsGraterOrEqualNumber(
         ChannelInterface $channel,
         CustomerInterface $customer,
         int $cartNumber
@@ -53,7 +53,7 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ;
     }
 
-    public function countCartsByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): int
+    public function countCarts(ChannelInterface $channel, CustomerInterface $customer): int
     {
         return (int) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')
@@ -69,7 +69,7 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
             ;
     }
 
-    public function findLatestNotEmptyActiveCartByChannelAndCustomer(ChannelInterface $channel, CustomerInterface $customer): ?OrderInterface
+    public function findLatestNotEmptyActiveCart(ChannelInterface $channel, CustomerInterface $customer): ?OrderInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')

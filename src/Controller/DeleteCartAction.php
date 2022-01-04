@@ -50,7 +50,7 @@ final class DeleteCartAction
             throw new \Exception('Cant delete active cart!');
         }
 
-        $carts =  $this->orderRepository->findCartsByChannelAndCustomerGraterOrEqualNumber(
+        $carts =  $this->orderRepository->findCartsGraterOrEqualNumber(
             $channel,
             $customer,
             $cartNumber,
