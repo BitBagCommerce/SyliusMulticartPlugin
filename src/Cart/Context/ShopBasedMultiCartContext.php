@@ -36,11 +36,6 @@ final class ShopBasedMultiCartContext implements CartContextInterface
 
     private OrderRepositoryInterface $orderRepository;
 
-    /**
-     * @param CartContextInterface     $cartContext
-     * @param ShopperContextInterface  $shopperContext
-     * @param OrderRepositoryInterface $orderRepository
-     */
     public function __construct(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,

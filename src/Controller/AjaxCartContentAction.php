@@ -31,7 +31,6 @@ final class AjaxCartContentAction
             'ajaxButton' => '@SyliusShop/Cart/Widget/_button.html.twig',
             'popupCarts' => '@SyliusShop/Cart/Widget/_popup_carts.html.twig',
             'popupItems' => '@SyliusShop/Cart/Widget/_popup_items.html.twig',
-//            'summaryItems' => '@SyliusShop/Cart/Widget/_popup_items.html.twig',
             'summaryTotals' => '@SyliusShop/Cart/Summary/_totals.html.twig',
         ];
 
