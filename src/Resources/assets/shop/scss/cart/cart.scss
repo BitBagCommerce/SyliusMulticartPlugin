@@ -1,0 +1,52 @@
+.multi-carts {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0px;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-evenly;
+    border: 2px solid #1a69a4;
+    padding: 16px;
+    overflow-x: auto;
+
+    .multi-cart {
+      display: flex;
+      flex-direction: column;
+      min-width: 120px;
+      margin: 0 6px;
+      flex-wrap: wrap;
+      background-color: #FFFFFF;
+      padding: 8px;
+      position: relative;
+      border: 2px solid transparent;
+      box-shadow: 0px 0px 4px #1a69a4;
+      cursor: pointer;
+
+      &:hover, &.active {
+        border-color: red;
+      }
+      &__row {
+        width: 100%;
+        text-align: center;
+        padding: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &--delete {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        background-color: red;
+        font-weight: 650;
+        color: #FFFFFF;
+        padding: 3px 6px;
+        border-radius: 0 0 0 4px;
+      }
+    }
+  }
+}

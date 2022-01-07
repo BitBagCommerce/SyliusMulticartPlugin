@@ -6,12 +6,10 @@ const buttonCartWidget = document.getElementById('ajax-cart-button');
 const popupCartsWidget = document.getElementById('popup-carts');
 const popupCartItemsWidget = document.getElementById('popup-items');
 
-addEvents();
-
-function addEvents() {
-    var changeCartButtons = document.querySelectorAll('.change-cart');
-    var deleteCartButtons = document.querySelectorAll('.delete-cart');
-    var newCartButton = document.getElementById('new-cart-button');
+const addEvents = () => {
+    const changeCartButtons = document.querySelectorAll('.change-cart');
+    const deleteCartButtons = document.querySelectorAll('.delete-cart');
+    const newCartButton = document.getElementById('new-cart-button');
 
     changeCartButtons.forEach(item => {
         item.addEventListener('click', changeActiveCart)
@@ -107,3 +105,11 @@ function newCart(e) {
             console.error('There has been a problem with your fetch operation:', error);
         });
 }
+
+const turnOnListeners = () => {
+    if (changeCartButtons.length > 0) {
+        addEvents();
+    }
+}
+
+turnOnListeners();

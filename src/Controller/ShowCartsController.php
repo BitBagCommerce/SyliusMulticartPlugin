@@ -39,7 +39,7 @@ final class ShowCartsController
         $this->twig = $twig;
     }
 
-    public function __invoke(): Response
+    public function __invoke(string $template): Response
     {
         $channel = $this->channelContext->getChannel();
         /** @var CustomerInterface $customer */
@@ -47,7 +47,7 @@ final class ShowCartsController
         $carts = $this->orderRepository->findCarts($channel, $customer);
 
         $content = $this->twig->render(
-            '@BitBagSyliusMultiCartPlugin/Shop/_show_carts.html.twig',
+            $template,
             [
                 'customer' => $customer,
                 'carts' => $carts,
