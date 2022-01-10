@@ -10,7 +10,7 @@ services:
             - { name: 'controller.service_arguments' }
 
     bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxNewCartAction
+        class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
         arguments:
             - '@sylius.context.cart.new_shop_based'
             - '@doctrine.orm.entity_manager'
@@ -19,7 +19,7 @@ services:
             - { name: 'controller.service_arguments' }
 
     bitbag_sylius_multi_cart_plugin.controller.ajax_change_active_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxChangeActiveCartAction
+        class: BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction
         arguments:
             - '@sylius.context.customer'
             - '@doctrine.orm.entity_manager'
@@ -27,7 +27,7 @@ services:
             - { name: 'controller.service_arguments' }
 
     bitbag_sylius_multi_cart_plugin.controller.ajax_cart_content:
-        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxCartContentAction
+        class: BitBag\SyliusMultiCartPlugin\Controller\CartContentAction
         arguments:
             - '@sylius.context.cart'
             - '@twig'
@@ -35,7 +35,7 @@ services:
             - { name: 'controller.service_arguments' }
 
     bitbag_sylius_multi_cart_plugin.controller.get_active_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxGetActiveCartAction
+        class: BitBag\SyliusMultiCartPlugin\Controller\GetActiveCartAction
         arguments:
             - '@sylius.context.cart'
             - '@serializer'
@@ -44,7 +44,7 @@ services:
             - { name: 'controller.service_arguments' }
 
     bitbag_sylius_multi_cart_plugin.controller.ajax_delete_cart:
-        class: BitBag\SyliusMultiCartPlugin\Controller\AjaxDeleteCartAction
+        class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction
         arguments:
             - '@sylius.context.channel'
             - '@sylius.context.customer'

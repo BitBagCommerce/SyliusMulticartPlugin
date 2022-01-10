@@ -14,13 +14,7 @@ use Sylius\Component\Core\Model\CustomerInterface as BaseCustomerInterface;
 
 interface CustomerInterface extends BaseCustomerInterface
 {
-    /**
-     * @return int|null
-     */
     public function getActiveCart(): ?int;
 
-    /**
-     * @param int|null $activeCart
-     */
     public function setActiveCart(?int $activeCart): void;
 }

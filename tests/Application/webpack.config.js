@@ -2,7 +2,6 @@ const path = require('path');
 const Encore = require('@symfony/webpack-encore');
 
 const [bitbagSkeletonShop, bitbagSkeletonAdmin] = require('../../webpack.config.js');
-// const [bitbagElasticsearchShop, bitbagElasticsearchAdmin] = require('../../webpack.config.js');
 
 const syliusBundles = path.resolve(__dirname, '../../vendor/sylius/sylius/src/Sylius/Bundle/');
 const uiBundleScripts = path.resolve(syliusBundles, 'UiBundle/Resources/private/js/');

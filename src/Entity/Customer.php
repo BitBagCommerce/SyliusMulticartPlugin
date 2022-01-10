@@ -16,17 +16,11 @@ class Customer extends BaseCustomer implements  CustomerInterface
 {
     protected ?int $activeCart = 1;
 
-    /**
-     * @return int|null
-     */
     public function getActiveCart(): ?int
     {
         return $this->activeCart;
     }
 
-    /**
-     * @param int|null $activeCart
-     */
     public function setActiveCart(?int $activeCart): void
     {
         $this->activeCart = $activeCart;

@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class AjaxCartContentAction
+final class CartContentAction
 {
     private CartContextInterface $cartContext;
 

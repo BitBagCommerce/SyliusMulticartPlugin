@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-final class AjaxChangeActiveCartAction
+final class ChangeActiveCartAction
 {
     private CustomerContextInterface $customerContext;
 
