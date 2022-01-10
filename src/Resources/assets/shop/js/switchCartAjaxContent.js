@@ -44,7 +44,7 @@ function updateCart(e) {
     const ajaxCartRequest = new Request(ajaxCartUrl, {
         method: 'GET'
     });
-
+    console.log(ajaxCartUrl)
     fetch(ajaxCartRequest)
         .then(response => {
             if (response.ok) {
