@@ -14,10 +14,11 @@ use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
+use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class ShowCartsController
+final class ShowCartsAction
 {
     private CustomerContextInterface $customerContext;
 
@@ -44,6 +45,12 @@ final class ShowCartsController
         $channel = $this->channelContext->getChannel();
         /** @var CustomerInterface $customer */
         $customer = $this->customerContext->getCustomer();
+        if (null === $customer) {
+            throw new CartNotFoundException(
+                'Sylius was not able to find the cart, as there is no logged in user.'
+            );
+        }
+
         $carts = $this->orderRepository->findCarts($channel, $customer);
 
         $content = $this->twig->render(

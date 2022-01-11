@@ -16,6 +16,7 @@ use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
+use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
 final class DeleteCartAction
@@ -43,8 +44,13 @@ final class DeleteCartAction
     public function __invoke(int $cartNumber): Response
     {
         $channel = $this->channelContext->getChannel();
-        /** @var CustomerInterface $customer */
+        /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
+        if (null === $customer) {
+            throw new CartNotFoundException(
+                'Sylius was not able to find the cart, as there is no logged in user.'
+            );
+        }
 
         if ($cartNumber === $customer->getActiveCart()) {
             throw new \Exception('Cant delete active cart!');

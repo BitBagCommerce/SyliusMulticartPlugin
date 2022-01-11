@@ -1,6 +1,6 @@
 services:
     bitbag_sylius_multi_cart_plugin.controller.show_carts:
-        class: BitBag\SyliusMultiCartPlugin\Controller\ShowCartsController
+        class: BitBag\SyliusMultiCartPlugin\Controller\ShowCartsAction
         arguments:
             - '@sylius.context.customer'
             - '@sylius.context.channel'

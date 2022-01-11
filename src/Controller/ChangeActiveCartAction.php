@@ -13,6 +13,7 @@ namespace BitBag\SyliusMultiCartPlugin\Controller;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
+use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ChangeActiveCartAction
@@ -31,8 +32,13 @@ final class ChangeActiveCartAction
 
     public function __invoke(int $cartNumber): Response
     {
-        /** @var CustomerInterface $customer */
+        /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
+        if (null === $customer) {
+            throw new CartNotFoundException(
+                'Sylius was not able to find the cart, as there is no logged in user.'
+            );
+        }
 
         if ($cartNumber !== $customer->getActiveCart()) {
             $customer->setActiveCart($cartNumber);

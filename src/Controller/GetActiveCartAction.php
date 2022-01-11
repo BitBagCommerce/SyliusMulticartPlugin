@@ -49,6 +49,6 @@ final class GetActiveCartAction
 
         $jsonString = $this->serializer->serialize($ajaxPartialCart, 'json');
 
-        return JsonResponse::fromJsonString($jsonString);
+        return new JsonResponse($jsonString, 200, [], true);
     }
 }
