@@ -44,7 +44,7 @@ final class ConvertAndFormatMoneyHelperSpec extends ObjectBehavior
         $this->shouldHaveType(ConvertAndFormatMoneyHelperInterface::class);
     }
 
-    function it_creates_partial_cart_from_order(
+    function it_converts_and_formats_money(
         ShopperContext $shopperContext,
         ChannelInterface $channel,
         CurrencyInterface $currency,

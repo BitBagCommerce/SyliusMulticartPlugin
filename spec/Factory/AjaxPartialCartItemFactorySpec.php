@@ -38,7 +38,7 @@ final class AjaxPartialCartItemFactorySpec extends ObjectBehavior
         $this->shouldHaveType(AjaxPartialCartItemFactoryInterface::class);
     }
 
-    function it_creates_partial_cart_from_order(
+    function it_creates_partial_cart_item_from_order_item(
         ConvertAndFormatMoneyHelperInterface $convertAndFormatMoneyHelper,
         OrderItem $orderItem
     ): void {
