@@ -4,7 +4,8 @@ default:
     suites:
         greeting_customer:
             contexts:
-                - acme_sylius_example.context.ui.shop.welcome
+                - sylius.behat.context.setup.shop_security
+#                - bitbag_sylius_multi_cart.context.api.multi_cart
 
             filters:
-                tags: "@greeting_customer"
+                tags: "@api"
