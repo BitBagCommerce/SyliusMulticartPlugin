@@ -62,10 +62,9 @@ final class CustomerAndChannelBasedMultiCartContextSpec extends ObjectBehavior
     }
 
     function it_throws_exception_for_missing_channel(
-        ChannelContextInterface $channelContext,
-        ChannelNotFoundException $exception
+        ChannelContextInterface $channelContext
     ): void {
-        $channelContext->getChannel()->willThrow($exception);
+        $channelContext->getChannel()->willThrow(new ChannelNotFoundException);
 
         $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
     }
