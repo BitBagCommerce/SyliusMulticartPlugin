@@ -4,8 +4,13 @@ default:
     suites:
         greeting_customer:
             contexts:
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.user
                 - sylius.behat.context.setup.shop_security
-#                - bitbag_sylius_multi_cart.context.api.multi_cart
+#                - sylius.behat.context.setup.shop_api_security
+                - sylius.behat.context.setup.cart
+                - bitbag_sylius_multi_cart.context.api.multi_cart
+                - sylius.behat.context.hook.doctrine_orm
 
             filters:
-                tags: "@api"
+                tags: "@multicart && @api"
