@@ -70,12 +70,12 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
         new_api_shop_user:
-            pattern: "%sylius.security.new_api_route%/shop-user-authentication-token"
+            pattern: "%sylius.security.new_api_route%/shop/authentication-token"
             provider: sylius_shop_user_provider
             stateless: true
             anonymous: true
             json_login:
-                check_path: "%sylius.security.new_api_route%/shop-user-authentication-token"
+                check_path: "%sylius.security.new_api_route%/shop/authentication-token"
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success

@@ -37,6 +37,7 @@ final class NewCartAction
     public function __invoke(): Response
     {
         $customer = $this->customerContext->getCustomer();
+
         if (null === $customer) {
             throw new CartNotFoundException(
                 'Sylius was not able to find the cart, as there is no logged in user.'
