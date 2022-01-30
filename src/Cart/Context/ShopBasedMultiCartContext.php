@@ -10,12 +10,12 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Cart\Context;
 
+use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Order\Context\CartContextInterface;
@@ -89,7 +89,11 @@ final class ShopBasedMultiCartContext implements CartContextInterface
         }
     }
 
-    private function setCartNumberOnCart(ChannelInterface $channel,CustomerInterface $customer, OrderInterface $cart): void
+    private function setCartNumberOnCart(
+        ChannelInterface $channel,
+        CustomerInterface $customer,
+        OrderInterface $cart
+    ): void
     {
         $counter = $this->orderRepository->countCarts($channel, $customer);
         $cart->setCartNumber($counter + 1);

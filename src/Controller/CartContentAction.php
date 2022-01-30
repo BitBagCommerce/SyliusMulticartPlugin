@@ -58,8 +58,10 @@ final class CartContentAction
 
     private function prepareContent(string $template, OrderInterface $cart): string
     {
-        return $this->twig->render($template, [
-                'cart' => $cart
+        return $this->twig->render(
+            $template,
+            [
+                'cart' => $cart,
             ]
         );
     }

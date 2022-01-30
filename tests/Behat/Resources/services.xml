@@ -13,14 +13,32 @@
         <service id="acme_sylius_example.page.shop.static_welcome" class="Tests\BitBag\SyliusMultiCartPlugin\Behat\Page\Shop\StaticWelcomePage" parent="sylius.behat.symfony_page" public="false" />
         <service id="acme_sylius_example.page.shop.dynamic_welcome" class="Tests\BitBag\SyliusMultiCartPlugin\Behat\Page\Shop\DynamicWelcomePage" parent="sylius.behat.symfony_page" public="false" />
 
-        <service id="bitbag_sylius_multi_cart.context.api.multi_cart" class="Tests\BitBag\SyliusMultiCartPlugin\Behat\Context\Api\MultiCartContext">
-            <argument type="service" id="bitbag_multi_cart_plugin.http_client" />
+        <service id="bitbag_sylius_multi_cart.behat.context.api.multi_cart" class="Tests\BitBag\SyliusMultiCartPlugin\Behat\Context\Api\MultiCartContext">
+            <argument type="service" id="http_client" />
             <argument type="service" id="router.default" />
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="sylius.context.customer" />
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="session" />
+            <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart" />
+            <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_delete_cart" />
+            <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_change_active_cart" />
+        </service>
+
+        <service id="bitbag_sylius_multi_cart.behat.context.setup.shop_security" class="Sylius\Behat\Context\Setup\ShopSecurityContext">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="bitbag_sylius_multi_cart.behat.shop_security" />
+            <argument type="service" id="sylius.fixture.example_factory.shop_user" />
+            <argument type="service" id="sylius.repository.shop_user" />
+        </service>
+
+        <service id="bitbag_sylius_multi_cart.behat.shop_security" class="Tests\BitBag\SyliusMultiCartPlugin\Behat\Service\TokenAwareSecurityService" public="false">
+            <argument type="service" id="session" />
+            <argument type="service" id="sylius.behat.cookie_setter" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="string">shop</argument>
         </service>
 
         <service id="bitbag_multi_cart_plugin.http_client" class="GuzzleHttp\Client">

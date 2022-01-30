@@ -15,7 +15,7 @@ use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInterface
+class OrderRepository extends BaseOrderRepository implements OrderRepositoryInterface
 {
     public function findCarts(ChannelInterface $channel, CustomerInterface $customer): array
     {
@@ -36,8 +36,7 @@ class OrderRepository extends BaseOrderRepository implements  OrderRepositoryInt
         ChannelInterface $channel,
         CustomerInterface $customer,
         int $cartNumber
-    ): array
-    {
+    ): array {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
             ->andWhere('o.channel = :channel')

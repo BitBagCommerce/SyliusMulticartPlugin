@@ -1,12 +1,14 @@
 @multicart
 Feature: Creating new cart
-#    Background:
-#        Given the store operates on a single channel in "United States"
+    Background:
+        Given the store operates on a single channel in "United States"
+        And there is a user "shop@example.com"
 
-    Scenario: Creating new cart as logged user
-#        Given the store operates on a single channel in "United States"
+    @api
+    Scenario: Deleting cart as logged user
         Given I am logged in as "shop@example.com"
-        Given I have ca
-        When User creates new cart for "en_US" locale code
-#        Then Cart should have been created
+        And the customer has created empty cart
+        And User creates new cart for current locale code
+        When User deletes "2" cart for current locale code
+        Then User should have "1" carts
 

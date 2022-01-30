@@ -25,11 +25,6 @@ final class GetActiveCartAction
 
     private AjaxPartialCartFactoryInterface $ajaxPartialCartFactory;
 
-    /**
-     * @param CartContextInterface $cartContext
-     * @param SerializerInterface $serializer
-     * @param AjaxPartialCartFactoryInterface $ajaxPartialCartFactory
-     */
     public function __construct(
         CartContextInterface $cartContext,
         SerializerInterface $serializer,

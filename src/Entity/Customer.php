@@ -12,7 +12,7 @@ namespace BitBag\SyliusMultiCartPlugin\Entity;
 
 use Sylius\Component\Core\Model\Customer as BaseCustomer;
 
-class Customer extends BaseCustomer implements  CustomerInterface
+class Customer extends BaseCustomer implements CustomerInterface
 {
     protected ?int $activeCart = 1;
 
