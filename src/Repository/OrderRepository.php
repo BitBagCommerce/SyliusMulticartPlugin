@@ -17,7 +17,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 class OrderRepository extends BaseOrderRepository implements OrderRepositoryInterface
 {
-    public function findCarts(ChannelInterface $channel, CustomerInterface $customer): array
+    public function findCarts(ChannelInterface $channel, ?CustomerInterface $customer): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
