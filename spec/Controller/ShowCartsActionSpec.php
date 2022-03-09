@@ -94,15 +94,4 @@ final class ShowCartsActionSpec extends ObjectBehavior
 
         $this->__invoke($template)->shouldHaveType(Response::class);
     }
-
-    function it_throws_cart_not_found_exception_for_anonymous_user(
-        ChannelContextInterface $channelContext,
-        ChannelInterface $channel,
-        CustomerContextInterface $customerContext
-    ): void {
-        $channelContext->getChannel()->willReturn($channel);
-        $customerContext->getCustomer()->willReturn(null);
-
-        $this->shouldThrow(CartNotFoundException::class)->during('__invoke', [ 'template' ]);
-    }
 }
