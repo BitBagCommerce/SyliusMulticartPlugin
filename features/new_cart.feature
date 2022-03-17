@@ -1,5 +1,9 @@
 @multicart
 Feature: Creating new cart
+    In order to create a new cart
+    As a logged in user
+    I want to be able to create new carts
+
     Background:
         Given the store operates on a single channel in "United States"
         And there is a user "shop@example.com"
@@ -10,4 +14,3 @@ Feature: Creating new cart
         And the customer has created empty cart
         When User creates new cart for current locale code
         Then User should have "2" carts
-

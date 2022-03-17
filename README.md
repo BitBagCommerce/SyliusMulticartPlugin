@@ -21,7 +21,7 @@ there you will find the <a href="https://docs.sylius.com/en/latest/plugin-develo
 
     ```bash
     $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
+    $ (cd tests/Application && yarn encore dev)
     $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
     
     $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
