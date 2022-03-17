@@ -37,7 +37,8 @@
         </div>
         {% if isActive == false %}
             <div class="delete-cart multi-cart--delete"
-                 data-url-delete="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', { 'cartNumber': cart.cartNumber }) }}">
+                 data-url-delete="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', { 'cartNumber': cart.cartNumber }) }}"
+                 data-url-update="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_cart_content') }}">
                 X
             </div>
         {% endif %}
