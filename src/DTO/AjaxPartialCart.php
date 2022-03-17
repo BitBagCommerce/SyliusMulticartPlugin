@@ -52,9 +52,7 @@ class AjaxPartialCart
         return $this->currency;
     }
 
-    /**
-     * @return AjaxPartialCartItem[]
-     */
+    /** @return AjaxPartialCartItem[] */
     public function getItems(): array
     {
         return $this->items;
