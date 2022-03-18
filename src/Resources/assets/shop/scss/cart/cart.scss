@@ -1,51 +1,78 @@
-.multi-carts {
+.multi-cart {
+  position: relative;
   display: flex;
-  align-items: center;
+  justify-content: flex-start;
+  gap: .6rem;
+  overflow-x: auto;
   width: 100%;
-  padding: 16px 0px;
+  background: #c9c9c9;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  margin: 1rem 0em;
 
-  &__container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    justify-content: space-evenly;
-    border: 2px solid #1a69a4;
-    padding: 16px;
-    overflow-x: auto;
+    &, .item{
+      box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+      padding: 1em 1em;
+      border-radius: 0.28571429rem;
+    }
 
-    .multi-cart {
+    .item {
       display: flex;
       flex-direction: column;
-      min-width: 120px;
-      margin: 0 6px;
       flex-wrap: wrap;
-      background-color: #FFFFFF;
-      padding: 8px;
-      position: relative;
+      min-width: 120px;
+      background: white;
       border: 2px solid transparent;
-      box-shadow: 0px 0px 4px #1a69a4;
+      padding: 3em 1em 1em;
+      position: relative;
       cursor: pointer;
 
       &:hover, &.active {
-        border-color: red;
+        border: 2px solid teal;
       }
+
       &__row {
-        width: 100%;
-        text-align: center;
-        padding: 4px;
         display: flex;
         justify-content: center;
-        align-items: center;
+        padding: .4rem;
+        pointer-events: none;
+
+        &.quantity {
+          background: #E0E1E2;
+          border-radius: 0.28571429rem;
+        }
       }
+      
       &--delete {
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        background-color: red;
-        font-weight: 650;
-        color: #FFFFFF;
-        padding: 3px 6px;
-        border-radius: 0 0 0 4px;
+        position:absolute;
+        top:0;
+        right:0;
+        margin: .4rem;
+      }
+  }
+  &-widget {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .4rem;
+      
+    .change-cart {
+      display: flex;
+      justify-content: space-between;
+      border: 2px solid rgba(34, 36, 38, 0.15);
+      border-radius: 0.28571429rem;
+      box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+      padding: 1rem .4rem;
+      cursor: pointer;
+      
+      &:hover, &.active {
+        border: 2px solid teal;
+      }
+
+      .quantity {
+        background: #E0E1E2;
+        border-radius: 0.28571429rem;
+        padding: 0 .4rem;
+        color: gray;
+        font-size: small;
       }
     }
   }

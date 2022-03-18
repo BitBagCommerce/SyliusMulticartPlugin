@@ -12,10 +12,8 @@
     {% if not cart.empty %}
         {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
 
-        <div class="multi-carts">
-            <div class="multi-carts__container">
+        <div class="multi-cart">
                 {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts_summary')) }}
-            </div>
         </div>
         <div class="ui stackable grid">
             <div class="eleven wide column">

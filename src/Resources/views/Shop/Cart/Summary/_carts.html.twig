@@ -1,29 +1,25 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 {% for cart in carts %}
     {% set isActive = cart.cartNumber == customer.activeCart %}
-    <div class="multi-cart {% if isActive == true %}active{% endif %} change-cart"
+    <div class="item {% if isActive == true %}active{% endif %} change-cart"
          data-url-change="{{ path('bit_bag_sylius_multi_cart_plugin_change_active_cart', { 'cartNumber': cart.cartNumber }) }}"
          data-url-update="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_cart_content') }}">
-        <div class="ui {% if isActive == true %}primary{% endif %} button change-cart"
-             data-url-change="{{ path('bit_bag_sylius_multi_cart_plugin_change_active_cart', { 'cartNumber': cart.cartNumber }) }}"
-             data-url-update="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_cart_content') }}">
-            {{ cart.cartNumber }}
-        </div>
-        <div class="multi-cart__row">
+
+        <div class="item__row">
             <i class="shopping cart big icon"></i>
         </div>
-        <div class="multi-cart__row">
+        <div class="item__row">
             {{- money.convertAndFormat(cart.itemsTotal) -}}
         </div>
-        <div class="multi-cart__row">
-            {{ cart.cartNumber }}
+        <div class="item__row quantity">
+            {{ cart.countItems }} Items
         </div>
         {% if isActive == false %}
-            <div class="delete-cart multi-cart--delete"
-                 data-url-delete="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', { 'cartNumber': cart.cartNumber }) }}"
-                 data-url-update="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_cart_content') }}">
-                X
-            </div>
+            <button type="submit" class="delete-cart item--delete ui icon button circular"
+                data-url-delete="{{ path('bit_bag_sylius_multi_cart_plugin_delete_cart', { 'cartNumber': cart.cartNumber }) }}"
+                data-url-update="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_cart_content') }}">
+                <i class="remove icon"></i>
+            </button>
         {% endif %}
     </div>
 {% endfor %}
