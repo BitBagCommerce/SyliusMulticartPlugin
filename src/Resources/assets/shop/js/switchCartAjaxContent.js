@@ -21,7 +21,9 @@ const addEvents = () => {
 }
 
 function changeActiveCart(e) {
-    const changeActiveCartUrl = e.target.getAttribute('data-url-change');
+    const changeActiveCartUrl = e.currentTarget.getAttribute('data-url-change');
+    if (e.target !== e.currentTarget) return;
+
     const changeActiveCartRequest = new Request(changeActiveCartUrl, {
         method: 'POST',
     })
@@ -30,7 +32,7 @@ function changeActiveCart(e) {
         .then(response => {
             if (response.ok) {
                 updateCart(e);
-            } else  {
+            } else {
                 throw new Error('Something went wrong');
             }
         })
@@ -51,7 +53,7 @@ function updateCart(e) {
                 response.json().then(jsonData => {
                     updateElements(e, jsonData);
                 })
-            } else  {
+            } else {
                 throw new Error('Something went wrong');
             }
         })
@@ -69,7 +71,7 @@ function updateElements(e, jsonData) {
 }
 
 function deleteCart(e) {
-    const deleteCartUrl = e.target.getAttribute('data-url-delete');
+    const deleteCartUrl = e.currentTarget.getAttribute('data-url-delete');
     const deleteCartRequest = new Request(deleteCartUrl, {
         method: 'POST',
     })
@@ -77,8 +79,8 @@ function deleteCart(e) {
     fetch(deleteCartRequest)
         .then(response => {
             if (response.ok) {
-                updateCart(e);
-            } else  {
+                updateCart(e.currentTarget);
+            } else {
                 throw new Error('Something went wrong');
             }
         })
@@ -88,22 +90,14 @@ function deleteCart(e) {
 }
 
 function newCart(e) {
-    const newCartUrl = e.target.getAttribute('data-url-new');
+    const newCartUrl = e.currentTarget.getAttribute('data-url-new');
     const newCartRequest = new Request(newCartUrl, {
         method: 'POST',
     })
 
-    fetch(newCartRequest)
-        .then(response => {
-            if (response.ok) {
-                updateCart(e);
-            } else  {
-                throw new Error('Something went wrong');
-            }
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
+    fetch(newCartRequest).catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+    });
 }
 
 const turnOnListeners = () => {
