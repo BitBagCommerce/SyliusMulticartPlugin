@@ -5,7 +5,7 @@
   gap: .6rem;
   overflow-x: auto;
   width: 100%;
-  background: #c9c9c9;
+  background: #e3e3e3;
   border: 1px solid rgba(34, 36, 38, 0.15);
   margin: 1rem 0em;
 
@@ -21,13 +21,12 @@
       flex-wrap: wrap;
       min-width: 120px;
       background: white;
-      border: 2px solid transparent;
       padding: 3em 1em 1em;
       position: relative;
       cursor: pointer;
 
       &:hover, &.active {
-        border: 2px solid teal;
+        outline: 2px solid teal;
       }
 
       &__row {
@@ -49,22 +48,24 @@
         margin: .4rem;
       }
   }
+
   &-widget {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: .4rem;
+    gap: .6rem;
       
     .change-cart {
       display: flex;
       justify-content: space-between;
-      border: 2px solid rgba(34, 36, 38, 0.15);
+      border: 2px solid transparent;
       border-radius: 0.28571429rem;
       box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
-      padding: 1rem .4rem;
+      padding: .8rem .4rem;
       cursor: pointer;
-      
+      outline: 1px solid rgba(34, 36, 38, 0.15);
+
       &:hover, &.active {
-        border: 2px solid teal;
+        outline: 2px solid teal;
       }
 
       .quantity {
@@ -73,6 +74,10 @@
         padding: 0 .4rem;
         color: gray;
         font-size: small;
+      }
+
+      div {
+        pointer-events: none;
       }
     }
   }
