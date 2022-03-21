@@ -22,6 +22,7 @@ const addEvents = () => {
 
 function changeActiveCart(e) {
     const changeActiveCartUrl = e.currentTarget.getAttribute('data-url-change');
+    const ajaxCartUrl = e.currentTarget.getAttribute('data-url-update');
     if (e.target !== e.currentTarget) return;
 
     const changeActiveCartRequest = new Request(changeActiveCartUrl, {
@@ -31,7 +32,7 @@ function changeActiveCart(e) {
     fetch(changeActiveCartRequest)
         .then(response => {
             if (response.ok) {
-                updateCart(e);
+                updateCart(ajaxCartUrl);
             } else {
                 throw new Error('Something went wrong');
             }
@@ -41,8 +42,7 @@ function changeActiveCart(e) {
         });
 }
 
-function updateCart(e) {
-    const ajaxCartUrl = e.target.getAttribute('data-url-update');
+function updateCart(ajaxCartUrl) {
     const ajaxCartRequest = new Request(ajaxCartUrl, {
         method: 'GET'
     });
@@ -51,7 +51,7 @@ function updateCart(e) {
         .then(response => {
             if (response.ok) {
                 response.json().then(jsonData => {
-                    updateElements(e, jsonData);
+                    updateElements(jsonData);
                 })
             } else {
                 throw new Error('Something went wrong');
@@ -62,7 +62,7 @@ function updateCart(e) {
         });
 }
 
-function updateElements(e, jsonData) {
+function updateElements(jsonData) {
     buttonCartWidget.innerHTML = jsonData.ajaxButton;
     popupCartsWidget.innerHTML = jsonData.popupCarts;
     popupCartItemsWidget.innerHTML = jsonData.popupItems;
@@ -72,6 +72,7 @@ function updateElements(e, jsonData) {
 
 function deleteCart(e) {
     const deleteCartUrl = e.currentTarget.getAttribute('data-url-delete');
+    const ajaxCartUrl = e.currentTarget.getAttribute('data-url-update');
     const deleteCartRequest = new Request(deleteCartUrl, {
         method: 'POST',
     })
@@ -79,7 +80,7 @@ function deleteCart(e) {
     fetch(deleteCartRequest)
         .then(response => {
             if (response.ok) {
-                updateCart(e.currentTarget);
+                updateCart(ajaxCartUrl);
             } else {
                 throw new Error('Something went wrong');
             }
@@ -91,13 +92,22 @@ function deleteCart(e) {
 
 function newCart(e) {
     const newCartUrl = e.currentTarget.getAttribute('data-url-new');
+    const ajaxCartUrl = e.currentTarget.getAttribute('data-url-update');
     const newCartRequest = new Request(newCartUrl, {
         method: 'POST',
     })
 
-    fetch(newCartRequest).catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
-    });
+    fetch(newCartRequest)
+        .then(response => {
+            if (response.ok) {
+                updateCart(ajaxCartUrl);
+            } else {
+                throw new Error('Something went wrong');
+            }
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
 }
 
 const turnOnListeners = () => {
