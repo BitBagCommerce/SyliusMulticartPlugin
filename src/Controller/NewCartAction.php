@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
+use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -24,23 +26,41 @@ final class NewCartAction
 
     private CustomerContextInterface $customerContext;
 
+    private OrderRepositoryInterface $orderRepository;
+
+    private ChannelContextInterface $channelContext;
+
     public function __construct(
         CartContextInterface $shopBasedMultiCartContext,
         EntityManagerInterface $entityManager,
-        CustomerContextInterface $customerContext
+        CustomerContextInterface $customerContext,
+        OrderRepositoryInterface $orderRepository,
+        ChannelContextInterface $channelContext
     ) {
         $this->shopBasedMultiCartContext = $shopBasedMultiCartContext;
         $this->entityManager = $entityManager;
         $this->customerContext = $customerContext;
+        $this->orderRepository = $orderRepository;
+        $this->channelContext = $channelContext;
     }
 
     public function __invoke(): Response
     {
+        $channel = $this->channelContext->getChannel();
+
         $customer = $this->customerContext->getCustomer();
 
         if (null === $customer) {
             throw new CartNotFoundException(
                 'Sylius was not able to find the cart, as there is no logged in user.'
+            );
+        }
+
+        $carts = $this->orderRepository->countCarts($channel, $customer);
+
+        if ($carts === 8) {
+            throw new CartNotFoundException(
+                'Max cart number reached'
             );
         }
 
