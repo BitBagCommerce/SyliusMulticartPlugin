@@ -1,4 +1,5 @@
-<div class="ui segment">
+{% if cart.shipments is not empty %}
+    <div class="ui segment">
     {{ form_start(form, {'action': path('sylius_shop_cart_save'), 'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate', 'id': form.vars.id}}) }}
     {{ form_errors(form) }}
     <input type="hidden" name="_method" value="PATCH"/>
@@ -32,3 +33,5 @@
     <div class="ui hidden divider"></div>
     {% include '@SyliusShop/Cart/Summary/_update.html.twig' with {'main_form': form.vars.id} %}
 </div>
+{% else %}
+{% endif %}
