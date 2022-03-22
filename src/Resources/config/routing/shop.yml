@@ -15,3 +15,13 @@ bit_bag_sylius_multi_cart_plugin_show_carts_widget:
   defaults:
       _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
       template: '@BitBagSyliusMultiCartPlugin/Shop/Cart/Widget/_carts.html.twig'
+
+sylius_shop_cart_items:
+  path: /cart-items
+  methods: [GET]
+  defaults:
+    _controller: sylius.controller.order:summaryAction
+    _sylius:
+      template: "@SyliusShop/Cart/Summary/_items.html.twig"
+      form: Sylius\Bundle\OrderBundle\Form\Type\CartType
+
