@@ -57,12 +57,14 @@ final class ShowCartsActionSpec extends ObjectBehavior
         $customerContext->getCustomer()->willReturn($customer);
 
         $orderRepository->findCarts($channel, $customer)->willReturn([$cart]);
+        $orderRepository->countCarts($channel, $customer)->willReturn(4);
 
         $twig->render(
             $template,
             [
                 'customer' => $customer,
                 'carts' => [ $cart ],
+                'counted' => 4,
             ]
         )->willReturn('template');
 
@@ -83,12 +85,14 @@ final class ShowCartsActionSpec extends ObjectBehavior
         $customerContext->getCustomer()->willReturn($customer);
 
         $orderRepository->findCarts($channel, $customer)->willReturn([$cart]);
+        $orderRepository->countCarts($channel, $customer)->willReturn(4);
 
         $twig->render(
             $template,
             [
                 'customer' => $customer,
                 'carts' => [ $cart ],
+                'counted' => 4,
             ]
         )->willReturn('template');
 
