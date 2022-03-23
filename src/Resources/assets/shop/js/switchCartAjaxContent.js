@@ -51,7 +51,7 @@ function updateCart(ajaxCartUrl) {
         })
         .then(jsonData => {
             updateWidgetCarts(jsonData);
-            multicart && updateCartsSummary(jsonData);
+            multicart && updateCartsSummary();
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
@@ -66,7 +66,7 @@ function updateWidgetCarts(jsonData) {
     addEvents();
 }
 
-function updateCartsSummary(jsonData) {
+function updateCartsSummary() {
     fetch("/en_US/carts/summary")
         .then(response => {
             if (response.ok) {
@@ -94,7 +94,20 @@ function updateCartsSummary(jsonData) {
             }
         }).then(response => {
             cartSummary.innerHTML = response
-            cartSummary.innerHTML += jsonData.summaryTotals
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+
+    fetch("/en_US/cart-total")
+        .then(response => {
+            if (response.ok) {
+                return response.text()
+            } else {
+                throw new Error('Something went wrong');
+            }
+        }).then(response => {
+            cartSummary.innerHTML += response
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
