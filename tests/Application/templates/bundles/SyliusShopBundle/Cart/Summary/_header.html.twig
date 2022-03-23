@@ -14,13 +14,6 @@
                 <i class="icon remove"></i> {{ 'sylius.ui.clear_cart'|trans }}
             </button>
         </form>
-        {% if cart.customer == null %}
-        {% else %}
-        <button id="new-cart-button" class="ui right floated black button" 
-            data-url-new="{{ path('bit_bag_sylius_multi_cart_plugin_new_cart') }}" 
-            data-url-update="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_cart_content') }}">
-                <i class="icon add"></i> Add new cart
-        </button>
-        {% endif %}
+                {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts_button')) }}
     </div>
 </div>

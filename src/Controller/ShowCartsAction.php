@@ -50,11 +50,14 @@ final class ShowCartsAction
 
         $carts = $this->orderRepository->findCarts($channel, $customer);
 
+        $counted = $this->orderRepository->countCarts($channel, $customer);
+
         $content = $this->twig->render(
             $template,
             [
                 'customer' => $customer,
                 'carts' => $carts,
+                'counted' => $counted,
             ]
         );
 
