@@ -10,9 +10,11 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
+use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -46,15 +48,11 @@ final class NewCartAction
 
     public function __invoke(): Response
     {
+        /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
 
+        /** @var CustomerInterface $customer */
         $customer = $this->customerContext->getCustomer();
-
-        if (null === $customer) {
-            throw new CartNotFoundException(
-                'Sylius was not able to find the cart, as there is no logged in user.'
-            );
-        }
 
         $carts = $this->orderRepository->countCarts($channel, $customer);
 
