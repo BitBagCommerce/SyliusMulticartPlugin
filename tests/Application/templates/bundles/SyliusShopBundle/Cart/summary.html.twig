@@ -35,9 +35,7 @@
                 <div class="eleven wide column">
                     {{ sylius_template_event('sylius.shop.cart.items', {'cart': cart, 'form': form}) }}
                 </div>
-                <div class="five wide column">
-                    {{ sylius_template_event('sylius.shop.cart.summary', {'cart': cart}) }}
-                </div>
+                {{ render(url('bit_bag_sylius_multi_cart_plugin_shop_cart_total')) }}
             </div>
             {{ sylius_template_event('sylius.shop.cart.suggestions', {'cart': cart}) }}
         {% else %}
