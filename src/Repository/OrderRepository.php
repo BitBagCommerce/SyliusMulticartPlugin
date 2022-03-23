@@ -52,7 +52,7 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
             ;
     }
 
-    public function countCarts(ChannelInterface $channel, CustomerInterface $customer): int
+    public function countCarts(ChannelInterface $channel, ?CustomerInterface $customer): int
     {
         return (int) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')
