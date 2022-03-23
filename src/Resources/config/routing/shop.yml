@@ -31,3 +31,11 @@ bit_bag_sylius_multi_cart_plugin_show_carts_button:
   defaults:
     _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
     template: '@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_button.html.twig'
+
+bit_bag_sylius_multi_cart_plugin_shop_cart_total:
+  path: /cart-total
+  methods: [GET]
+  defaults:
+    _controller: sylius.controller.order:summaryAction
+    _sylius:
+      template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_total.html.twig"
