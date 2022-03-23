@@ -81,4 +81,28 @@
       }
     }
   }
+
+  &-dialog {
+    box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+    padding: 1em 1em;
+    border: 1px solid rgba(34, 36, 38, 0.15);
+    border-radius: 0.28571429rem;
+
+    .options {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    button {
+      background: #E0E1E2;
+      border: none;
+      padding: .5em 1em;
+      cursor:pointer;
+      border-radius: 0.28571429rem;
+
+      &:hover{
+        background: #CACBCD;
+      }
+    }
+  }
 }

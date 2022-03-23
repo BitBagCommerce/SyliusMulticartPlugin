@@ -1,3 +1,5 @@
+const multicart = document.getElementById('multi-cart');
+
 const changeCartButtons = document.querySelectorAll('.change-cart');
 const deleteCartButtons = document.querySelectorAll('.delete-cart');
 const newCartButton = document.getElementById('new-cart-button');
@@ -17,7 +19,7 @@ const addEvents = () => {
     deleteCartButtons.forEach(item => {
         item.addEventListener('click', deleteCart)
     })
-    newCartButton.addEventListener('click', newCart)
+    newCartButton?.addEventListener('click', newCart)
 }
 
 function changeActiveCart(e) {
@@ -25,11 +27,7 @@ function changeActiveCart(e) {
     const ajaxCartUrl = e.currentTarget.getAttribute('data-url-update');
     if (e.target !== e.currentTarget) return;
 
-    const changeActiveCartRequest = new Request(changeActiveCartUrl, {
-        method: 'POST',
-    })
-
-    fetch(changeActiveCartRequest)
+    fetch(changeActiveCartUrl, { method: 'POST' })
         .then(response => {
             if (response.ok) {
                 updateCart(ajaxCartUrl);
@@ -43,26 +41,24 @@ function changeActiveCart(e) {
 }
 
 function updateCart(ajaxCartUrl) {
-    const ajaxCartRequest = new Request(ajaxCartUrl, {
-        method: 'GET'
-    });
-
-    fetch(ajaxCartRequest)
+    fetch(ajaxCartUrl)
         .then(response => {
             if (response.ok) {
-                response.json().then(jsonData => {
-                    updateElements(jsonData);
-                })
+                return response.json()
             } else {
                 throw new Error('Something went wrong');
             }
+        })
+        .then(jsonData => {
+            updateWidgetCarts(jsonData);
+            multicart && updateCartsSummary(jsonData);
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
 }
 
-function updateElements(jsonData) {
+function updateWidgetCarts(jsonData) {
     buttonCartWidget.innerHTML = jsonData.ajaxButton;
     popupCartsWidget.innerHTML = jsonData.popupCarts;
     popupCartItemsWidget.innerHTML = jsonData.popupItems;
@@ -70,14 +66,55 @@ function updateElements(jsonData) {
     addEvents();
 }
 
-function deleteCart(e) {
-    const deleteCartUrl = e.currentTarget.getAttribute('data-url-delete');
-    const ajaxCartUrl = e.currentTarget.getAttribute('data-url-update');
-    const deleteCartRequest = new Request(deleteCartUrl, {
-        method: 'POST',
-    })
+function updateCartsSummary(jsonData) {
+    fetch("/en_US/carts/summary")
+        .then(response => {
+            if (response.ok) {
+                return response.text()
+            } else {
+                throw new Error('Something went wrong');
+            }
+        }).then(response => {
+            multicart.innerHTML = response;
+            addEvents();
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
 
-    fetch(deleteCartRequest)
+
+    cartSummary = document.getElementById("summary-items")
+
+    fetch("/en_US/cart-items")
+        .then(response => {
+            if (response.ok) {
+                return response.text()
+            } else {
+                throw new Error('Something went wrong');
+            }
+        }).then(response => {
+            cartSummary.innerHTML = response
+            cartSummary.innerHTML += jsonData.summaryTotals
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
+
+async function btnClick(btn) {
+    return new Promise(resolve => btn.onclick = () => resolve());
+}
+
+async function deleteCart(e) {
+    const deleteCartUrl = e.currentTarget.getAttribute('data-url-delete');
+    const ajaxCartUrl = e.currentTarget.getAttribute("data-url-update");
+    const dialog = document.getElementById('multi-cart-dialog');
+    const btn = document.getElementById('deleteConfirmBtn')
+
+    dialog.showModal();
+    await btnClick(btn);
+
+    fetch(deleteCartUrl, { method: 'POST' })
         .then(response => {
             if (response.ok) {
                 updateCart(ajaxCartUrl);
@@ -93,11 +130,8 @@ function deleteCart(e) {
 function newCart(e) {
     const newCartUrl = e.currentTarget.getAttribute('data-url-new');
     const ajaxCartUrl = e.currentTarget.getAttribute('data-url-update');
-    const newCartRequest = new Request(newCartUrl, {
-        method: 'POST',
-    })
 
-    fetch(newCartRequest)
+    fetch(newCartUrl, { method: "POST" })
         .then(response => {
             if (response.ok) {
                 updateCart(ajaxCartUrl);

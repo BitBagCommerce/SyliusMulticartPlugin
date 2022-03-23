@@ -9,6 +9,15 @@
 {% block title %}{{ header|trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
+    <dialog id="multi-cart-dialog" class="multi-cart-dialog">
+        <form method="dialog">
+            <p>Do you want to remove this cart?</p>
+            <div class="options">
+                <button>Cancel</button>
+                <button id="deleteConfirmBtn">Confirm</button>
+            </div>
+        </form>
+    </dialog>
     {% if cart.customer == null %}
         {% if not cart.empty %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
@@ -25,13 +34,16 @@
             {{ messages.info('sylius.ui.your_cart_is_empty') }}
         {% endif %}
     {% else %}
+
+
+
         {% if not cart.empty %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
 
-            <div class="multi-cart">
+            <div id="multi-cart" class="multi-cart">
                     {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
-            <div class="ui stackable grid">
+            <div id="summary-items" class="ui stackable grid">
                 <div class="eleven wide column">
                     {{ sylius_template_event('sylius.shop.cart.items', {'cart': cart, 'form': form}) }}
                 </div>
