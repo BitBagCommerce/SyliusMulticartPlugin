@@ -13,8 +13,11 @@ namespace spec\BitBag\SyliusMultiCartPlugin\Controller;
 use BitBag\SyliusMultiCartPlugin\Controller\NewCartAction;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -25,12 +28,16 @@ final class NewCartActionSpec extends ObjectBehavior
     function let(
         CartContextInterface $shopBasedMultiCartContext,
         EntityManagerInterface $entityManager,
-        CustomerContextInterface $customerContext
+        CustomerContextInterface $customerContext,
+        OrderRepositoryInterface $orderRepository,
+        ChannelContextInterface $channelContext
     ): void {
         $this->beConstructedWith(
             $shopBasedMultiCartContext,
             $entityManager,
-            $customerContext
+            $customerContext,
+            $orderRepository,
+            $channelContext
         );
     }
 
@@ -40,26 +47,25 @@ final class NewCartActionSpec extends ObjectBehavior
     }
 
     function it_handles_request_and_persist_new_cart_for_logged_user(
-        CartContextInterface $shopBasedMultiCartContext,
+        ChannelContextInterface $channelContext,
         EntityManagerInterface $entityManager,
         CustomerContextInterface $customerContext,
         CustomerInterface $customer,
+        ChannelInterface $channel,
+        OrderRepositoryInterface $orderRepository,
+        CartContextInterface $shopBasedMultiCartContext,
         OrderInterface $order
     ): void {
         $customerContext->getCustomer()->willReturn($customer);
+        $channelContext->getChannel()->willReturn($channel);
+
+        $orderRepository->countCarts($channel, $customer)->willReturn(1);
+
         $shopBasedMultiCartContext->getCart()->willReturn($order);
 
         $entityManager->persist($order)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
 
         $this->__invoke()->shouldHaveType(Response::class);
-    }
-
-    function it_throws_cart_not_found_exception_for_anonymous_user(
-        CustomerContextInterface $customerContext
-    ): void {
-        $customerContext->getCustomer()->willReturn(null);
-
-        $this->shouldThrow(CartNotFoundException::class)->during('__invoke', []);
     }
 }
