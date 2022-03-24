@@ -45,13 +45,14 @@ function updateCart(ajaxCartUrl) {
         .then(response => {
             if (response.ok) {
                 return response.json()
-            } else {
+            }
+            else {
                 throw new Error('Something went wrong');
             }
         })
         .then(jsonData => {
             updateWidgetCarts(jsonData);
-            multicart && updateCartsSummary();
+            multicart && updateSummaryCarts();
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
@@ -66,7 +67,7 @@ function updateWidgetCarts(jsonData) {
     addEvents();
 }
 
-function updateCartsSummary() {
+function updateSummaryCarts() {
     fetch("/en_US/carts/summary")
         .then(response => {
             if (response.ok) {
@@ -76,13 +77,15 @@ function updateCartsSummary() {
             }
         }).then(response => {
             multicart.innerHTML = response;
+            updateSummary()
             addEvents();
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
+}
 
-
+function updateSummary() {
     cartSummary = document.getElementById("summary-items")
 
     fetch("/en_US/cart-items")
