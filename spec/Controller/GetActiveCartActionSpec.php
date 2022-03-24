@@ -48,6 +48,7 @@ final class GetActiveCartActionSpec extends ObjectBehavior
     ): void {
         $cartContext->getCart()->willReturn($cart);
         $ajaxPartialCartFactory->fromOrder($cart)->willReturn($ajaxPartialCart);
+        $cart->countItems()->willReturn(2);
 
         $serializer->serialize($ajaxPartialCart, 'json')->willReturn('{ "test": "string" }');
 
