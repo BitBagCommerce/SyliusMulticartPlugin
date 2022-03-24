@@ -52,7 +52,8 @@
             <div class="multi-cart">
                 {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
-
+            <div id="summary-items" class="ui stackable grid">
+            </div>
             {{ messages.info('sylius.ui.your_cart_is_empty') }}
         {% endif %}
     {% endif %}
