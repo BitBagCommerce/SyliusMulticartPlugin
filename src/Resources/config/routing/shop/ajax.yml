@@ -20,7 +20,7 @@ bit_bag_sylius_multi_cart_plugin_ajax_get_active_cart:
     path: /cart/get-active
     methods: [GET]
     defaults:
-        _controller: bitbag_sylius_multi_cart_plugin.controller.ajax_get_active_cart
+        _controller: bitbag_sylius_multi_cart_plugin.controller.get_active_cart
 
 bit_bag_sylius_multi_cart_plugin_delete_cart:
     path: /cart/delete/{cartNumber}
