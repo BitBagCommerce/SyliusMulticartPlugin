@@ -88,33 +88,16 @@ function updateSummaryCarts() {
 function updateSummary() {
     cartSummary = document.getElementById("summary-items")
 
-    fetch("/en_US/cart-items")
-        .then(response => {
-            if (response.ok) {
-                return response.text()
-            } else {
-                throw new Error('Something went wrong');
-            }
-        }).then(response => {
-            cartSummary.innerHTML = response
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
-
-    fetch("/en_US/cart-total")
-        .then(response => {
-            if (response.ok) {
-                return response.text()
-            } else {
-                throw new Error('Something went wrong');
-            }
-        }).then(response => {
-            cartSummary.innerHTML += response
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
+    Promise.all([
+        fetch('/en_US/cart-items').then(items => items.text()),
+        fetch('/en_US/cart-total').then(total => total.text()),
+    ]).then(([items, total]) => {
+        if (items == "") {
+            cartSummary.innerHTML = "Brak produktów w koszyku"
+        } else {
+            cartSummary.innerHTML = items + total
+        }
+    })
 }
 
 async function btnClick(btn) {
