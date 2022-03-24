@@ -42,7 +42,12 @@ final class CartContentAction
 
         $content = $this->prepareContentArray($templates, $cart);
 
+        if ($cart->countItems() == 0) {
+            return new JsonResponse([], Response::HTTP_NO_CONTENT);
+        }
+
         return new JsonResponse($content);
+
     }
 
     private function prepareContentArray(array $templates, OrderInterface $cart): array
