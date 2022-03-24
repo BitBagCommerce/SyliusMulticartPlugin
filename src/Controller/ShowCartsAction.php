@@ -15,9 +15,6 @@ use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
-use Sylius\Component\Order\Context\CartContextInterface;
-use Sylius\Component\Order\Context\CartNotFoundException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
@@ -31,20 +28,16 @@ final class ShowCartsAction
 
     private Environment $twig;
 
-    private CartContextInterface $cartContext;
-
     public function __construct(
         CustomerContextInterface $customerContext,
         ChannelContextInterface $channelContext,
         OrderRepositoryInterface $orderRepository,
-        Environment $twig,
-        CartContextInterface $cartContext
+        Environment $twig
     ) {
         $this->customerContext = $customerContext;
         $this->channelContext = $channelContext;
         $this->orderRepository = $orderRepository;
         $this->twig = $twig;
-        $this->cartContext = $cartContext;
     }
 
     public function __invoke(string $template): Response
@@ -66,12 +59,6 @@ final class ShowCartsAction
                 'counted' => $counted,
             ]
         );
-
-        $cart = $this->cartContext->getCart();
-
-        if ($cart->countItems() === 0) {
-            return new Response($content, Response::HTTP_NO_CONTENT);
-        }
 
         return new Response($content);
     }
