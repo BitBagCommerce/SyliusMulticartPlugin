@@ -39,3 +39,12 @@ bit_bag_sylius_multi_cart_plugin_shop_cart_total:
     _controller: sylius.controller.order:summaryAction
     _sylius:
       template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_total.html.twig"
+
+bit_bag_sylius_multi_cart_plugin_shop_cart_item:
+  path: /cart-item
+  methods: [GET]
+  defaults:
+    _controller: sylius.controller.order:summaryAction
+    _sylius:
+      template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_item.html.twig"
+      form: Sylius\Bundle\OrderBundle\Form\Type\CartType
