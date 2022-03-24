@@ -6,6 +6,7 @@ services:
             - '@sylius.context.channel'
             - '@sylius.repository.order'
             - '@twig'
+            - '@sylius.context.cart'
         tags:
             - { name: 'controller.service_arguments' }
 

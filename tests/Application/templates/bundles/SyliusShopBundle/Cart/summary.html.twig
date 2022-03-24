@@ -34,9 +34,6 @@
             {{ messages.info('sylius.ui.your_cart_is_empty') }}
         {% endif %}
     {% else %}
-
-
-
         {% if not cart.empty %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
 
