@@ -89,15 +89,27 @@ function updateSummary() {
     cartSummary = document.getElementById("summary-items")
 
     Promise.all([
-        fetch('/en_US/cart-items').then(items => items.text()),
+        fetch('/en_US/cart-item').then(items => items.text()),
         fetch('/en_US/cart-total').then(total => total.text()),
     ]).then(([items, total]) => {
-        if (items == "") {
-            cartSummary.innerHTML = "Brak produktów w koszyku"
-        } else {
-            cartSummary.innerHTML = items + total
-        }
+        fetch('/en_US/ajax/cart/get-active').then(response => {
+            if (response.status == 204) {
+
+                cartSummary.innerHTML = ""
+                cartSummary.appendChild(showNotif())
+            } else {
+                cartSummary.innerHTML = items + total
+            }
+        })
     })
+}
+
+function showNotif() {
+    const notification = document.createElement('div');
+    notification.classList.add('multi-cart-notif');
+
+    notification.innerHTML = `<p>Your cart is empty</p>`;
+    return notification
 }
 
 async function btnClick(btn) {
