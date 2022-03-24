@@ -2,7 +2,7 @@
 {% else %}
         {% if customer == null %}
         {% else %}
-                    <button id="new-cart-button" class="ui right floated black button" data-bb-max="8"
+                    <button id="new-cart-button" class="ui right floated black button" data-bb-max="8" data-bb-current="{{ counted }}"
                             data-url-new="{{ path('bit_bag_sylius_multi_cart_plugin_new_cart') }}"
                             data-url-update="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_cart_content') }}">
                         <i class="icon add"></i> Add new cart
