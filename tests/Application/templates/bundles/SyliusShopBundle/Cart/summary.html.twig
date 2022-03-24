@@ -49,7 +49,7 @@
             {{ sylius_template_event('sylius.shop.cart.suggestions', {'cart': cart}) }}
         {% else %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
-            <div class="multi-cart">
+            <div id="multi-cart" class="multi-cart">
                 {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
             <div id="summary-items" class="ui stackable grid">
