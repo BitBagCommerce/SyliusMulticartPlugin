@@ -1,3 +1,3 @@
-// import './refreshTest';
-// import './switchCartAjax';
-import './switchCartAjaxContent';
+import { handleMultiCart } from "./handleMultiCart";
+
+new handleMultiCart().init();
