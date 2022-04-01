@@ -49,7 +49,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
      *
      * @return AjaxPartialCartItem[]
      */
-    private function getCartItems(array $orderItems): array
+    private function createCartItems(array $orderItems): array
     {
         $cartItems = [];
         foreach ($orderItems as $orderItem) {
