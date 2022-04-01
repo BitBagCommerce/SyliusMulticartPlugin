@@ -34,7 +34,7 @@
             <argument type="service" id="sylius.repository.shop_user" />
         </service>
 
-        <service id="bitbag_sylius_multi_cart.behat.shop_security" class="Tests\BitBag\SyliusMultiCartPlugin\Behat\Service\TokenAwareSecurityService" public="false">
+        <service id="bitbag_sylius_multi_cart.behat.shop_security" class="Tests\BitBag\SyliusMultiCartPlugin\Behat\Service\TokenAwareSecurityStorage" public="false">
             <argument type="service" id="session" />
             <argument type="service" id="sylius.behat.cookie_setter" />
             <argument type="service" id="security.token_storage" />
