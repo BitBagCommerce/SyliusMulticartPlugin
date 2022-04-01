@@ -11,10 +11,10 @@
 {% block content %}
     <dialog id="multi-cart-dialog" class="multi-cart-dialog">
         <form method="dialog">
-            <p>Do you want to remove this cart?</p>
+            <p>{{ 'bitbag_sylius_multicart_plugin.ui.do_you_want_to_remove_this_cart'|trans }}</p>
             <div class="options">
-                <button>Cancel</button>
-                <button id="deleteConfirmBtn">Confirm</button>
+                <button>{{ 'bitbag_sylius_multicart_plugin.ui.cancel'|trans }}</button>
+                <button id="deleteConfirmBtn">{{ 'bitbag_sylius_multicart_plugin.ui.confirm'|trans }}</button>
             </div>
         </form>
     </dialog>

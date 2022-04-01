@@ -12,7 +12,8 @@
             {{- money.convertAndFormat(cart.itemsTotal) -}}
         </div>
         <div class="item__row quantity">
-            {{ cart.countItems }} Items
+            {{ cart.countItems }}
+            {{ 'bitbag_sylius_multicart_plugin.ui.items'|trans }}
         </div>
         {% if isActive == false %}
             <button type="submit" class="delete-cart item--delete ui icon button circular"

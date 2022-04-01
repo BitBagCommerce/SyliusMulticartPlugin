@@ -16,6 +16,7 @@ use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Context\ShopperContextInterface;
+use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
@@ -64,4 +65,13 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
 
         $this->getCart()->shouldHaveType(OrderInterface::class);
     }
+
+    function it_sets_customer_and_address_on_cart(
+        CustomerInterface $customer,
+        OrderInterface $cart,
+        AddressInterface $defaultAddress
+    ) {
+        $customer->getDefaultAddress()->willReturn($defaultAddress);
+    }
+
 }

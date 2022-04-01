@@ -5,7 +5,8 @@
                     <button id="new-cart-button" class="ui right floated black button" data-bb-max="8" data-bb-current="{{ counted }}"
                             data-url-new="{{ path('bitbag_sylius_multi_cart_plugin_new_cart') }}"
                             data-url-update="{{ path('bitbag_sylius_multi_cart_plugin_ajax_cart_content') }}">
-                        <i class="icon add"></i> Add new cart
+                        <i class="icon add"></i>
+                        {{ 'bitbag_sylius_multicart_plugin.ui.add_new_cart'|trans }}
                     </button>
 
         {% endif %}
