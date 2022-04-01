@@ -39,7 +39,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
             $order->getCartNumber(),
             $this->convertAndFormatMoneyHelper->convertAndFormatMoney($order->getItemsTotal()),
             $order->getCurrencyCode(),
-            $this->getCartItems($orderItems),
+            $this->createCartItems($orderItems),
             count($orderItems)
         );
     }
