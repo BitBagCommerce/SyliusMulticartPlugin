@@ -51,20 +51,7 @@ final class MultiCartContext extends RawMinkContext implements Context
     private DeleteCartAction $deleteCartAction;
 
     private ChangeActiveCartAction $changeActiveCartAction;
-
-    /**
-     * @param HttpClientInterface $client
-     * @param RouterInterface $router
-     * @param OrderRepositoryInterface $orderRepository
-     * @param SharedStorageInterface $sharedStorage
-     * @param ChannelContextInterface $channelContext
-     * @param CustomerContextInterface $customerContext
-     * @param TokenStorageInterface $tokenStorage
-     * @param SessionInterface $session
-     * @param NewCartAction $newCartAction
-     * @param DeleteCartAction $deleteCartAction
-     * @param ChangeActiveCartAction $changeActiveCartAction
-     */
+    
     public function __construct(
         HttpClientInterface $client,
         RouterInterface $router,
