@@ -15,11 +15,15 @@ use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 use Sylius\Component\Currency\Model\CurrencyInterface;
+use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Order\Context\CartContextInterface;
+use Sylius\Component\Order\Context\CartNotFoundException;
 
 final class ShopBasedMultiCartContextSpec extends ObjectBehavior
 {
@@ -66,12 +70,30 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
         $this->getCart()->shouldHaveType(OrderInterface::class);
     }
 
-    function it_sets_customer_and_address_on_cart(
-        CustomerInterface $customer,
+    function it_throws_exception_when_channel_is_not_found(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        ChannelInterface $channel,
         OrderInterface $cart,
-        AddressInterface $defaultAddress
-    ) {
-        $customer->getDefaultAddress()->willReturn($defaultAddress);
+        CurrencyInterface $currency
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willThrow(new ChannelNotFoundException);
+
+        $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
     }
 
+    function it_throws_exception_when_currency_is_not_found(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        ChannelInterface $channel,
+        OrderInterface $cart,
+        CurrencyInterface $currency
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willReturn($channel);
+        $channel->getBaseCurrency()->willThrow(new CurrencyNotFoundException);
+
+        $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
+    }
 }
