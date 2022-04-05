@@ -8,14 +8,14 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMultiCartPlugin\Helper;
+namespace BitBag\SyliusMultiCartPlugin\Transformer;
 
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Context\ShopperContext;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 
-class ConvertAndFormatMoneyHelper implements ConvertAndFormatMoneyHelperInterface
+class FormatMoneyTransformer implements FormatMoneyTransformerInterface
 {
     private ShopperContext $shopperContext;
 
@@ -33,7 +33,7 @@ class ConvertAndFormatMoneyHelper implements ConvertAndFormatMoneyHelperInterfac
         $this->moneyFormatter = $moneyFormatter;
     }
 
-    public function convertAndFormatMoney(int $amount): string
+    public function formatMoney(int $amount): string
     {
         /** @var ChannelInterface $channel */
         $channel = $this->shopperContext->getChannel();
@@ -42,11 +42,9 @@ class ConvertAndFormatMoneyHelper implements ConvertAndFormatMoneyHelperInterfac
 
         $convertedAmount = $this->currencyConverter->convert($amount, $baseCurrency, $currencyCode);
 
-        $formattedAmount = $this->moneyFormatter->format(
+        return $this->moneyFormatter->format(
             $convertedAmount,
             $currencyCode
         );
-
-        return $formattedAmount;
     }
 }

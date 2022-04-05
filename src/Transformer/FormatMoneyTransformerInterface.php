@@ -8,9 +8,9 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMultiCartPlugin\Helper;
+namespace BitBag\SyliusMultiCartPlugin\Transformer;
 
-interface ConvertAndFormatMoneyHelperInterface
+interface FormatMoneyTransformerInterface
 {
-    public function convertAndFormatMoney(int $amount): string;
+    public function formatMoney(int $amount): string;
 }

@@ -8,10 +8,10 @@
 
 declare(strict_types=1);
 
-namespace spec\BitBag\SyliusMultiCartPlugin\Helper;
+namespace spec\BitBag\SyliusMultiCartPlugin\Transformer;
 
-use BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelper;
-use BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelperInterface;
+use BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformer;
+use BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformerInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 
-final class ConvertAndFormatMoneyHelperSpec extends ObjectBehavior
+final class FormatMoneyTransformerSpec extends ObjectBehavior
 {
     function let(
         ShopperContext $shopperContext,
@@ -36,12 +36,12 @@ final class ConvertAndFormatMoneyHelperSpec extends ObjectBehavior
 
     function it_is_initializable(): void
     {
-        $this->shouldHaveType(ConvertAndFormatMoneyHelper::class);
+        $this->shouldHaveType(FormatMoneyTransformer::class);
     }
 
     function it_is_implementing_interface(): void
     {
-        $this->shouldHaveType(ConvertAndFormatMoneyHelperInterface::class);
+        $this->shouldHaveType(FormatMoneyTransformerInterface::class);
     }
 
     function it_converts_and_formats_money(
@@ -67,6 +67,6 @@ final class ConvertAndFormatMoneyHelperSpec extends ObjectBehavior
             Argument::type('string'),
         )->willReturn('formatted_amount');
 
-        $this->convertAndFormatMoney(100)->shouldReturn('formatted_amount');
+        $this->formatMoney(100)->shouldReturn('formatted_amount');
     }
 }

@@ -16,7 +16,7 @@ use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactory;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactoryInterface;
-use BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelperInterface;
+use BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformerInterface;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -25,7 +25,7 @@ use Sylius\Component\Core\Model\OrderItem;
 final class AjaxPartialCartFactorySpec extends ObjectBehavior
 {
     function let(
-        ConvertAndFormatMoneyHelperInterface $convertAndFormatMoneyHelper,
+        FormatMoneyTransformerInterface     $convertAndFormatMoneyHelper,
         AjaxPartialCartItemFactoryInterface $ajaxPartialCartItemFactory
     ): void {
         $this->beConstructedWith(
@@ -45,19 +45,19 @@ final class AjaxPartialCartFactorySpec extends ObjectBehavior
     }
 
     function it_creates_partial_cart_from_order(
-        Collection $itemsCollection,
-        ConvertAndFormatMoneyHelperInterface $convertAndFormatMoneyHelper,
-        OrderInterface $order,
-        OrderItem $orderItem,
+        Collection                          $itemsCollection,
+        FormatMoneyTransformerInterface     $convertAndFormatMoneyHelper,
+        OrderInterface                      $order,
+        OrderItem                           $orderItem,
         AjaxPartialCartItemFactoryInterface $ajaxPartialCartItemFactory,
-        AjaxPartialCartItem $ajaxPartialCartItem
+        AjaxPartialCartItem                 $ajaxPartialCartItem
     ): void {
         $order->getItems()->willReturn($itemsCollection);
         $itemsCollection->toArray()->willReturn([$orderItem]);
 
         $order->getCartNumber()->shouldBeCalled();
         $order->getItemsTotal()->shouldBeCalled();
-        $convertAndFormatMoneyHelper->convertAndFormatMoney(Argument::type('integer'))->willReturn('converted_string');
+        $convertAndFormatMoneyHelper->formatMoney(Argument::type('integer'))->willReturn('converted_string');
         $order->getCurrencyCode()->shouldBeCalled();
 
         $ajaxPartialCartItemFactory->fromOrderItem($orderItem)->willReturn($ajaxPartialCartItem);

@@ -11,14 +11,14 @@ declare(strict_types=1);
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCartItem;
-use BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelperInterface;
+use BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformerInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
 class AjaxPartialCartItemFactory implements AjaxPartialCartItemFactoryInterface
 {
-    private ConvertAndFormatMoneyHelperInterface $convertAndFormatMoneyHelper;
+    private FormatMoneyTransformerInterface $convertAndFormatMoneyHelper;
 
-    public function __construct(ConvertAndFormatMoneyHelperInterface $convertAndFormatMoneyHelper)
+    public function __construct(FormatMoneyTransformerInterface $convertAndFormatMoneyHelper)
     {
         $this->convertAndFormatMoneyHelper = $convertAndFormatMoneyHelper;
     }
@@ -29,7 +29,7 @@ class AjaxPartialCartItemFactory implements AjaxPartialCartItemFactoryInterface
             $orderItem->getId(),
             $orderItem->getProductName(),
             $orderItem->getQuantity(),
-            $this->convertAndFormatMoneyHelper->convertAndFormatMoney($orderItem->getUnitPrice()),
+            $this->convertAndFormatMoneyHelper->formatMoney($orderItem->getUnitPrice()),
         );
     }
 }
