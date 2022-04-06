@@ -73,9 +73,7 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
     function it_throws_exception_when_channel_is_not_found(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
-        ChannelInterface $channel,
-        OrderInterface $cart,
-        CurrencyInterface $currency
+        OrderInterface $cart
     ): void {
         $cartContext->getCart()->willReturn($cart);
         $shopperContext->getChannel()->willThrow(new ChannelNotFoundException);
@@ -87,13 +85,46 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
         ChannelInterface $channel,
-        OrderInterface $cart,
-        CurrencyInterface $currency
+        OrderInterface $cart
     ): void {
         $cartContext->getCart()->willReturn($cart);
         $shopperContext->getChannel()->willReturn($channel);
         $channel->getBaseCurrency()->willThrow(new CurrencyNotFoundException);
 
         $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
+    }
+
+    function it_throws_exception_when_locale_is_not_found(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        ChannelInterface $channel,
+        OrderInterface $cart
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willReturn($channel);
+        $channel->getBaseCurrency()->willThrow(new CurrencyNotFoundException);
+        $shopperContext->getLocaleCode()->willThrow(new LocaleNotFoundException());
+
+        $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
+    }
+
+    function it_do_not_get_cart_due_to_null_customer(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        OrderRepositoryInterface $orderRepository,
+        ChannelInterface $channel,
+        OrderInterface $cart,
+        CurrencyInterface $currency
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willReturn($channel);
+        $channel->getBaseCurrency()->willReturn($currency);
+        $currency->getCode()->willReturn('code');
+        $shopperContext->getLocaleCode()->willReturn('locale_code');
+        $shopperContext->getCustomer()->willReturn(null);
+
+        $orderRepository->countCarts($channel, null)->willReturn(0);
+
+        $this->getCart()->shouldHaveType(OrderInterface::class);
     }
 }
