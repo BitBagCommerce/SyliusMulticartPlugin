@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusMultiCartPlugin\Transformer;
 
-use BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformer;
-use BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformerInterface;
+use BitBag\SyliusMultiCartPlugin\Transformer\MoneyConverter;
+use BitBag\SyliusMultiCartPlugin\Transformer\MoneyConverterInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
@@ -36,12 +36,12 @@ final class FormatMoneyTransformerSpec extends ObjectBehavior
 
     function it_is_initializable(): void
     {
-        $this->shouldHaveType(FormatMoneyTransformer::class);
+        $this->shouldHaveType(MoneyConverter::class);
     }
 
     function it_is_implementing_interface(): void
     {
-        $this->shouldHaveType(FormatMoneyTransformerInterface::class);
+        $this->shouldHaveType(MoneyConverterInterface::class);
     }
 
     function it_converts_and_formats_money(
