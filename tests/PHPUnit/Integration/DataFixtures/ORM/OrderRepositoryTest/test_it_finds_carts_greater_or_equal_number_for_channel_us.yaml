@@ -107,7 +107,7 @@ BitBag\SyliusMultiCartPlugin\Entity\Order:
     channel: "@channel_us"
     token_value: 6
     number: "6"
-    state: "new"
+    state: "cart"
     payment_state: "awaiting_payment"
     checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
     cartNumber: "6"

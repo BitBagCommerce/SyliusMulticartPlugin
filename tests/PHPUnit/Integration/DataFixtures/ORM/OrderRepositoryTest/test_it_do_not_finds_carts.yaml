@@ -9,6 +9,16 @@ Sylius\Component\Core\Model\Channel:
     color: "black"
     enabled: true
     taxCalculationStrategy: "order_items_based"
+  channel_de:
+    code: "channel-de"
+    name: "Channel DE"
+    hostname: "localhost"
+    description: "Lorem ipsum"
+    baseCurrency: "@euro"
+    defaultLocale: "@locale_de_de"
+    color: "black"
+    enabled: true
+    taxCalculationStrategy: "order_items_based"
 
 Sylius\Component\Currency\Model\Currency:
   euro:
@@ -17,35 +27,76 @@ Sylius\Component\Currency\Model\Currency:
 Sylius\Component\Locale\Model\Locale:
   locale_en_us:
     code: "en_US"
+  locale_de_de:
+    code: "de_DE"
 
 BitBag\SyliusMultiCartPlugin\Entity\Customer:
-  customer:
+  customer_1:
     firstName: "Bruce"
     lastName: "Wayne"
     email: "batman@wayne-enterprise.com"
     emailCanonical: "batman@wayne-enterprise.com"
     activeCart: "1"
+  customer_2:
+    firstName: "Cat"
+    lastName: "Woman"
+    email: "cat@woman-DC.com"
+    emailCanonical: "cat@woman-DC.com"
+    activeCart: "1"
 
 BitBag\SyliusMultiCartPlugin\Entity\Order:
   order_1:
-    customer: "@customer"
+    customer: "@customer_1"
     currency_code: "EUR"
     locale_code: "en_US"
     channel: "@channel_us"
     token_value: 1
     number: "1"
-    state: "new"
-    payment_state: "pait"
+    state: "cart"
+    payment_state: "awaiting_payment"
     checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
     cartNumber: "1"
   order_2:
-    customer: "@customer"
+    customer: "@customer_1"
     currency_code: "EUR"
     locale_code: "en_US"
     channel: "@channel_us"
     token_value: 2
     number: "2"
     state: "new"
-    payment_state: "paid"
+    payment_state: "awaiting_payment"
     checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
     cartNumber: "2"
+  order_3:
+    customer: "@customer_1"
+    currency_code: "EUR"
+    locale_code: "en_US"
+    channel: "@channel_de"
+    token_value: 3
+    number: "3"
+    state: "cart"
+    payment_state: "awaiting_payment"
+    checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
+    cartNumber: "3"
+  order_4:
+    customer: "@customer_1"
+    currency_code: "EUR"
+    locale_code: "en_US"
+    channel: "@channel_us"
+    token_value: 4
+    number: "4"
+    state: "cart"
+    payment_state: "awaiting_payment"
+    checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
+    cartNumber: "4"
+  order_5:
+    customer: "@customer_2"
+    currency_code: "EUR"
+    locale_code: "en_US"
+    channel: "@channel_us"
+    token_value: 5
+    number: "5"
+    state: "new"
+    payment_state: "paid"
+    checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
+    cartNumber: "5"

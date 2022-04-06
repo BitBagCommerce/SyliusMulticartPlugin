@@ -16,6 +16,8 @@ class OrderRepositoryTest extends IntegrationTestCase
 {
     private OrderRepositoryInterface $orderRepository;
 
+    private array $fixtures;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -23,39 +25,78 @@ class OrderRepositoryTest extends IntegrationTestCase
         $this->orderRepository = $this->getContainer()->get('sylius.repository.order');
     }
 
-    public function test_that_finds_carts():void
+    public function test_it_finds_carts():void
     {
-        $fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_that_finds_carts.yaml']);
+        $this->fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_it_finds_carts.yaml']);
 
-        $carts = $this->orderRepository->findCarts($fixtures['channel_us'], $fixtures['customer']);
+        $carts = $this->orderRepository->findCarts(
+            $this->fixtures['channel_us'],
+            $this->fixtures['customer_1']
+        );
 
         $this->assertCount(2, $carts);
     }
 
-    public function test_that_finds_carts_greater_or_equal_number(): void
+    public function test_it_do_not_finds_carts():void
     {
-        $fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_that_finds_carts_greater_or_equal_number.yaml']);
+        $this->fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_it_do_not_finds_carts.yaml']);
 
-        $carts = $this->orderRepository->findCartsGraterOrEqualNumber($fixtures['channel_us'], $fixtures['customer'], 2);
+        $carts = $this->orderRepository->findCarts(
+            $this->fixtures['channel_us'],
+            $this->fixtures['customer_2']
+        );
+
+        $this->assertCount(0, $carts);
+    }
+
+    public function test_it_finds_carts_greater_or_equal_number_for_channel_us(): void
+    {
+        $this->fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_it_finds_carts_greater_or_equal_number_for_channel_us.yaml']);
+
+        $carts = $this->orderRepository->findCartsGraterOrEqualNumber(
+            $this->fixtures['channel_us'],
+            $this->fixtures['customer_1'],
+            1
+        );
 
         $this->assertCount(3, $carts);
     }
 
-    public function test_that_counts_carts():void
+    public function test_it_finds_carts_greater_or_equal_number_for_channel_de(): void
     {
-        $fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_that_counts_carts.yaml']);
+        $this->fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_it_finds_carts_greater_or_equal_number_for_channel_de.yaml']);
 
-        $carts = $this->orderRepository->countCarts($fixtures['channel_us'], $fixtures['customer']);
+        $carts = $this->orderRepository->findCartsGraterOrEqualNumber(
+            $this->fixtures['channel_de'],
+            $this->fixtures['customer_1'],
+            1
+        );
 
-        $this->assertEquals(3, $carts);
+        $this->assertCount(1, $carts);
     }
 
-    public function test_that_find_latest_not_empty_active_cart(): void
+    public function test_it_do_not_finds_carts_greater_or_equal_number(): void
     {
-        $fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_that_find_latest_not_empty_active_cart.yaml']);
+        $this->fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_it_do_not_finds_carts_greater_or_equal_number.yaml']);
 
-        $carts = $this->orderRepository->countCarts($fixtures['channel_us'], $fixtures['customer']);
+        $carts = $this->orderRepository->findCartsGraterOrEqualNumber(
+            $this->fixtures['channel_us'],
+            $this->fixtures['customer_2'],
+            1
+        );
 
-        $this->assertEquals(4, $carts);
+        $this->assertCount(0, $carts);
+    }
+
+    public function test_it_find_latest_not_empty_active_cart(): void
+    {
+        $this->fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_it_find_latest_not_empty_active_cart.yaml']);
+
+        $carts = $this->orderRepository->countCarts(
+            $this->fixtures['channel_us'],
+            $this->fixtures['customer_1']
+        );
+
+        $this->assertEquals(3, $carts);
     }
 }
