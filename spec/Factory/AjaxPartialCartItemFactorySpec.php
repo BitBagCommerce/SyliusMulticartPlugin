@@ -13,7 +13,7 @@ namespace spec\BitBag\SyliusMultiCartPlugin\Factory;
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCartItem;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactory;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactoryInterface;
-use BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformerInterface;
+use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\OrderItem;
@@ -21,7 +21,7 @@ use Sylius\Component\Core\Model\OrderItem;
 final class AjaxPartialCartItemFactorySpec extends ObjectBehavior
 {
     function let(
-        FormatMoneyTransformerInterface $convertAndFormatMoneyHelper
+        MoneyFormatterInterface $convertAndFormatMoneyHelper
     ): void {
         $this->beConstructedWith(
             $convertAndFormatMoneyHelper
@@ -39,8 +39,8 @@ final class AjaxPartialCartItemFactorySpec extends ObjectBehavior
     }
 
     function it_creates_partial_cart_item_from_order_item(
-        FormatMoneyTransformerInterface $convertAndFormatMoneyHelper,
-        OrderItem                       $orderItem
+        MoneyFormatterInterface $convertAndFormatMoneyHelper,
+        OrderItem               $orderItem
     ): void {
         $orderItem->getId()->willReturn(1);
         $orderItem->getProductName()->willReturn('name');

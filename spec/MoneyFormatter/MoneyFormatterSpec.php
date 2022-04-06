@@ -8,63 +8,54 @@
 
 declare(strict_types=1);
 
-namespace spec\BitBag\SyliusMultiCartPlugin\Transformer;
+namespace spec\BitBag\SyliusMultiCartPlugin\MoneyFormatter;
 
-use BitBag\SyliusMultiCartPlugin\Transformer\MoneyConverter;
-use BitBag\SyliusMultiCartPlugin\Transformer\MoneyConverterInterface;
+use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface;
+use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Context\ShopperContext;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
+use BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverterInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
+use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface as BaseMoneyFormatterInterface;
 
-final class FormatMoneyTransformerSpec extends ObjectBehavior
+final class MoneyFormatterSpec extends ObjectBehavior
 {
     function let(
         ShopperContext $shopperContext,
-        CurrencyConverterInterface $currencyConverter,
-        MoneyFormatterInterface $moneyFormatter
+        MoneyConverterInterface $currencyConverter,
+        BaseMoneyFormatterInterface $moneyFormatter
     ): void {
         $this->beConstructedWith(
+            $moneyFormatter,
             $shopperContext,
-            $currencyConverter,
-            $moneyFormatter
+            $currencyConverter
         );
     }
 
     function it_is_initializable(): void
     {
-        $this->shouldHaveType(MoneyConverter::class);
+        $this->shouldHaveType(MoneyFormatter::class);
     }
 
     function it_is_implementing_interface(): void
     {
-        $this->shouldHaveType(MoneyConverterInterface::class);
+        $this->shouldHaveType(MoneyFormatterInterface::class);
     }
 
-    function it_converts_and_formats_money(
+    function it_formats_money(
         ShopperContext $shopperContext,
-        ChannelInterface $channel,
-        CurrencyInterface $currency,
-        CurrencyConverterInterface $currencyConverter,
+        MoneyConverterInterface $currencyConverter,
         MoneyFormatterInterface $moneyFormatter
     ): void {
-        $shopperContext->getChannel()->willReturn($channel);
-        $channel->getBaseCurrency()->willReturn($currency);
-        $currency->getCode()->willReturn('code');
         $shopperContext->getCurrencyCode()->willReturn('code');
 
-        $currencyConverter->convert(
-            Argument::type('integer'),
-            Argument::type('string'),
-            Argument::type('string')
-        )->willReturn(100);
+        $currencyConverter->convertMoney(Argument::type('integer'))->willReturn(100);
 
         $moneyFormatter->format(
-            Argument::type('integer'),
-            Argument::type('string'),
+            100,
+            'code'
         )->willReturn('formatted_amount');
 
         $this->formatMoney(100)->shouldReturn('formatted_amount');
