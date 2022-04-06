@@ -4,14 +4,26 @@ imports:
     - { resource: "services/factory.yml" }
 
 services:
-    BitBag\SyliusMultiCartPlugin\Helper\FormatMoneyTransformer:
-        alias: 'bitbag_sylius_multi_cart_plugin.transformer.format_money_transformer'
+    BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverter:
+        alias: 'bitbag_sylius_multi_cart_plugin.converter.money_converter'
 
-    bitbag_sylius_multi_cart_plugin.transformer.format_money_transformer:
-        class: BitBag\SyliusMultiCartPlugin\Transformer\FormatMoneyTransformer
+    bitbag_sylius_multi_cart_plugin.converter.money_converter:
+        class: BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverter
         arguments:
             - '@sylius.context.shopper'
             - '@sylius.currency_converter'
             - '@sylius.money_formatter'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatter:
+        alias: 'bitbag_sylius_multi_cart_plugin.formatter.money_formatter'
+
+    bitbag_sylius_multi_cart_plugin.formatter.money_formatter:
+        class: BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatter
+        arguments:
+            - '@sylius.money_formatter'
+            - '@sylius.context.shopper'
+            - '@bitbag_sylius_multi_cart_plugin.converter.money_converter'
         tags:
             - { name: 'controller.service_arguments' }
