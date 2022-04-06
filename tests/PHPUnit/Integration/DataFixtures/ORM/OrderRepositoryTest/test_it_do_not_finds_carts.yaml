@@ -1,0 +1,51 @@
+Sylius\Component\Core\Model\Channel:
+  channel_us:
+    code: "channel-us"
+    name: "Channel US"
+    hostname: "localhost"
+    description: "Lorem ipsum"
+    baseCurrency: "@euro"
+    defaultLocale: "@locale_en_us"
+    color: "black"
+    enabled: true
+    taxCalculationStrategy: "order_items_based"
+
+Sylius\Component\Currency\Model\Currency:
+  euro:
+    code: "EUR"
+
+Sylius\Component\Locale\Model\Locale:
+  locale_en_us:
+    code: "en_US"
+
+BitBag\SyliusMultiCartPlugin\Entity\Customer:
+  customer:
+    firstName: "Bruce"
+    lastName: "Wayne"
+    email: "batman@wayne-enterprise.com"
+    emailCanonical: "batman@wayne-enterprise.com"
+    activeCart: "1"
+
+BitBag\SyliusMultiCartPlugin\Entity\Order:
+  order_1:
+    customer: "@customer"
+    currency_code: "EUR"
+    locale_code: "en_US"
+    channel: "@channel_us"
+    token_value: 1
+    number: "1"
+    state: "new"
+    payment_state: "pait"
+    checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
+    cartNumber: "1"
+  order_2:
+    customer: "@customer"
+    currency_code: "EUR"
+    locale_code: "en_US"
+    channel: "@channel_us"
+    token_value: 2
+    number: "2"
+    state: "new"
+    payment_state: "paid"
+    checkoutCompletedAt: '<dateTimeBetween("-60 minutes", "-35 minutes")>'
+    cartNumber: "2"
