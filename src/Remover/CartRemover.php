@@ -12,6 +12,7 @@ namespace BitBag\SyliusMultiCartPlugin\Remover;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMulticartPlugin\Exception\UnableToDeleteCartException;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
@@ -52,7 +53,7 @@ class CartRemover implements CartRemoverInterface
         }
 
         if ($cartNumber === $customer->getActiveCart()) {
-            throw new \Exception('Cant delete active cart!');
+            throw new UnableToDeleteCartException('Cant delete active cart!');
         }
 
         $carts = $this->orderRepository->findCartsGraterOrEqualNumber(
