@@ -54,3 +54,14 @@ services:
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Switcher\CartSwitcher:
+        alias: 'bitbag_sylius_multi_cart_plugin.switcher.cart_switcher'
+
+    bitbag_sylius_multi_cart_plugin.switcher.cart_switcher:
+        class: BitBag\SyliusMultiCartPlugin\Switcher\CartSwitcher
+        arguments:
+            - '@sylius.context.customer'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'controller.service_arguments' }
