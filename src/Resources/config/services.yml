@@ -41,3 +41,16 @@ services:
             - '@sylius.context.shopper'
         tags:
             - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Remover\CartRemover:
+        alias: 'bitbag_sylius_multi_cart_plugin.remover.cart_remover'
+
+    bitbag_sylius_multi_cart_plugin.remover.cart_remover:
+        class: BitBag\SyliusMultiCartPlugin\Remover\CartRemover
+        arguments:
+            - '@sylius.context.channel'
+            - '@sylius.context.customer'
+            - '@sylius.repository.order'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'controller.service_arguments' }

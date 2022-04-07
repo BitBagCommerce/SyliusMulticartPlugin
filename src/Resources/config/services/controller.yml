@@ -44,9 +44,6 @@ services:
     bitbag_sylius_multi_cart_plugin.controller.ajax_delete_cart:
         class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction
         arguments:
-            - '@sylius.context.channel'
-            - '@sylius.context.customer'
-            - '@sylius.repository.order'
-            - '@doctrine.orm.entity_manager'
+            - '@bitbag_sylius_multi_cart_plugin.remover.cart_remover'
         tags:
             - { name: 'controller.service_arguments' }
