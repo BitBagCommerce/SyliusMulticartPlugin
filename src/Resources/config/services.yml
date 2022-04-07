@@ -27,3 +27,17 @@ services:
             - '@bitbag_sylius_multi_cart_plugin.converter.money_converter'
         tags:
             - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Creator\CartCreator:
+        alias: 'bitbag_sylius_multi_cart_plugin.creator.cart_creator'
+
+    bitbag_sylius_multi_cart_plugin.creator.cart_creator:
+        class: BitBag\SyliusMultiCartPlugin\Creator\CartCreator
+        arguments:
+            - '@sylius.context.cart.new_shop_based'
+            - '@doctrine.orm.entity_manager'
+            - '@sylius.context.customer'
+            - '@sylius.repository.order'
+            - '@sylius.context.shopper'
+        tags:
+            - { name: 'controller.service_arguments' }

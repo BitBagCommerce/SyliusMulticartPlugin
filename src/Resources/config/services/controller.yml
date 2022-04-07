@@ -12,11 +12,7 @@ services:
     bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart:
         class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
         arguments:
-            - '@sylius.context.cart.new_shop_based'
-            - '@doctrine.orm.entity_manager'
-            - '@sylius.context.customer'
-            - '@sylius.repository.order'
-            - '@sylius.context.shopper'
+            - '@bitbag_sylius_multi_cart_plugin.creator.cart_creator'
         tags:
             - { name: 'controller.service_arguments' }
 
