@@ -12,6 +12,7 @@ namespace spec\BitBag\SyliusMultiCartPlugin\Remover;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMultiCartPlugin\Exception\UnableToDeleteCartException;
 use BitBag\SyliusMultiCartPlugin\Remover\CartRemover;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -89,6 +90,6 @@ class CartRemoverSpec extends ObjectBehavior
         $customerContext->getCustomer()->willReturn($customer);
         $customer->getActiveCart()->willReturn(1);
 
-        $this->shouldThrow(\Exception::class)->during('removeCart', [ 1 ]);
+        $this->shouldThrow(UnableToDeleteCartException::class)->during('removeCart', [ 1 ]);
     }
 }
