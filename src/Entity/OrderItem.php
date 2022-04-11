@@ -1,22 +1,23 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file is part of the Sylius package.
+ *
+ * (c) Paweł Jędrzejewski
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMultiCartPlugin\DTO;
+namespace BitBag\SyliusMultiCartPlugin\Entity;
 
-class AjaxPartialCartItem
+use Sylius\Component\Order\Model\OrderItem as BaseOrderItem;
+
+class OrderItem extends BaseOrderItem
 {
-    private int $id;
-
     private string $name;
-
-    private int $quantity;
 
     private string $formattedUnitPrice;
 
@@ -26,25 +27,15 @@ class AjaxPartialCartItem
         int $quantity,
         string $formattedUnitPrice
     ) {
+        parent::__construct();
         $this->id = $id;
         $this->name = $name;
         $this->quantity = $quantity;
         $this->formattedUnitPrice = $formattedUnitPrice;
     }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getName(): string
     {
         return $this->name;
-    }
-
-    public function getQuantity(): int
-    {
-        return $this->quantity;
     }
 
     public function getFormattedUnitPrice(): string

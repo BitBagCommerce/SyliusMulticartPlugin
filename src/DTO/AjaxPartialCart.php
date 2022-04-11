@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\DTO;
 
+use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
+
 class AjaxPartialCart
 {
     private ?int $cartNumber;
@@ -18,7 +20,7 @@ class AjaxPartialCart
 
     private ?string $currency;
 
-    /** @var AjaxPartialCartItem[] */
+    /** @var OrderItem[] */
     private array $items;
 
     private int $itemsCount = 0;
@@ -52,7 +54,7 @@ class AjaxPartialCart
         return $this->currency;
     }
 
-    /** @return AjaxPartialCartItem[] */
+    /** @return OrderItem[] */
     public function getItems(): array
     {
         return $this->items;

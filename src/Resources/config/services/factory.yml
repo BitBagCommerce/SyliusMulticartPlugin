@@ -6,15 +6,15 @@ services:
         class: BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactory
         arguments:
             - '@bitbag_sylius_multi_cart_plugin.formatter.money_formatter'
-            - '@bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart_item'
+            - '@bitbag_sylius_multi_cart_plugin.factory.order_item_factory'
         tags:
             - { name: 'controller.service_arguments' }
 
-    BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactoryInterface:
+    BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactoryInterface:
         alias: 'bitbag_sylius_multi_cart_plugin.helper.ajax_partial_cart_item'
 
-    bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart_item:
-        class: BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartItemFactory
+    bitbag_sylius_multi_cart_plugin.factory.order_item_factory:
+        class: BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactory
         arguments:
             - '@bitbag_sylius_multi_cart_plugin.formatter.money_formatter'
         tags:

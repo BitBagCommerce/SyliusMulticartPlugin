@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCart;
-use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCartItem;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
@@ -20,11 +20,11 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 {
     private MoneyFormatterInterface $convertAndFormatMoneyHelper;
 
-    private AjaxPartialCartItemFactoryInterface $ajaxPartialCartItemFactory;
+    private OrderItemFactoryInterface $ajaxPartialCartItemFactory;
 
     public function __construct(
         MoneyFormatterInterface             $convertAndFormatMoneyHelper,
-        AjaxPartialCartItemFactoryInterface $ajaxPartialCartItemFactory
+        OrderItemFactoryInterface $ajaxPartialCartItemFactory
     ) {
         $this->convertAndFormatMoneyHelper = $convertAndFormatMoneyHelper;
         $this->ajaxPartialCartItemFactory = $ajaxPartialCartItemFactory;
@@ -47,7 +47,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
     /**
      * @param OrderItemInterface[] $orderItems
      *
-     * @return AjaxPartialCartItem[]
+     * @return OrderItem[]
      */
     private function createCartItems(array $orderItems): array
     {

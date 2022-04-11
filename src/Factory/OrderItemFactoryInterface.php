@@ -11,9 +11,10 @@ declare(strict_types=1);
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCartItem;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
-interface AjaxPartialCartItemFactoryInterface
+interface OrderItemFactoryInterface
 {
-    public function fromOrderItem(OrderItemInterface $orderItem): AjaxPartialCartItem;
+    public function fromOrderItem(OrderItemInterface $orderItem): OrderItem;
 }
