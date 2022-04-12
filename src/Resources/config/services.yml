@@ -65,3 +65,13 @@ services:
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizer:
+        alias: 'bitbag_sylius_multi_cart_plugin.customizer.cart_customizer'
+
+    bitbag_sylius_multi_cart_plugin.customizer.cart_customizer:
+        class: BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizer
+        arguments:
+            - '@sylius.repository.order'
+        tags:
+            - { name: 'controller.service_arguments' }

@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Cart\Context;
 
+use BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -29,18 +29,18 @@ final class ShopBasedMultiCartContext implements CartContextInterface
 
     private ShopperContextInterface $shopperContext;
 
-    private OrderRepositoryInterface $orderRepository;
+    private CartCustomizerInterface $cartCustomizer;
 
     private ?OrderInterface $cart = null;
 
     public function __construct(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
-        OrderRepositoryInterface $orderRepository
+        CartCustomizerInterface $cartCustomizer
     ) {
         $this->cartContext = $cartContext;
         $this->shopperContext = $shopperContext;
-        $this->orderRepository = $orderRepository;
+        $this->cartCustomizer = $cartCustomizer;
     }
 
     public function getCart(): BaseOrderInterface
@@ -68,35 +68,13 @@ final class ShopBasedMultiCartContext implements CartContextInterface
         $customer = $this->shopperContext->getCustomer();
 
         if (null !== $customer) {
-            $this->setCustomerAndAddressOnCart($cart, $customer);
-            $this->setCartNumberOnCart($channel, $customer, $cart);
+            $this->cartCustomizer->setCustomerAndAddressOnCart($cart, $customer);
+            $this->cartCustomizer->setCartNumberOnCart($channel, $customer, $cart);
         }
 
         $this->cart = $cart;
 
         return $cart;
-    }
-
-    private function setCustomerAndAddressOnCart(OrderInterface $cart, CustomerInterface $customer): void
-    {
-        $cart->setCustomer($customer);
-
-        $defaultAddress = $customer->getDefaultAddress();
-        if (null !== $defaultAddress) {
-            $clonedAddress = clone $defaultAddress;
-            $clonedAddress->setCustomer(null);
-            $cart->setBillingAddress($clonedAddress);
-        }
-    }
-
-    private function setCartNumberOnCart(
-        ChannelInterface $channel,
-        CustomerInterface $customer,
-        OrderInterface $cart
-    ): void
-    {
-        $counter = $this->orderRepository->countCarts($channel, $customer);
-        $cart->setCartNumber($counter + 1);
     }
 
     public function reset(): void
