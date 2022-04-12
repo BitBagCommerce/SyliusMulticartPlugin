@@ -11,13 +11,13 @@ declare(strict_types=1);
 namespace spec\BitBag\SyliusMultiCartPlugin\Cart\Context;
 
 use BitBag\SyliusMultiCartPlugin\Cart\Context\ShopBasedMultiCartContext;
+use BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
-use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 use Sylius\Component\Currency\Model\CurrencyInterface;
@@ -30,12 +30,12 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
     function let(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
-        OrderRepositoryInterface $orderRepository
+        CartCustomizerInterface $cartCustomizer
     ): void {
         $this->beConstructedWith(
             $cartContext,
             $shopperContext,
-            $orderRepository
+            $cartCustomizer
         );
     }
 
