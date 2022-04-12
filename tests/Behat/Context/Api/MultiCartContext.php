@@ -18,9 +18,12 @@ use BitBag\SyliusMultiCartPlugin\Controller\NewCartAction;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
@@ -166,5 +169,29 @@ final class MultiCartContext extends RawMinkContext implements Context
         $count = $this->cartContext->getCart()->countItems();
 
         Assert::eq($count, $number);
+    }
+
+    /**
+     * @Then total order items should be :number
+     */
+    public function countAllOrderItems(int $number): void
+    {
+        $channel = $this->channelContext->getChannel();
+        $customer = $this->customerContext->getCustomer();
+
+        $allCarts = $this->orderRepository->findCarts($channel, $customer);
+
+
+        $allCartsItemsNumber = [];
+
+        foreach ($allCarts as $specificCart) {
+            $specificCart = $this->cartContext->getCart();
+            $cartItems = $specificCart->countItems();
+
+            $allCartsItemsNumber[] = $cartItems;
+
+        }
+
+        Assert::eq(array_sum($allCartsItemsNumber), $number);
     }
 }
