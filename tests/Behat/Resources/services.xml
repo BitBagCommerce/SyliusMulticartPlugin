@@ -25,6 +25,7 @@
             <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart" />
             <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_delete_cart" />
             <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_change_active_cart" />
+            <argument type="service" id="sylius.context.cart.new_shop_based.inner" />
         </service>
 
         <service id="bitbag_sylius_multi_cart.behat.context.setup.shop_security" class="Sylius\Behat\Context\Setup\ShopSecurityContext">
