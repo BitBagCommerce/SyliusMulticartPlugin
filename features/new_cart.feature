@@ -13,4 +13,8 @@ Feature: Creating new cart
         Given I am logged in as "shop@example.com"
         And the customer has created empty cart
         When User creates new cart for current locale code
+        When User changes active cart to "2" cart for current locale code
+        Then User active cart number should be "2"
+        And I am on "/cart"
+        Then Cart should have 0 items
         Then User should have "2" carts

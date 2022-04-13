@@ -13,6 +13,6 @@ services:
         arguments:
             - '@sylius.context.cart.new_shop_based.inner'
             - '@sylius.context.shopper'
-            - '@sylius.repository.order'
+            - '@bitbag_sylius_multi_cart_plugin.customizer.cart_customizer'
         tags:
             - {name: 'kernel.reset', method: 'reset'}

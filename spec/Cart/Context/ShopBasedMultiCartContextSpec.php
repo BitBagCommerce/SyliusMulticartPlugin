@@ -11,26 +11,31 @@ declare(strict_types=1);
 namespace spec\BitBag\SyliusMultiCartPlugin\Cart\Context;
 
 use BitBag\SyliusMultiCartPlugin\Cart\Context\ShopBasedMultiCartContext;
+use BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 use Sylius\Component\Currency\Model\CurrencyInterface;
+use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Order\Context\CartContextInterface;
+use Sylius\Component\Order\Context\CartNotFoundException;
 
 final class ShopBasedMultiCartContextSpec extends ObjectBehavior
 {
     function let(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
-        OrderRepositoryInterface $orderRepository
+        CartCustomizerInterface $cartCustomizer
     ): void {
         $this->beConstructedWith(
             $cartContext,
             $shopperContext,
-            $orderRepository
+            $cartCustomizer
         );
     }
 
@@ -61,6 +66,64 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
         $shopperContext->getCustomer()->willReturn($customer);
 
         $orderRepository->countCarts($channel, $customer)->willReturn(1);
+
+        $this->getCart()->shouldHaveType(OrderInterface::class);
+    }
+
+    function it_throws_exception_when_channel_is_not_found(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        OrderInterface $cart
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willThrow(new ChannelNotFoundException);
+
+        $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
+    }
+
+    function it_throws_exception_when_currency_is_not_found(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        ChannelInterface $channel,
+        OrderInterface $cart
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willReturn($channel);
+        $channel->getBaseCurrency()->willThrow(new CurrencyNotFoundException);
+
+        $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
+    }
+
+    function it_throws_exception_when_locale_is_not_found(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        ChannelInterface $channel,
+        OrderInterface $cart
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willReturn($channel);
+        $channel->getBaseCurrency()->willThrow(new CurrencyNotFoundException);
+        $shopperContext->getLocaleCode()->willThrow(new LocaleNotFoundException());
+
+        $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
+    }
+
+    function it_do_not_get_cart_due_to_null_customer(
+        CartContextInterface $cartContext,
+        ShopperContextInterface $shopperContext,
+        OrderRepositoryInterface $orderRepository,
+        ChannelInterface $channel,
+        OrderInterface $cart,
+        CurrencyInterface $currency
+    ): void {
+        $cartContext->getCart()->willReturn($cart);
+        $shopperContext->getChannel()->willReturn($channel);
+        $channel->getBaseCurrency()->willReturn($currency);
+        $currency->getCode()->willReturn('code');
+        $shopperContext->getLocaleCode()->willReturn('locale_code');
+        $shopperContext->getCustomer()->willReturn(null);
+
+        $orderRepository->countCarts($channel, null)->willReturn(0);
 
         $this->getCart()->shouldHaveType(OrderInterface::class);
     }

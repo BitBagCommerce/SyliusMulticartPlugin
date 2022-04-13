@@ -16,15 +16,22 @@ use BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\NewCartAction;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Behat\Service\SharedStorageInterface;
+use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
+use Sylius\Component\Order\Context\CartContextInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Webmozart\Assert\Assert;
 
 final class MultiCartContext extends RawMinkContext implements Context
 {
@@ -52,19 +59,8 @@ final class MultiCartContext extends RawMinkContext implements Context
 
     private ChangeActiveCartAction $changeActiveCartAction;
 
-    /**
-     * @param HttpClientInterface $client
-     * @param RouterInterface $router
-     * @param OrderRepositoryInterface $orderRepository
-     * @param SharedStorageInterface $sharedStorage
-     * @param ChannelContextInterface $channelContext
-     * @param CustomerContextInterface $customerContext
-     * @param TokenStorageInterface $tokenStorage
-     * @param SessionInterface $session
-     * @param NewCartAction $newCartAction
-     * @param DeleteCartAction $deleteCartAction
-     * @param ChangeActiveCartAction $changeActiveCartAction
-     */
+    private CartContextInterface $cartContext;
+
     public function __construct(
         HttpClientInterface $client,
         RouterInterface $router,
@@ -76,7 +72,8 @@ final class MultiCartContext extends RawMinkContext implements Context
         SessionInterface $session,
         NewCartAction $newCartAction,
         DeleteCartAction $deleteCartAction,
-        ChangeActiveCartAction $changeActiveCartAction
+        ChangeActiveCartAction $changeActiveCartAction,
+        CartContextInterface $cartContext
     ) {
         $this->client = $client;
         $this->router = $router;
@@ -89,6 +86,7 @@ final class MultiCartContext extends RawMinkContext implements Context
         $this->newCartAction = $newCartAction;
         $this->deleteCartAction = $deleteCartAction;
         $this->changeActiveCartAction = $changeActiveCartAction;
+        $this->cartContext = $cartContext;
     }
 
 
@@ -161,5 +159,39 @@ final class MultiCartContext extends RawMinkContext implements Context
                 sprintf('Number of carts is not equal %s', $number)
             );
         }
+    }
+
+    /**
+     * @Then Cart should have :number items
+     */
+    public function countItems(int $number): void
+    {
+        $count = $this->cartContext->getCart()->countItems();
+
+        Assert::eq($count, $number);
+    }
+
+    /**
+     * @Then total order items should be :number
+     */
+    public function countAllOrderItems(int $number): void
+    {
+        $channel = $this->channelContext->getChannel();
+        $customer = $this->customerContext->getCustomer();
+
+        $allCarts = $this->orderRepository->findCarts($channel, $customer);
+
+
+        $allCartsItemsNumber = [];
+
+        foreach ($allCarts as $specificCart) {
+            $specificCart = $this->cartContext->getCart();
+            $cartItems = $specificCart->countItems();
+
+            $allCartsItemsNumber[] = $cartItems;
+
+        }
+
+        Assert::eq(array_sum($allCartsItemsNumber), $number);
     }
 }

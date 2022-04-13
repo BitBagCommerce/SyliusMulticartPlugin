@@ -2,14 +2,14 @@ bitbag_sylius_multi_cart_plugin_ajax:
   resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing/shop/ajax.yml"
   prefix: /ajax
 
-bit_bag_sylius_multi_cart_plugin_show_carts_summary:
+bitbag_sylius_multi_cart_plugin_show_carts_summary:
     path: /carts/summary
     methods: [GET]
     defaults:
         _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
         template: '@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_carts.html.twig'
 
-bit_bag_sylius_multi_cart_plugin_show_carts_widget:
+bitbag_sylius_multi_cart_plugin_show_carts_widget:
   path: /carts/widget
   methods: [GET]
   defaults:
@@ -25,14 +25,14 @@ sylius_shop_cart_items:
       template: "@SyliusShop/Cart/Summary/_items.html.twig"
       form: Sylius\Bundle\OrderBundle\Form\Type\CartType
 
-bit_bag_sylius_multi_cart_plugin_show_carts_button:
+bitbag_sylius_multi_cart_plugin_show_carts_button:
   path: /carts/button
   methods: [GET]
   defaults:
     _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
     template: '@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_button.html.twig'
 
-bit_bag_sylius_multi_cart_plugin_shop_cart_total:
+bitbag_sylius_multi_cart_plugin_shop_cart_total:
   path: /cart-total
   methods: [GET]
   defaults:
@@ -40,7 +40,7 @@ bit_bag_sylius_multi_cart_plugin_shop_cart_total:
     _sylius:
       template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_total.html.twig"
 
-bit_bag_sylius_multi_cart_plugin_shop_cart_item:
+bitbag_sylius_multi_cart_plugin_shop_cart_item:
   path: /cart-item
   methods: [GET]
   defaults:

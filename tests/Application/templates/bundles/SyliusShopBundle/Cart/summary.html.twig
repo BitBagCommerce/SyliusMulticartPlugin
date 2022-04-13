@@ -11,10 +11,10 @@
 {% block content %}
     <dialog id="multi-cart-dialog" class="multi-cart-dialog">
         <form method="dialog">
-            <p>Do you want to remove this cart?</p>
+            <p>{{ 'bitbag_sylius_multicart_plugin.ui.do_you_want_to_remove_this_cart'|trans }}</p>
             <div class="options">
-                <button>Cancel</button>
-                <button id="deleteConfirmBtn">Confirm</button>
+                <button>{{ 'bitbag_sylius_multicart_plugin.ui.cancel'|trans }}</button>
+                <button id="deleteConfirmBtn">{{ 'bitbag_sylius_multicart_plugin.ui.confirm'|trans }}</button>
             </div>
         </form>
     </dialog>
@@ -37,21 +37,21 @@
         {% if not cart.empty %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
             <div id="multi-cart" class="multi-cart"
-                 data-url-carts-summary="{{ path('bit_bag_sylius_multi_cart_plugin_show_carts_summary') }}"
-                 data-url-cart-item="{{ path('bit_bag_sylius_multi_cart_plugin_shop_cart_item') }}"
-                 data-url-cart-total="{{ path('bit_bag_sylius_multi_cart_plugin_shop_cart_total') }}"
-                 data-url-carts-active-cart="{{ path('bit_bag_sylius_multi_cart_plugin_ajax_get_active_cart') }}">
-                    {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts_summary')) }}
+                 data-url-carts-summary="{{ path('bitbag_sylius_multi_cart_plugin_show_carts_summary') }}"
+                 data-url-cart-item="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_item') }}"
+                 data-url-cart-total="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_total') }}"
+                 data-url-carts-active-cart="{{ path('bitbag_sylius_multi_cart_plugin_ajax_get_active_cart') }}">
+                    {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
             <div id="summary-items" class="ui stackable grid">
-                {{ render(url('bit_bag_sylius_multi_cart_plugin_shop_cart_item')) }}
-                {{ render(url('bit_bag_sylius_multi_cart_plugin_shop_cart_total')) }}
+                {{ render(url('bitbag_sylius_multi_cart_plugin_shop_cart_item')) }}
+                {{ render(url('bitbag_sylius_multi_cart_plugin_shop_cart_total')) }}
             </div>
             {{ sylius_template_event('sylius.shop.cart.suggestions', {'cart': cart}) }}
         {% else %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
             <div id="multi-cart" class="multi-cart">
-                {{ render(url('bit_bag_sylius_multi_cart_plugin_show_carts_summary')) }}
+                {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
             <div id="summary-items" class="ui stackable grid">
             </div>

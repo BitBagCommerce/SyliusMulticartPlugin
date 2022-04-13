@@ -10,62 +10,22 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
-use Sylius\Component\Customer\Context\CustomerContextInterface;
-use Sylius\Component\Order\Context\CartContextInterface;
-use Sylius\Component\Order\Context\CartNotFoundException;
+use BitBag\SyliusMultiCartPlugin\Creator\CartCreatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final class NewCartAction
 {
-    private CartContextInterface $shopBasedMultiCartContext;
-
-    private EntityManagerInterface $entityManager;
-
-    private CustomerContextInterface $customerContext;
-
-    private OrderRepositoryInterface $orderRepository;
-
-    private ChannelContextInterface $channelContext;
+    private CartCreatorInterface $cartCreator;
 
     public function __construct(
-        CartContextInterface $shopBasedMultiCartContext,
-        EntityManagerInterface $entityManager,
-        CustomerContextInterface $customerContext,
-        OrderRepositoryInterface $orderRepository,
-        ChannelContextInterface $channelContext
+        CartCreatorInterface $cartCreator
     ) {
-        $this->shopBasedMultiCartContext = $shopBasedMultiCartContext;
-        $this->entityManager = $entityManager;
-        $this->customerContext = $customerContext;
-        $this->orderRepository = $orderRepository;
-        $this->channelContext = $channelContext;
+        $this->cartCreator = $cartCreator;
     }
 
     public function __invoke(): Response
     {
-        /** @var ChannelInterface $channel */
-        $channel = $this->channelContext->getChannel();
-
-        /** @var CustomerInterface $customer */
-        $customer = $this->customerContext->getCustomer();
-
-        $carts = $this->orderRepository->countCarts($channel, $customer);
-
-        if ($carts === 8) {
-            throw new CartNotFoundException(
-                'Max cart number reached'
-            );
-        }
-
-        $cart = $this->shopBasedMultiCartContext->getCart();
-
-        $this->entityManager->persist($cart);
-        $this->entityManager->flush();
+        $this->cartCreator->createNewCart();
 
         return new Response();
     }

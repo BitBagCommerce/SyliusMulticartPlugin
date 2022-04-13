@@ -11,20 +11,20 @@ declare(strict_types=1);
 namespace spec\BitBag\SyliusMultiCartPlugin\DTO;
 
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCart;
-use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCartItem;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use PhpSpec\ObjectBehavior;
 
 final class AjaxPartialCartSpec extends ObjectBehavior
 {
     function let(
-        AjaxPartialCartItem $ajaxPartialCartItem
+        OrderItem $orderItem
     ): void {
         $this->beConstructedWith(
             1,
             'formatted_items_total',
             'EUR',
             [
-                $ajaxPartialCartItem
+                $orderItem
             ],
             1
         );
@@ -50,11 +50,11 @@ final class AjaxPartialCartSpec extends ObjectBehavior
         $this->getCurrency()->shouldReturn('EUR');
     }
 
-    function it_gets_items(AjaxPartialCartItem $ajaxPartialCartItem): void
+    function it_gets_items(OrderItem $orderItem): void
     {
         $this->getItems()->shouldReturn(
             [
-                $ajaxPartialCartItem
+                $orderItem
             ]
         );
     }

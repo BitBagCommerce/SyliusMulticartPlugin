@@ -11,20 +11,20 @@ declare(strict_types=1);
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCart;
-use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCartItem;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Helper\ConvertAndFormatMoneyHelperInterface;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
+use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
 class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 {
-    private ConvertAndFormatMoneyHelperInterface $convertAndFormatMoneyHelper;
+    private MoneyFormatterInterface $convertAndFormatMoneyHelper;
 
-    private AjaxPartialCartItemFactoryInterface $ajaxPartialCartItemFactory;
+    private OrderItemFactoryInterface $ajaxPartialCartItemFactory;
 
     public function __construct(
-        ConvertAndFormatMoneyHelperInterface $convertAndFormatMoneyHelper,
-        AjaxPartialCartItemFactoryInterface $ajaxPartialCartItemFactory
+        MoneyFormatterInterface             $convertAndFormatMoneyHelper,
+        OrderItemFactoryInterface $ajaxPartialCartItemFactory
     ) {
         $this->convertAndFormatMoneyHelper = $convertAndFormatMoneyHelper;
         $this->ajaxPartialCartItemFactory = $ajaxPartialCartItemFactory;
@@ -37,9 +37,9 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 
         return new AjaxPartialCart(
             $order->getCartNumber(),
-            $this->convertAndFormatMoneyHelper->convertAndFormatMoney($order->getItemsTotal()),
+            $this->convertAndFormatMoneyHelper->formatMoney($order->getItemsTotal()),
             $order->getCurrencyCode(),
-            $this->getCartItems($orderItems),
+            $this->createCartItems($orderItems),
             count($orderItems)
         );
     }
@@ -47,9 +47,9 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
     /**
      * @param OrderItemInterface[] $orderItems
      *
-     * @return AjaxPartialCartItem[]
+     * @return OrderItem[]
      */
-    private function getCartItems(array $orderItems): array
+    private function createCartItems(array $orderItems): array
     {
         $cartItems = [];
         foreach ($orderItems as $orderItem) {

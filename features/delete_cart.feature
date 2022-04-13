@@ -15,3 +15,4 @@ Feature: Removing a cart
         And User creates new cart for current locale code
         When User deletes "2" cart for current locale code
         Then User should have "1" carts
+        Then total order items should be 0
