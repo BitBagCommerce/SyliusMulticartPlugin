@@ -18,6 +18,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class CartCreator implements CartCreatorInterface
 {
@@ -31,18 +32,22 @@ final class CartCreator implements CartCreatorInterface
 
     private ChannelContextInterface $channelContext;
 
+    private TranslatorInterface $translator;
+
     public function __construct(
         CartContextInterface $shopBasedMultiCartContext,
         EntityManagerInterface $entityManager,
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
-        ChannelContextInterface $channelContext
+        ChannelContextInterface $channelContext,
+        TranslatorInterface $translator
     ) {
         $this->shopBasedMultiCartContext = $shopBasedMultiCartContext;
         $this->entityManager = $entityManager;
         $this->customerContext = $customerContext;
         $this->orderRepository = $orderRepository;
         $this->channelContext = $channelContext;
+        $this->translator = $translator;
     }
 
     public function createNewCart(): void
@@ -57,7 +62,7 @@ final class CartCreator implements CartCreatorInterface
 
         if ($carts === 8) {
             throw new CartNotFoundException(
-                'Max cart number reached'
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.max_cart_number_reached')
             );
         }
 

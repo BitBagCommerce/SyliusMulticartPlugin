@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartRemover implements CartRemoverInterface
 {
@@ -29,16 +30,20 @@ class CartRemover implements CartRemoverInterface
 
     private EntityManagerInterface $entityManager;
 
+    private TranslatorInterface $translator;
+
     public function __construct(
         ChannelContextInterface $channelContext,
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
     ) {
         $this->channelContext = $channelContext;
         $this->customerContext = $customerContext;
         $this->orderRepository = $orderRepository;
         $this->entityManager = $entityManager;
+        $this->translator = $translator;
     }
 
     public function removeCart(int $cartNumber): void
@@ -48,12 +53,12 @@ class CartRemover implements CartRemoverInterface
         $customer = $this->customerContext->getCustomer();
         if (null === $customer) {
             throw new CartNotFoundException(
-                'Sylius was not able to find the cart, as there is no logged in user.'
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user')
             );
         }
 
         if ($cartNumber === $customer->getActiveCart()) {
-            throw new UnableToDeleteCartException('Cant delete active cart!');
+            throw new UnableToDeleteCartException('bitbag_sylius_multicart_plugin.ui.cant_delete_active_cart');
         }
 
         $carts = $this->orderRepository->findCartsGraterOrEqualNumber(

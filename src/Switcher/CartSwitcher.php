@@ -14,6 +14,7 @@ use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartSwitcher implements CartSwitcherInterface
 {
@@ -21,12 +22,16 @@ class CartSwitcher implements CartSwitcherInterface
 
     private EntityManagerInterface $entityManager;
 
+    private TranslatorInterface $translator;
+
     public function __construct(
         CustomerContextInterface $customerContext,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
     ) {
         $this->customerContext = $customerContext;
         $this->entityManager = $entityManager;
+        $this->translator = $translator;
     }
 
     public function switchCart(int $cartNumber): void
@@ -35,7 +40,7 @@ class CartSwitcher implements CartSwitcherInterface
         $customer = $this->customerContext->getCustomer();
         if (null === $customer) {
             throw new CartNotFoundException(
-                'Sylius was not able to find the cart, as there is no logged in user.'
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user')
             );
         }
 
