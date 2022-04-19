@@ -39,6 +39,7 @@ services:
             - '@sylius.context.customer'
             - '@sylius.repository.order'
             - '@sylius.context.shopper'
+            - '@translator'
         tags:
             - { name: 'controller.service_arguments' }
 
@@ -52,6 +53,7 @@ services:
             - '@sylius.context.customer'
             - '@sylius.repository.order'
             - '@doctrine.orm.entity_manager'
+            - '@translator'
         tags:
             - { name: 'controller.service_arguments' }
 
