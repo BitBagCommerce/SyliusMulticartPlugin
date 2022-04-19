@@ -5,6 +5,7 @@ services:
             - '@sylius.context.customer'
             - '@sylius.context.channel'
             - '@sylius.repository.order'
+            - '@translator'
         tags:
             - {name: 'sylius.context.cart'}
 
