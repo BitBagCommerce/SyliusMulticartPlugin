@@ -65,6 +65,7 @@ services:
         arguments:
             - '@sylius.context.customer'
             - '@doctrine.orm.entity_manager'
+            - '@translator'
         tags:
             - { name: 'controller.service_arguments' }
 
