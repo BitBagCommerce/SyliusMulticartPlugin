@@ -78,6 +78,15 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
         $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
     }
 
+    function it_throws_exception_when_cart_is_not_instance_of_OrderInterface(
+        CartContextInterface $cartContext,
+        $cart
+    ): void {
+        $cartContext->getCart()->willReturn($cart)->willThrow(new CartNotFoundException);
+
+        $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
+    }
+
     function it_throws_exception_when_channel_is_not_found(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
