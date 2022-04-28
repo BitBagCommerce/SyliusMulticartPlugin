@@ -21,18 +21,21 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class CustomerAndChannelBasedMultiCartContextSpec extends ObjectBehavior
 {
     function let(
         CustomerContextInterface $customerContext,
         ChannelContextInterface $channelContext,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        TranslatorInterface $translator
     ): void {
         $this->beConstructedWith(
             $customerContext,
             $channelContext,
-            $orderRepository
+            $orderRepository,
+            $translator
         );
     }
 

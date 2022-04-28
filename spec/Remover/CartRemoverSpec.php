@@ -23,6 +23,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartRemoverSpec extends ObjectBehavior
 {
@@ -30,13 +31,15 @@ class CartRemoverSpec extends ObjectBehavior
         ChannelContextInterface $channelContext,
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
     ): void {
         $this->beConstructedWith(
             $channelContext,
             $customerContext,
             $orderRepository,
-            $entityManager
+            $entityManager,
+            $translator
         );
     }
 

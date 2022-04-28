@@ -16,16 +16,19 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartSwitcherSpec extends ObjectBehavior
 {
     function let(
         CustomerContextInterface $customerContext,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator
     ): void {
         $this->beConstructedWith(
             $customerContext,
-            $entityManager
+            $entityManager,
+            $translator
         );
     }
 

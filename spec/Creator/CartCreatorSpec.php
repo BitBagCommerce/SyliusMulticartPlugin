@@ -21,6 +21,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartCreatorSpec extends ObjectBehavior
 {
@@ -29,14 +30,16 @@ class CartCreatorSpec extends ObjectBehavior
         EntityManagerInterface $entityManager,
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
-        ChannelContextInterface $channelContext
+        ChannelContextInterface $channelContext,
+        TranslatorInterface $translator
     ): void {
         $this->beConstructedWith(
             $shopBasedMultiCartContext,
             $entityManager,
             $customerContext,
             $orderRepository,
-            $channelContext
+            $channelContext,
+            $translator
         );
     }
 
