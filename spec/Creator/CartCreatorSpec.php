@@ -18,8 +18,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Currency\Context\CurrencyNotFoundException;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
+use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -69,5 +71,20 @@ class CartCreatorSpec extends ObjectBehavior
         $entityManager->flush()->shouldBeCalled();
 
         $this->createNewCart()->shouldBeNull();
+    }
+
+    function it_throws_max_cart_number_has_been_reached_when_there_are_8_carts(
+        CustomerContextInterface $customerContext,
+        CustomerInterface $customer,
+        ChannelContextInterface $channelContext,
+        ChannelInterface $channel,
+        OrderRepositoryInterface $orderRepository
+    ): void {
+        $customerContext->getCustomer()->willReturn($customer);
+        $channelContext->getChannel()->willReturn($channel);
+
+        $orderRepository->countCarts($channel, $customer)->willThrow(new CartNotFoundException);
+
+        $this->shouldThrow(CartNotFoundException::class)->during('createNewCart', []);
     }
 }
