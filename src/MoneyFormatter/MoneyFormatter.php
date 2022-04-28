@@ -36,8 +36,7 @@ class MoneyFormatter implements MoneyFormatterInterface
     {
         $convertedAmount = $this->currencyConverter->convertMoney($amount);
         $currencyCode = $this->shopperContext->getCurrencyCode();
-
-
+        
         return $this->moneyFormatter->format(
             $convertedAmount,
             $currencyCode
