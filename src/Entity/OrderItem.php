@@ -22,7 +22,9 @@ class OrderItem extends BaseOrderItem
     private string $formattedUnitPrice;
 
     public function __construct(
+        int $id,
         string $name,
+        int $quantity,
         string $formattedUnitPrice
     ) {
         parent::__construct();
