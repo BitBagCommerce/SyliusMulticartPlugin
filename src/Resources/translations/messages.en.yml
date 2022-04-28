@@ -7,6 +7,6 @@ bitbag_sylius_multicart_plugin:
         cancel: Cancel
         confirm: Confirm
         sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user: Sylius was not able to find the cart, as there is no logged in user.
-        max_cart_number_reached: Max cart number reached!
+        max_cart_number_reached: Max cart number has been reached!
         sylius_was_not_able_to_find_the_cart_as_there_is_no_current_channel: Sylius was not able to find the cart, as there is no current channel.
         sylius_was_not_able_to_find_the_cart_for_currently_logged_in_user: Sylius was not able to find the cart for currently logged in user.
