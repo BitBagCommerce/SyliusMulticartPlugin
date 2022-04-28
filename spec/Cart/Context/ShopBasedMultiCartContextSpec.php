@@ -108,7 +108,7 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
         $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
     }
 
-    function it_do_not_get_cart_due_to_null_customer(
+    function it_gets_cart_with_null_customer(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
         OrderRepositoryInterface $orderRepository,
@@ -123,7 +123,7 @@ final class ShopBasedMultiCartContextSpec extends ObjectBehavior
         $shopperContext->getLocaleCode()->willReturn('locale_code');
         $shopperContext->getCustomer()->willReturn(null);
 
-        $orderRepository->countCarts($channel, null)->willReturn(0);
+        $orderRepository->countCarts($channel, null)->willReturn(1);
 
         $this->getCart()->shouldHaveType(OrderInterface::class);
     }
