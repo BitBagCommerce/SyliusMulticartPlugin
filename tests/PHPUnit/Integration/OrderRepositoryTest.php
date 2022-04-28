@@ -37,7 +37,7 @@ class OrderRepositoryTest extends IntegrationTestCase
         $this->assertCount(2, $carts);
     }
 
-    public function test_it_do_not_finds_carts():void
+    public function test_it_does_not_finds_carts():void
     {
         $this->fixtures = $this->loadFixturesFromFiles(['OrderRepositoryTest/test_it_do_not_finds_carts.yaml']);
 
