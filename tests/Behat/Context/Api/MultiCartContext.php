@@ -89,7 +89,6 @@ final class MultiCartContext extends RawMinkContext implements Context
         $this->cartContext = $cartContext;
     }
 
-
     /**
      * @BeforeScenario
      */
