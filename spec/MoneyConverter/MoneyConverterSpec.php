@@ -14,6 +14,7 @@ use BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverter;
 use BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverterInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatter;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
+use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface as BaseMoneyFormatterInterface;
 use Sylius\Component\Core\Context\ShopperContext;
@@ -21,7 +22,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 
-class MoneyConverterSpec
+class MoneyConverterSpec extends ObjectBehavior
 {
     function let(
         ShopperContext $shopperContext,
@@ -55,11 +56,11 @@ class MoneyConverterSpec
         $shopperContext->getCurrencyCode()->willReturn('code');
 
         $currencyConverter->convert(
-            Argument::type('integer'),
+            100,
             Argument::type('string'),
             Argument::type('string')
-        )->willReturn(100);
+        )->willReturn(400);
 
-        $this->convertMoney(Argument::type('integer'))->shouldReturn(100);
+        $this->convertMoney(100)->shouldReturn(400);
     }
 }
