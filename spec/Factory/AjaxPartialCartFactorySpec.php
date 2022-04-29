@@ -16,21 +16,23 @@ use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactory;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
+use Sylius\Component\Core\Model\OrderItemInterface as BaseOrderItemInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
+use Sylius\Component\Core\Model\OrderItemInterface;
 
 final class AjaxPartialCartFactorySpec extends ObjectBehavior
 {
     function let(
-        MoneyFormatterInterface             $convertAndFormatMoneyHelper,
-        OrderItemFactoryInterface $orderItemFactory
+        MoneyFormatterInterface $convertAndFormatMoneyHelper,
+        OrderItemFactoryInterface $ajaxPartialCartItemFactory
     ): void {
         $this->beConstructedWith(
             $convertAndFormatMoneyHelper,
-            $orderItemFactory
+            $ajaxPartialCartItemFactory
         );
     }
 
@@ -45,23 +47,19 @@ final class AjaxPartialCartFactorySpec extends ObjectBehavior
     }
 
     function it_creates_partial_cart_from_order(
-        Collection                $itemsCollection,
-        MoneyFormatterInterface   $convertAndFormatMoneyHelper,
-        OrderInterface            $order,
-        BaseOrderItem             $baseOrderItem,
-        OrderItemFactoryInterface $orderItemFactory,
-        OrderItem       $orderItem
+        OrderInterface $order,
+        OrderItemInterface $orderItem,
+        MoneyFormatterInterface $convertAndFormatMoneyHelper,
+        OrderItemFactoryInterface $ajaxPartialCartItemFactory,
+        OrderItem $multicartOrderItem
     ): void {
-        $order->getItems()->willReturn($itemsCollection);
-        $itemsCollection->toArray()->willReturn([$baseOrderItem]);
+        $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
 
-        $order->getCartNumber()->shouldBeCalled();
-        $order->getItemsTotal()->shouldBeCalled();
-        $convertAndFormatMoneyHelper->formatMoney(Argument::type('integer'))->willReturn('converted_string');
-        $order->getCurrencyCode()->shouldBeCalled();
-
-        $orderItemFactory->fromOrderItem($baseOrderItem)->willReturn($orderItem);
-
-        $this->fromOrder($order)->shouldHaveType(AjaxPartialCart::class);
+        $order->getCartNumber()->willReturn(2);
+        $order->getItemsTotal()->willReturn(3000);
+        $order->getCurrencyCode()->willReturn('EUR');
+        $convertAndFormatMoneyHelper->formatMoney(3000)->willReturn('converted');
+        $ajaxPartialCartItemFactory->fromOrderItem($orderItem)->willReturn($multicartOrderItem);
+        $this->fromOrder($order);
     }
 }

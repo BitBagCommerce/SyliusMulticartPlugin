@@ -38,7 +38,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
             $order->getCartNumber(),
             $this->convertAndFormatMoneyHelper->formatMoney($order->getItemsTotal()),
             $order->getCurrencyCode(),
-            (array)$this->createCartItems($orderItems),
+            $this->createCartItems($orderItems)->toArray(),
             $orderItems->count()
         );
     }
@@ -46,11 +46,11 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
     private function createCartItems(Collection $orderItems): Collection
     {
         /** @var Collection $cartItems */
-        $cartItems = new ArrayCollection();
+        $orderItems = new ArrayCollection();
         foreach ($orderItems as $orderItem) {
-            $cartItems = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);
-        }
+            $orderItems = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);
 
-        return $cartItems;
+        }
+        return $orderItems;
     }
 }
