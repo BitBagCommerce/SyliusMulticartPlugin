@@ -60,6 +60,13 @@ final class AjaxPartialCartFactorySpec extends ObjectBehavior
         $order->getCurrencyCode()->willReturn('EUR');
         $convertAndFormatMoneyHelper->formatMoney(3000)->willReturn('converted');
         $ajaxPartialCartItemFactory->fromOrderItem($orderItem)->willReturn($multicartOrderItem);
-        $this->fromOrder($order);
+
+        $partialCart = $this->fromOrder($order)->getCurrency()->shouldReturn('EUR');
+        $partialCart = $this->fromOrder($order)->getCartNumber()->shouldReturn(2);
+        $partialCart = $this->fromOrder($order)->getFormattedItemsTotal()->shouldReturn('converted');
+        $partialCart = $this->fromOrder($order)->getItems()->shouldReturn([]);
+        $partialCart = $this->fromOrder($order)->getItemsCount()->shouldReturn(1);
+
+        $this->fromOrder($order)->shouldHaveType(AjaxPartialCart::class);
     }
 }
