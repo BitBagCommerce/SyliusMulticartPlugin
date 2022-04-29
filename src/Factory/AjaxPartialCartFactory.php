@@ -23,7 +23,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
     private OrderItemFactoryInterface $ajaxPartialCartItemFactory;
 
     public function __construct(
-        MoneyFormatterInterface             $convertAndFormatMoneyHelper,
+        MoneyFormatterInterface $convertAndFormatMoneyHelper,
         OrderItemFactoryInterface $ajaxPartialCartItemFactory
     ) {
         $this->convertAndFormatMoneyHelper = $convertAndFormatMoneyHelper;
