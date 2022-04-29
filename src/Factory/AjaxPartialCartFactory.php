@@ -14,6 +14,8 @@ use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCart;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
 class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
@@ -32,28 +34,23 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 
     public function fromOrder(OrderInterface $order): AjaxPartialCart
     {
-        /** @var OrderItemInterface[] $orderItems */
-        $orderItems = $order->getItems()->toArray();
+        $orderItems = $order->getItems();
 
         return new AjaxPartialCart(
             $order->getCartNumber(),
             $this->convertAndFormatMoneyHelper->formatMoney($order->getItemsTotal()),
             $order->getCurrencyCode(),
-            $this->createCartItems($orderItems),
+            (array)$this->createCartItems($orderItems),
             count($orderItems)
         );
     }
 
-    /**
-     * @param OrderItemInterface[] $orderItems
-     *
-     * @return OrderItem[]
-     */
-    private function createCartItems(array $orderItems): array
+
+    private function createCartItems($orderItems): ArrayCollection
     {
-        $cartItems = [];
+        $cartItems = new ArrayCollection();
         foreach ($orderItems as $orderItem) {
-            $cartItems[] = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);
+            $cartItems = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);
         }
 
         return $cartItems;
