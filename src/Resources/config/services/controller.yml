@@ -12,7 +12,7 @@ services:
     bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart:
         class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
         arguments:
-            - '@bitbag_sylius_multi_cart_plugin.creator.cart_creator'
+            - '@bitbag_sylius_multi_cart_plugin.creator.default_customer_cart_creator'
         tags:
             - { name: 'controller.service_arguments' }
 
