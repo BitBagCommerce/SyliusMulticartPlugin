@@ -20,7 +20,7 @@ use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class CartCreator implements CartCreatorInterface
+final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInterface
 {
     private CartContextInterface $shopBasedMultiCartContext;
 

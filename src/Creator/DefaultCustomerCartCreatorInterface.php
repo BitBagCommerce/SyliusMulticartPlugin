@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Creator;
 
-interface CartCreatorInterface
+interface DefaultCustomerCartCreatorInterface
 {
     public function createNewCart(): void;
 }

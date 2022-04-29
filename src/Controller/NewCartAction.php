@@ -10,15 +10,15 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
-use BitBag\SyliusMultiCartPlugin\Creator\CartCreatorInterface;
+use BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final class NewCartAction
 {
-    private CartCreatorInterface $cartCreator;
+    private DefaultCustomerCartCreatorInterface $cartCreator;
 
     public function __construct(
-        CartCreatorInterface $cartCreator
+        DefaultCustomerCartCreatorInterface $cartCreator
     ) {
         $this->cartCreator = $cartCreator;
     }

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusMultiCartPlugin\Creator;
 
-use BitBag\SyliusMultiCartPlugin\Creator\CartCreator;
+use BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreator;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
@@ -25,7 +25,7 @@ use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CartCreatorSpec extends ObjectBehavior
+class DefaultCustomerCartCreatorSpec extends ObjectBehavior
 {
     function let(
         CartContextInterface $shopBasedMultiCartContext,
@@ -47,7 +47,7 @@ class CartCreatorSpec extends ObjectBehavior
 
     function it_is_initializable(): void
     {
-        $this->shouldHaveType(CartCreator::class);
+        $this->shouldHaveType(DefaultCustomerCartCreator::class);
     }
 
     function it_handles_request_and_persist_new_cart_for_logged_user(

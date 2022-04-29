@@ -28,11 +28,11 @@ services:
         tags:
             - { name: 'controller.service_arguments' }
 
-    BitBag\SyliusMultiCartPlugin\Creator\CartCreator:
-        alias: 'bitbag_sylius_multi_cart_plugin.creator.cart_creator'
+    BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreator:
+        alias: 'bitbag_sylius_multi_cart_plugin.creator.default_customer_cart_creator'
 
-    bitbag_sylius_multi_cart_plugin.creator.cart_creator:
-        class: BitBag\SyliusMultiCartPlugin\Creator\CartCreator
+    bitbag_sylius_multi_cart_plugin.creator.default_customer_cart_creator:
+        class: BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreator
         arguments:
             - '@sylius.context.cart.new_shop_based'
             - '@doctrine.orm.entity_manager'
