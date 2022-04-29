@@ -25,6 +25,8 @@ class OrderItem extends BaseOrderItem
         string $formattedUnitPrice
     ) {
         parent::__construct();
+        $this->id = $id;
+        $this->quantity = $quantity;
         $this->name = $name;
         $this->formattedUnitPrice = $formattedUnitPrice;
     }
