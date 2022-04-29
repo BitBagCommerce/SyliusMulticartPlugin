@@ -39,7 +39,7 @@ class CartCustomizerSpec extends ObjectBehavior
         $this->shouldHaveType(CartCustomizerInterface::class);
     }
 
-    function it_sets_customer_and_adress_on_cart(
+    function it_sets_customer_and_address_on_cart(
         ChannelInterface $channel,
         CustomerInterface $customer,
         OrderInterface $cart,
@@ -49,6 +49,18 @@ class CartCustomizerSpec extends ObjectBehavior
         $customer->getDefaultAddress()->willReturn($defaultAddress);
 
         $cart->setBillingAddress($defaultAddress)->shouldBeCalled();
+        $this->setCustomerAndAddressOnCart($cart, $customer)->shouldBeNull();
+    }
+
+    function it_sets_customer_without_address_on_cart(
+        ChannelInterface $channel,
+        CustomerInterface $customer,
+        OrderInterface $cart,
+        AddressInterface $defaultAddress
+    ): void {
+        $cart->setCustomer($customer)->shouldBeCalled();
+        $customer->getDefaultAddress()->willReturn(null);
+
         $this->setCustomerAndAddressOnCart($cart, $customer)->shouldBeNull();
     }
 
