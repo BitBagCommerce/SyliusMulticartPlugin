@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
-        "sylius/sylius": "~1.9.0 || ~1.10.0@beta"
+        "sylius/sylius": "~1.9.0 || ~1.10.0 || ~1.11.0"
     },
     "require-dev": {
         "behat/behat": "^3.6.1",
