@@ -15,6 +15,4 @@ Feature: Creating new cart
         When User creates new cart for current locale code
         When User changes active cart to "2" cart for current locale code
         Then User active cart number should be "2"
-        And I am on "/cart"
-        Then Cart should have 0 items
-        Then User should have "2" carts
+        Then User should have "1" carts
