@@ -19,6 +19,7 @@ use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use FriendsOfBehat\PageObjectExtension\Page\Page;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
@@ -192,5 +193,13 @@ final class MultiCartContext extends RawMinkContext implements Context
         }
 
         Assert::eq(array_sum($allCartsItemsNumber), $number);
+    }
+
+    /**
+     * @Given /^I am authenticated with token "([^"]*)"$/
+     */
+    public function iAmAuthenticatedWithToken($token)
+    {
+        $this->sharedStorage->set('token', $token);
     }
 }
