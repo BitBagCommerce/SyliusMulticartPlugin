@@ -34,6 +34,8 @@ final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInte
 
     private TranslatorInterface $translator;
 
+    private const MAX_CART_COUNT = 8;
+
     public function __construct(
         CartContextInterface $shopBasedMultiCartContext,
         EntityManagerInterface $entityManager,
@@ -60,7 +62,7 @@ final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInte
 
         $carts = $this->orderRepository->countCarts($channel, $customer);
 
-        if ($carts === 8) {
+        if ($carts === self::MAX_CART_COUNT) {
             throw new CartNotFoundException(
                 $this->translator->trans('bitbag_sylius_multicart_plugin.ui.max_cart_number_reached')
             );
