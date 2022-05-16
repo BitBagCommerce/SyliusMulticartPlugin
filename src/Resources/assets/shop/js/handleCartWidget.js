@@ -1,60 +1,77 @@
-import triggerCustomEvent from "../../common/triggerCustomEvent";
+import triggerCustomEvent from '../../common/triggerCustomEvent';
 
 export class handleCartWidget {
-    constructor(update) {
-        this.update = update;
+    constructor(config) {
+        const defaults = {
+            update: this.updateCartWidget,
+            widget: '[data-bb-mc-widget]',
+            changeCartElement: '[data-bb-mc-change]',
+            cartChangeUrl: 'data-url-change',
+            cartWidgetButton: '[data-bb-mc-widget-button]',
+            widgetCarts: '[data-bb-mc-widget-carts]',
+            widgetItems: '[data-bb-mc-widget-items]',
+        };
+        this.config = { ...defaults, ...config };
     }
 
     init = () => {
         this.addSwitchEvents();
-    }
+    };
 
     addSwitchEvents = () => {
-        const carts = document.querySelectorAll('.multi-cart-widget .change-cart');
-        carts.forEach(element => {
+        const widget = document.querySelector(this.config.widget);
+        const carts = widget.querySelectorAll(this.config.changeCartElement);
+
+        carts.forEach((element) => {
             element.addEventListener('click', (e) => this.changeActiveCart(e));
         });
-    }
+    };
 
     changeActiveCart = (e) => {
-        const changeActiveCartUrl = e.currentTarget.getAttribute('data-url-change');
+        const changeActiveCartUrl = e.currentTarget.getAttribute(
+            this.config.cartChangeUrl
+        );
 
         fetch(changeActiveCartUrl, { method: 'POST' })
-            .then(response => {
+            .then((response) => {
                 if (response.ok) {
-                    this.update()
+                    this.config.update();
                 } else {
                     throw new Error('Something went wrong');
                 }
             })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
+            .catch((error) => {
+                console.error(
+                    'There has been a problem with your fetch operation:',
+                    error
+                );
             });
-    }
+    };
 
     updateCartWidget() {
+        const button = document.querySelector(this.config.cartWidgetButton);
+        const carts = document.querySelector(this.config.widgetCarts);
+        const items = document.querySelector(this.config.widgetItems);
 
-        const buttonCartWidget = document.getElementById('ajax-cart-button');
-        const popupCartsWidget = document.getElementById('popup-carts');
-        const popupCartItemsWidget = document.getElementById('popup-items');
-
-        fetch("/en_US/ajax/cart-contents")
-            .then(response => {
+        fetch('/en_US/ajax/cart-contents')
+            .then((response) => {
                 if (response.ok) {
-                    return response.json()
-                }
-                else {
+                    return response.json();
+                } else {
                     throw new Error('Something went wrong');
                 }
             })
-            .then(jsonData => {
-                buttonCartWidget.innerHTML = jsonData.ajaxButton;
-                popupCartsWidget.innerHTML = jsonData.popupCarts;
-                popupCartItemsWidget.innerHTML = jsonData.popupItems;
-                this.addSwitchEvents()
+            .then((data) => {
+                button.innerHTML = data.ajaxButton;
+                carts.innerHTML = data.popupCarts;
+                items.innerHTML = data.popupItems;
+                this.addSwitchEvents();
             })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
+            .catch((error) => {
+                console.error(
+                    'There has been a problem with your fetch operation:',
+                    error
+                );
             });
     }
 }
