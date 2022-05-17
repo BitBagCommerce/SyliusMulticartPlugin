@@ -51,8 +51,13 @@
             {{ sylius_template_event('sylius.shop.cart.suggestions', {'cart': cart}) }}
         {% else %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
-            <div id="multi-cart" class="multi-cart" data-bb-mc>
-                {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
+            <div id="multi-cart" class="multi-cart"
+                 data-bb-mc
+                 data-url-carts-summary="{{ path('bitbag_sylius_multi_cart_plugin_show_carts_summary') }}"
+                 data-url-cart-item="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_item') }}"
+                 data-url-cart-total="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_total') }}"
+                 data-url-carts-active-cart="{{ path('bitbag_sylius_multi_cart_plugin_ajax_get_active_cart') }}">
+                    {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
             <div id="summary-items" data-bb-mc-summary-items class="ui stackable grid">
             </div>
