@@ -1,12 +1,13 @@
-{% if counted == 8 %}
-{% else %}
-        {% if customer == null %}
-        {% else %}
-                    <button data-bb-mc-newcart class="ui right floated black button" data-bb-max="8" data-bb-current="{{ counted }}"
-                            data-url-new="{{ path('bitbag_sylius_multi_cart_plugin_new_cart') }}"
-                        <i class="icon add"></i>
-                        {{ 'bitbag_sylius_multicart_plugin.ui.add_new_cart'|trans }}
-                    </button>
+{% if counted < 8 and customer != null %}
+    <button 
+        class="ui right floated black button"
+        data-bb-mc-newcart
+        data-bb-max="8"
+        data-bb-current="{{ counted }}"
+        data-url-new="{{ path('bitbag_sylius_multi_cart_plugin_new_cart') }}"
+    >
+        <i class="icon add"></i>
 
-        {% endif %}
+        {{ 'bitbag_sylius_multicart_plugin.ui.add_new_cart'|trans }}
+    </button>
 {% endif %}

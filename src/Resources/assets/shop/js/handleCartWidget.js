@@ -32,7 +32,7 @@ export class handleCartWidget {
         );
 
         try {
-            const res = await fetch(changeActiveCartUrl, { method: 'POST' })
+            const res = await fetch(changeActiveCartUrl, { method: 'POST' });
 
             if (res.ok) {
                 this.config.update();
@@ -52,7 +52,8 @@ export class handleCartWidget {
         const items = document.querySelector(this.config.widgetItems);
 
         try {
-            const res = await fetch(newCartsUrl)
+            const res = await fetch(newCartsUrl);
+
             if (res.ok) {
                 const data = await res.json();
 

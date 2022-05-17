@@ -1,3 +1,3 @@
-import { handleMultiCart } from "./handleMultiCart";
+import { handleMultiCart } from './handleMultiCart';
 
 new handleMultiCart().init();

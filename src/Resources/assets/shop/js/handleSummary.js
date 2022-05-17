@@ -53,7 +53,7 @@ export class handleCartWidget {
         );
 
         try {
-            const res = await fetch(changeActiveCartUrl, { method: 'POST' })
+            const res = await fetch(changeActiveCartUrl, { method: 'POST' });
 
             if (res.ok) {
                 this.config.update();
@@ -70,7 +70,7 @@ export class handleCartWidget {
         const urlSummary = multiCart.getAttribute(this.config.cartsSummaryUrl);
 
         try {
-            const res = await fetch(urlSummary)
+            const res = await fetch(urlSummary);
 
             if (res.ok) {
                 const data = await res.text();
@@ -94,7 +94,7 @@ export class handleCartWidget {
         const getActive = carts.getAttribute(this.config.cartSummaryActiveUrl);
 
         try {
-            const res = await fetch(getActive)
+            const res = await fetch(getActive);
 
             if (res.status === 204) {
                 cartSummary.replaceChildren(this.showNotif());
@@ -130,7 +130,7 @@ export class handleCartWidget {
         );
 
         try {
-            const res = await fetch(deleteCartUrl, { method: 'POST' })
+            const res = await fetch(deleteCartUrl, { method: 'POST' });
 
             if (res.ok) {
                 this.config.update();
@@ -146,7 +146,7 @@ export class handleCartWidget {
         const newCartUrl = e.currentTarget.getAttribute(this.config.cartNewUrl);
 
         try {
-            const res = await fetch(newCartUrl, { method: 'POST' })
+            const res = await fetch(newCartUrl, { method: 'POST' });
 
             if (res.ok) {
                 this.config.update();
