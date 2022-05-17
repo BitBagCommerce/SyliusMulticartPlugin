@@ -2,23 +2,25 @@ import handleCartWidget from './handleCartWidget';
 import handleSummary from './handleSummary';
 
 export class handleMultiCart {
-    constructor() {
+    constructor(config) {
+        const defaults = {
+            update: this.update,
+            widgetCarts: '[data-bb-mc-widget-carts]',
+            multiCart: '[data-bb-mc]'
+        }
+        this.config = { ...defaults, ...config };
         this.widget;
         this.summary;
     }
 
     init = () => {
-        if (document.querySelector('[data-bb-mc-widget-carts]')) {
-            this.widget = new handleCartWidget({
-                update: this.update,
-            });
+        if (document.querySelector(this.config.widgetCarts)) {
+            this.widget = new handleCartWidget(this.config);
             this.widget.init();
         }
 
-        if (document.querySelector('[data-bb-mc]')) {
-            this.summary = new handleSummary({
-                update: this.update,
-            });
+        if (document.querySelector(this.config.multiCart)) {
+            this.summary = new handleSummary(this.config);
             this.summary.init();
         }
     };
