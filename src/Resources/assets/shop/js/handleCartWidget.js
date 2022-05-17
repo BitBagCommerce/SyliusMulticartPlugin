@@ -7,6 +7,7 @@ export class handleCartWidget {
             widget: '[data-bb-mc-widget]',
             changeCartElement: '[data-bb-mc-change]',
             cartChangeUrl: 'data-url-change',
+            cartUpdateUrl: 'data-url-update',
             cartWidgetButton: '[data-bb-mc-widget-button]',
             widgetCarts: '[data-bb-mc-widget-carts]',
             widgetItems: '[data-bb-mc-widget-items]',
@@ -49,11 +50,13 @@ export class handleCartWidget {
     };
 
     updateCartWidget() {
+        const widget = document.querySelector(this.config.widget);
+        const newCartsUrl = widget.getAttribute(this.config.cartUpdateUrl);
         const button = document.querySelector(this.config.cartWidgetButton);
         const carts = document.querySelector(this.config.widgetCarts);
         const items = document.querySelector(this.config.widgetItems);
 
-        fetch('/en_US/ajax/cart-contents')
+        fetch(newCartsUrl)
             .then((response) => {
                 if (response.ok) {
                     return response.json();
