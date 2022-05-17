@@ -97,7 +97,7 @@ export class handleCartWidget {
             const res = await fetch(getActive);
 
             if (res.status === 204) {
-                cartSummary.replaceChildren(this.showNotif());
+                cartSummary.replaceChildren(this.showBanner());
             } else if (res.ok) {
                 const [items, total] = await Promise.all([
                     fetch(cartItem).then((items) => items.text()),
@@ -113,10 +113,10 @@ export class handleCartWidget {
         }
     };
 
-    showNotif = () => {
+    showBanner = () => {
         const notification = document.createElement('div');
 
-        notification.classList.add('multi-cart-notif');
+        notification.classList.add('multi-cart-banner-empty');
         notification.innerHTML = `<p>Your cart is empty</p>`;
 
         return notification;
