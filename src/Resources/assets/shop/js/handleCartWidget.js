@@ -1,5 +1,3 @@
-import triggerCustomEvent from '../../common/triggerCustomEvent';
-
 export class handleCartWidget {
     constructor(config) {
         const defaults = {
@@ -28,54 +26,46 @@ export class handleCartWidget {
         });
     };
 
-    changeActiveCart = (e) => {
+    changeActiveCart = async (e) => {
         const changeActiveCartUrl = e.currentTarget.getAttribute(
             this.config.cartChangeUrl
         );
 
-        fetch(changeActiveCartUrl, { method: 'POST' })
-            .then((response) => {
-                if (response.ok) {
-                    this.config.update();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            })
-            .catch((error) => {
-                console.error(
-                    'There has been a problem with your fetch operation:',
-                    error
-                );
-            });
+        try {
+            const res = await fetch(changeActiveCartUrl, { method: 'POST' })
+
+            if (res.ok) {
+                this.config.update();
+            } else {
+                throw new Error('Fetch failed');
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
 
-    updateCartWidget() {
+    updateCartWidget = async () => {
         const widget = document.querySelector(this.config.widget);
         const newCartsUrl = widget.getAttribute(this.config.cartUpdateUrl);
         const button = document.querySelector(this.config.cartWidgetButton);
         const carts = document.querySelector(this.config.widgetCarts);
         const items = document.querySelector(this.config.widgetItems);
 
-        fetch(newCartsUrl)
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            })
-            .then((data) => {
+        try {
+            const res = await fetch(newCartsUrl)
+            if (res.ok) {
+                const data = await res.json();
+
                 button.innerHTML = data.ajaxButton;
                 carts.innerHTML = data.popupCarts;
                 items.innerHTML = data.popupItems;
                 this.addSwitchEvents();
-            })
-            .catch((error) => {
-                console.error(
-                    'There has been a problem with your fetch operation:',
-                    error
-                );
-            });
+            } else {
+                throw new Error('Fetch failed');
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     }
 }
 

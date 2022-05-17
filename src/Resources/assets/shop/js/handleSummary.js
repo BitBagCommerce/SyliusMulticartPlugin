@@ -1,5 +1,3 @@
-import triggerCustomEvent from '../../common/triggerCustomEvent';
-
 export class handleCartWidget {
     constructor(config) {
         const defaults = {
@@ -21,99 +19,98 @@ export class handleCartWidget {
     }
 
     init = () => {
-        this.addEvents();
+        const newCartElement = document.querySelector(
+            this.config.newCartElement
+        );
+
+        newCartElement?.addEventListener('click', (e) => this.newCart(e));
+        this.addCartEvents();
     };
 
-    addEvents = () => {
+    addCartEvents = () => {
         const cartsParent = document.querySelector(
             this.config.multiCart
         );
         const multicartElements = cartsParent.querySelectorAll(
             this.config.changeCartElement
         );
-        const deleteCartButtons = cartsParent.querySelectorAll(
+        const deleteCartElements = cartsParent.querySelectorAll(
             this.config.deleteCartElement
-        );
-        const newCartButton = document.querySelector(
-            this.config.newCartElement
         );
 
         multicartElements.forEach((element) => {
             element.addEventListener('click', (e) => this.changeActiveCart(e));
         });
 
-        deleteCartButtons.forEach((element) =>
+        deleteCartElements.forEach((element) =>
             element.addEventListener('click', (e) => this.deleteCart(e))
         );
-
-        newCartButton?.addEventListener('click', (e) => this.newCart(e));
     };
 
-    changeActiveCart = (e) => {
+    changeActiveCart = async (e) => {
         const changeActiveCartUrl = e.currentTarget.getAttribute(
             this.config.cartChangeUrl
         );
 
-        fetch(changeActiveCartUrl, { method: 'POST' })
-            .then((response) => {
-                if (response.ok) {
-                    this.config.update();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            })
-            .catch((error) => {
-                console.error(
-                    'There has been a problem with your fetch operation:',
-                    error
-                );
-            });
+        try {
+            const res = await fetch(changeActiveCartUrl, { method: 'POST' })
+
+            if (res.ok) {
+                this.config.update();
+            } else {
+                throw new Error('Fetch failed');
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
 
-    updateSummaryCarts = () => {
-        const multicart = document.querySelector(this.config.multiCart);
-        const urlSummary = multicart.getAttribute(this.config.cartsSummaryUrl);
-        fetch(urlSummary)
-            .then((response) => {
-                if (response.ok) {
-                    return response.text();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            })
-            .then((response) => {
-                multicart.innerHTML = response;
-                this.addEvents();
+    updateSummaryCarts = async () => {
+        const multiCart = document.querySelector(this.config.multiCart);
+        const urlSummary = multiCart.getAttribute(this.config.cartsSummaryUrl);
+
+        try {
+            const res = await fetch(urlSummary)
+
+            if (res.ok) {
+                const data = await res.text();
+
+                multiCart.innerHTML = data;
+                this.addCartEvents();
                 this.updateSummary();
-            })
-            .catch((error) => {
-                console.error(
-                    'There has been a problem with your fetch operation:',
-                    error
-                );
-            });
+            } else {
+                throw new Error('Fetch failed');
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
 
-    updateSummary = () => {
+    updateSummary = async () => {
         const cartSummary = document.querySelector(this.config.cartSummary);
         const carts = document.querySelector(this.config.multiCart);
         const cartItem = carts.getAttribute(this.config.cartSummaryItemUrl);
         const cartTotal = carts.getAttribute(this.config.cartSummaryTotalUrl);
         const getActive = carts.getAttribute(this.config.cartSummaryActiveUrl);
 
-        fetch(getActive).then((response) => {
-            if (response.status == 204) {
-                cartSummary.innerHTML = '';
-                cartSummary.appendChild(this.showNotif());
-            } else {
-                Promise.all([
+        try {
+            const res = await fetch(getActive)
+
+            if (res.status === 204) {
+                cartSummary.replaceChildren(this.showNotif());
+            } else if (res.ok) {
+                const [items, total] = await Promise.all([
                     fetch(cartItem).then((items) => items.text()),
                     fetch(cartTotal).then((total) => total.text()),
-                ]).then(([items, total]) => {
-                    cartSummary.innerHTML = items + total;
-                });
+                ]);
+
+                cartSummary.innerHTML = items + total;
+            } else {
+                throw new Error('Fetch failed');
             }
-        });
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
 
     showNotif = () => {
@@ -125,46 +122,40 @@ export class handleCartWidget {
         return notification;
     };
 
-    deleteCart = (e) => {
+    deleteCart = async (e) => {
         e.stopPropagation();
 
         const deleteCartUrl = e.currentTarget.getAttribute(
             this.config.cartDeleteUrl
         );
 
-        fetch(deleteCartUrl, { method: 'POST' })
-            .then((response) => {
-                if (response.ok) {
-                    this.config.update();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            })
-            .catch((error) => {
-                console.error(
-                    'There has been a problem with your fetch operation:',
-                    error
-                );
-            });
+        try {
+            const res = await fetch(deleteCartUrl, { method: 'POST' })
+
+            if (res.ok) {
+                this.config.update();
+            } else {
+                throw new Error('Fetch failed');
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
 
-    newCart = (e) => {
+    newCart = async (e) => {
         const newCartUrl = e.currentTarget.getAttribute(this.config.cartNewUrl);
 
-        fetch(newCartUrl, { method: 'POST' })
-            .then((response) => {
-                if (response.ok) {
-                    this.config.update();
-                } else {
-                    throw new Error('Something went wrong');
-                }
-            })
-            .catch((error) => {
-                console.error(
-                    'There has been a problem with your fetch operation:',
-                    error
-                );
-            });
+        try {
+            const res = await fetch(newCartUrl, { method: 'POST' })
+
+            if (res.ok) {
+                this.config.update();
+            } else {
+                throw new Error('Fetch failed');
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
 }
 

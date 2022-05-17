@@ -15,7 +15,7 @@ export class handleMultiCart {
             this.widget.init();
         }
 
-        if (document.querySelector('.multi-cart')) {
+        if (document.querySelector('[data-bb-mc]')) {
             this.summary = new handleSummary({
                 update: this.update,
             });
