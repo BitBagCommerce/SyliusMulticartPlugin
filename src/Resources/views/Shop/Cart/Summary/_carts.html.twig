@@ -3,9 +3,7 @@
     {% set isActive = cart.cartNumber == customer.activeCart %}
     <div class="item {% if isActive == true %}active{% endif %} change-cart"
          data-bb-mc-change
-         data-url-change="{{ path('bitbag_sylius_multi_cart_plugin_change_active_cart', { 'cartNumber': cart.cartNumber }) }}"
-         data-url-update="{{ path('bitbag_sylius_multi_cart_plugin_ajax_cart_content') }}">
-
+         data-url-change="{{ path('bitbag_sylius_multi_cart_plugin_change_active_cart', { 'cartNumber': cart.cartNumber }) }}">
         <div class="item__row">
             <i class="shopping cart big icon"></i>
         </div>
@@ -19,8 +17,7 @@
         {% if isActive == false %}
             <button type="submit" class="delete-cart item--delete ui icon button circular"
                 data-bb-mc-delete
-                data-url-delete="{{ path('bitbag_sylius_multi_cart_plugin_delete_cart', { 'cartNumber': cart.cartNumber }) }}"
-                data-url-update="{{ path('bitbag_sylius_multi_cart_plugin_ajax_cart_content') }}">
+                data-url-delete="{{ path('bitbag_sylius_multi_cart_plugin_delete_cart', { 'cartNumber': cart.cartNumber }) }}">
                 <i class="remove icon"></i>
             </button>
         {% endif %}
