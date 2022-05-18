@@ -75,7 +75,6 @@ class CartRemover implements CartRemoverInterface
             if ($cartNumber === $cart->getCartNumber()) {
                 $this->entityManager->remove($cart);
             }
-            $cart->setCartNumber($cartNumber + $key - 1);
         }
 
         $this->entityManager->flush();
