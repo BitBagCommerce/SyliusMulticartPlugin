@@ -65,7 +65,6 @@ final class AjaxPartialCartFactorySpec extends ObjectBehavior
         $partialCart->getCurrency()->shouldReturn('EUR');
         $partialCart->getCartNumber()->shouldReturn(2);
         $partialCart->getFormattedItemsTotal()->shouldReturn('converted');
-        $partialCart->getItems()->shouldReturn([]);
         $partialCart->getItemsCount()->shouldReturn(1);
 
         $this->fromOrder($order)->shouldHaveType(AjaxPartialCart::class);

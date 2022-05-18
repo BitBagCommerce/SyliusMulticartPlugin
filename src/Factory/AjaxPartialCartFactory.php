@@ -15,6 +15,7 @@ use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use function Sodium\add;
 
 class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 {
@@ -46,11 +47,11 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
     private function createCartItems(Collection $orderItems): Collection
     {
         /** @var Collection $cartItems */
-        $orderItems = new ArrayCollection();
+        $cartItems = new ArrayCollection();
         foreach ($orderItems as $orderItem) {
             $orderItems = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);
-
+            $cartItems->add($orderItems);
         }
-        return $orderItems;
+        return $cartItems;
     }
 }
