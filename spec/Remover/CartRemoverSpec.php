@@ -64,9 +64,8 @@ class CartRemoverSpec extends ObjectBehavior
 
         $orderRepository->findCartsGraterOrEqualNumber($channel, $customer, $cartNumber)->willReturn([$cart]);
         $cart->getCartNumber()->willReturn(1);
-        $entityManager->remove($cart)->shouldBeCalled();
 
-        $cart->setCartNumber(Argument::type('integer'))->shouldBeCalled();
+        $entityManager->remove($cart)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
 
         $this->removeCart($cartNumber)->shouldBeNull();
