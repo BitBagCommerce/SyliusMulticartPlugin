@@ -46,11 +46,11 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
     private function createCartItems(Collection $orderItems): Collection
     {
         /** @var Collection $cartItems */
-        $orderItems = new ArrayCollection();
+        $cartItems = new ArrayCollection();
         foreach ($orderItems as $orderItem) {
-            $orderItems = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);
+            $cartItems = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);
 
         }
-        return $orderItems;
+        return $cartItems;
     }
 }
