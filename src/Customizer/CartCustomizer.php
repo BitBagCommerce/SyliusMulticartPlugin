@@ -19,7 +19,7 @@ final class CartCustomizer implements CartCustomizerInterface
 {
     private OrderRepositoryInterface $orderRepository;
 
-    public function __construct(    
+    public function __construct(
         OrderRepositoryInterface $orderRepository
     ) {
         $this->orderRepository = $orderRepository;
@@ -42,7 +42,8 @@ final class CartCustomizer implements CartCustomizerInterface
         CustomerInterface $customer,
         OrderInterface $cart
     ): void {
-        $counter = $this->orderRepository->countCarts($channel, $customer);
+        $counter = $this->orderRepository->findBiggestCartNumber($channel, $customer);
+
         $cart->setCartNumber($counter + 1);
     }
 }
