@@ -70,7 +70,7 @@ class CartCustomizerSpec extends ObjectBehavior
         OrderInterface $cart,
         OrderRepositoryInterface $orderRepository
     ): void {
-        $orderRepository->countCarts($channel, $customer)->willReturn(3);
+        $orderRepository->findBiggestCartNumber($channel, $customer)->willReturn(3);
         $cart->setCartNumber(4)->shouldBeCalled();
 
         $this->setCartNumberOnCart($channel, $customer, $cart)->shouldBeNull();
