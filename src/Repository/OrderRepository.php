@@ -52,6 +52,24 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
             ;
     }
 
+    public function findBiggestCartNumber(
+        ChannelInterface $channel,
+        CustomerInterface $customer
+    ): int {
+        return (int) $this->createQueryBuilder('o')
+            ->select('MAX(o.cartNumber)')
+            ->andWhere('o.state = :state')
+            ->andWhere('o.channel = :channel')
+            ->andWhere('o.customer = :customer')
+            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('channel', $channel)
+            ->setParameter('customer', $customer)
+            ->addOrderBy('o.createdAt', 'DESC')
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+    }
+
     public function countCarts(ChannelInterface $channel, ?CustomerInterface $customer): int
     {
         return (int) $this->createQueryBuilder('o')
