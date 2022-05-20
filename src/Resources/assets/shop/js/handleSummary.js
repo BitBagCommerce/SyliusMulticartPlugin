@@ -139,6 +139,7 @@ export class handleCartWidget {
 
             if (res.ok) {
                 newCartElement.setAttribute(this.config.cartsCurrent, currentCarts - 1);
+
                 if (currentCarts - 1 < maxCarts) {
                     newCartElement.disabled = false;
                 }
@@ -167,6 +168,7 @@ export class handleCartWidget {
                     if (current + 1 === max) {
                         e.target.disabled = true;
                     }
+
                     this.config.update();
                 } else {
                     throw new Error('Fetch failed');

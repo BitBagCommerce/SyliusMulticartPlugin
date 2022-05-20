@@ -5,7 +5,7 @@
   gap: 0.6rem;
   overflow-x: auto;
   width: 100%;
-  background: #e3e3e3;
+  background: #E3E3E3;
   border: 1px solid rgba(34, 36, 38, 0.15);
   margin: 1rem 0;
 
@@ -21,14 +21,14 @@
     flex-direction: column;
     flex-wrap: wrap;
     min-width: 120px;
-    background: white;
+    background: #FFF;
     padding: 3em 1em 1em;
     position: relative;
     cursor: pointer;
 
     &:hover,
     &.active {
-      outline: 2px solid teal;
+      outline: 2px solid #008080;
     }
 
     &__row {
@@ -69,14 +69,14 @@
 
       &:hover,
       &.active {
-        outline: 2px solid teal;
+        outline: 2px solid #008080;
       }
 
       .quantity {
         background: #E0E1E2;
         border-radius: 0.28571429rem;
         padding: 0.1rem 0.4rem;
-        color: gray;
+        color: #808080;
         font-size: small;
       }
 
@@ -115,8 +115,8 @@
     margin: 1em;
     padding: 1em;
     text-align: center;
-    background: teal;
-    color: white;
+    background: #008080;
+    color: #FFF;
     border-radius: 0.28571429rem;
     border: 1px solid rgba(34, 36, 38, 0.15);
   }
