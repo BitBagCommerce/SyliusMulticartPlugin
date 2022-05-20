@@ -1,10 +1,11 @@
-{% if counted < 8 and customer != null %}
+{% if customer != null %}
     <button 
         class="ui right floated black button"
         data-bb-mc-newcart
-        data-bb-max="8"
-        data-bb-current="{{ counted }}"
+        data-bb-mc-max="8"
+        data-bb-mc-current="{{ counted }}"
         data-url-new="{{ path('bitbag_sylius_multi_cart_plugin_new_cart') }}"
+        {% if counted >= 8 %}disabled{% endif %}
     >
         <i class="icon add"></i>
 

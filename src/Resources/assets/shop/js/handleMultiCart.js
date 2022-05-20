@@ -7,7 +7,7 @@ export class handleMultiCart {
             update: this.update,
             widgetCarts: '[data-bb-mc-widget-carts]',
             multiCart: '[data-bb-mc]'
-        }
+        };
         this.config = { ...defaults, ...config };
         this.widget;
         this.summary;

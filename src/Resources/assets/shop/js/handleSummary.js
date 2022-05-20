@@ -7,6 +7,8 @@ export class handleCartWidget {
             changeCartElement: '[data-bb-mc-change]',
             deleteCartElement: '[data-bb-mc-delete]',
             cartSummary: '[data-bb-mc-summary-items]',
+            cartsCurrent: 'data-bb-mc-current',
+            cartsMax: 'data-bb-mc-max',
             cartNewUrl: 'data-url-new',
             cartChangeUrl: 'data-url-change',
             cartDeleteUrl: 'data-url-delete',
@@ -125,6 +127,9 @@ export class handleCartWidget {
     deleteCart = async (e) => {
         e.stopPropagation();
 
+        const newCartElement = document.querySelector(this.config.newCartElement);
+        const currentCarts = parseInt(newCartElement.getAttribute(this.config.cartsCurrent));
+        const maxCarts = parseInt(newCartElement.getAttribute(this.config.cartsMax));
         const deleteCartUrl = e.currentTarget.getAttribute(
             this.config.cartDeleteUrl
         );
@@ -133,6 +138,11 @@ export class handleCartWidget {
             const res = await fetch(deleteCartUrl, { method: 'POST' });
 
             if (res.ok) {
+                newCartElement.setAttribute(this.config.cartsCurrent, currentCarts - 1);
+                if (currentCarts - 1 < maxCarts) {
+                    newCartElement.disabled = false;
+                }
+
                 this.config.update();
             } else {
                 throw new Error('Fetch failed');
@@ -144,17 +154,26 @@ export class handleCartWidget {
 
     newCart = async (e) => {
         const newCartUrl = e.currentTarget.getAttribute(this.config.cartNewUrl);
+        const current = parseInt(e.currentTarget.getAttribute(this.config.cartsCurrent));
+        const max = parseInt(e.currentTarget.getAttribute(this.config.cartsMax));
 
-        try {
-            const res = await fetch(newCartUrl, { method: 'POST' });
+        if (current < max) {
+            try {
+                const res = await fetch(newCartUrl, { method: 'POST' });
 
-            if (res.ok) {
-                this.config.update();
-            } else {
-                throw new Error('Fetch failed');
+                if (res.ok) {
+                    e.target.setAttribute(this.config.cartsCurrent, current + 1);
+
+                    if (current + 1 === max) {
+                        e.target.disabled = true;
+                    }
+                    this.config.update();
+                } else {
+                    throw new Error('Fetch failed');
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
             }
-        } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
         }
     };
 }

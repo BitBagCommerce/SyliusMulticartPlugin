@@ -67,7 +67,7 @@ export class handleCartWidget {
         } catch (error) {
             console.error('There has been a problem with your fetch operation:', error);
         }
-    }
+    };
 }
 
 export default handleCartWidget;

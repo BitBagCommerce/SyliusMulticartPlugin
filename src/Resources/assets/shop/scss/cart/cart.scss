@@ -9,44 +9,46 @@
   border: 1px solid rgba(34, 36, 38, 0.15);
   margin: 1rem 0;
 
-    &, .item{
-      box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
-      padding: 1em;
-      border-radius: 0.28571429rem;
+  &,
+  .item {
+    box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+    padding: 1em;
+    border-radius: 0.28571429rem;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 120px;
+    background: white;
+    padding: 3em 1em 1em;
+    position: relative;
+    cursor: pointer;
+
+    &:hover,
+    &.active {
+      outline: 2px solid teal;
     }
 
-    .item {
+    &__row {
       display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      min-width: 120px;
-      background: white;
-      padding: 3em 1em 1em;
-      position: relative;
-      cursor: pointer;
+      justify-content: center;
+      padding: 0.4rem;
+      pointer-events: none;
 
-      &:hover, &.active {
-        outline: 2px solid teal;
+      &.quantity {
+        background: #E0E1E2;
+        border-radius: 0.28571429rem;
       }
+    }
 
-      &__row {
-        display: flex;
-        justify-content: center;
-        padding: 0.4rem;
-        pointer-events: none;
-
-        &.quantity {
-          background: #E0E1E2;
-          border-radius: 0.28571429rem;
-        }
-      }
-
-      &--delete {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0.4rem;
-      }
+    &--delete {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0.4rem;
+    }
   }
 
   &-widget {
@@ -57,21 +59,23 @@
     .change-cart {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       border: 2px solid transparent;
       border-radius: 0.28571429rem;
       box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
-      padding: 0.8rem 0.4rem;
+      padding: 0.4rem;
       cursor: pointer;
       outline: 1px solid rgba(34, 36, 38, 0.15);
 
-      &:hover, &.active {
+      &:hover,
+      &.active {
         outline: 2px solid teal;
       }
 
       .quantity {
         background: #E0E1E2;
         border-radius: 0.28571429rem;
-        padding: 0.4rem;
+        padding: 0.1rem 0.4rem;
         color: gray;
         font-size: small;
       }
@@ -100,7 +104,7 @@
       cursor: pointer;
       border-radius: 0.28571429rem;
 
-      &:hover{
+      &:hover {
         background: #CACBCD;
       }
     }
