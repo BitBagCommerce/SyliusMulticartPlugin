@@ -71,6 +71,26 @@ class CartRemoverSpec extends ObjectBehavior
         $this->removeCart($cartNumber)->shouldBeNull();
     }
 
+    function it_stops_the_handle_request_due_to_null_cart_number(
+        ChannelContextInterface $channelContext,
+        CustomerContextInterface $customerContext,
+        OrderRepositoryInterface $orderRepository,
+        EntityManagerInterface $entityManager,
+        CustomerInterface $customer,
+        ChannelInterface $channel,
+        OrderInterface $cart
+    ): void {
+        $cartNumber = 1;
+        $channelContext->getChannel()->willReturn($channel);
+        $customerContext->getCustomer()->willReturn($customer);
+        $customer->getActiveCart()->willReturn(2);
+
+        $orderRepository->findCartsGraterOrEqualNumber($channel, $customer, $cartNumber)->willReturn([$cart]);
+        $cart->getCartNumber()->willReturn(null);
+
+        $this->removeCart($cartNumber)->shouldBeNull();
+    }
+
     function it_throws_cart_not_found_exception_for_anonymous_user(
         ChannelContextInterface $channelContext,
         ChannelInterface $channel,
