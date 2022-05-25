@@ -19,15 +19,15 @@ use function Sodium\add;
 
 class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 {
-    private MoneyFormatterInterface $convertAndFormatMoneyHelper;
+    private MoneyFormatterInterface $moneyFormatter;
 
     private OrderItemFactoryInterface $ajaxPartialCartItemFactory;
 
     public function __construct(
-        MoneyFormatterInterface $convertAndFormatMoneyHelper,
+        MoneyFormatterInterface   $moneyFormatter,
         OrderItemFactoryInterface $ajaxPartialCartItemFactory
     ) {
-        $this->convertAndFormatMoneyHelper = $convertAndFormatMoneyHelper;
+        $this->moneyFormatter = $moneyFormatter;
         $this->ajaxPartialCartItemFactory = $ajaxPartialCartItemFactory;
     }
 
@@ -37,7 +37,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 
         return new AjaxPartialCart(
             $order->getCartNumber(),
-            $this->convertAndFormatMoneyHelper->formatMoney($order->getItemsTotal()),
+            $this->moneyFormatter->formatMoney($order->getItemsTotal()),
             $order->getCurrencyCode(),
             $this->createCartItems($orderItems)->toArray(),
             $orderItems->count()
