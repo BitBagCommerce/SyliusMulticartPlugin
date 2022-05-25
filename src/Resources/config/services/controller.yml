@@ -13,6 +13,7 @@ services:
         class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
         arguments:
             - '@bitbag_sylius_multi_cart_plugin.creator.default_customer_cart_creator'
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: 'controller.service_arguments' }
 
