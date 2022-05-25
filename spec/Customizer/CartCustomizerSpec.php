@@ -49,7 +49,7 @@ class CartCustomizerSpec extends ObjectBehavior
         $customer->getDefaultAddress()->willReturn($defaultAddress);
 
         $cart->setBillingAddress($defaultAddress)->shouldBeCalled();
-        $this->setCustomerAndAddressOnCart($cart, $customer)->shouldBeNull();
+        $this->copyDefaultToBillingAddress($cart, $customer)->shouldBeNull();
     }
 
     function it_sets_customer_without_address_on_cart(
@@ -61,7 +61,7 @@ class CartCustomizerSpec extends ObjectBehavior
         $cart->setCustomer($customer)->shouldBeCalled();
         $customer->getDefaultAddress()->willReturn(null);
 
-        $this->setCustomerAndAddressOnCart($cart, $customer)->shouldBeNull();
+        $this->copyDefaultToBillingAddress($cart, $customer)->shouldBeNull();
     }
 
     function it_sets_cart_number_on_cart(
@@ -73,6 +73,6 @@ class CartCustomizerSpec extends ObjectBehavior
         $orderRepository->findBiggestCartNumber($channel, $customer)->willReturn(3);
         $cart->setCartNumber(4)->shouldBeCalled();
 
-        $this->setCartNumberOnCart($channel, $customer, $cart)->shouldBeNull();
+        $this->increaseCartNumberOnCart($channel, $customer, $cart)->shouldBeNull();
     }
 }

@@ -68,8 +68,8 @@ final class ShopBasedMultiCartContext implements CartContextInterface
         $customer = $this->shopperContext->getCustomer();
 
         if (null !== $customer) {
-            $this->cartCustomizer->setCustomerAndAddressOnCart($cart, $customer);
-            $this->cartCustomizer->setCartNumberOnCart($channel, $customer, $cart);
+            $this->cartCustomizer->copyDefaultToBillingAddress($cart, $customer);
+            $this->cartCustomizer->increaseCartNumberOnCart($channel, $customer, $cart);
         }
 
         $this->cart = $cart;

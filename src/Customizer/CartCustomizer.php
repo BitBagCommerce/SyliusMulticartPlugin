@@ -25,7 +25,7 @@ final class CartCustomizer implements CartCustomizerInterface
         $this->orderRepository = $orderRepository;
     }
 
-    public function setCustomerAndAddressOnCart(OrderInterface $cart, CustomerInterface $customer): void
+    public function copyDefaultToBillingAddress(OrderInterface $cart, CustomerInterface $customer): void
     {
         $cart->setCustomer($customer);
 
@@ -37,7 +37,7 @@ final class CartCustomizer implements CartCustomizerInterface
         }
     }
 
-    public function setCartNumberOnCart(
+    public function increaseCartNumberOnCart(
         ChannelInterface $channel,
         CustomerInterface $customer,
         OrderInterface $cart
