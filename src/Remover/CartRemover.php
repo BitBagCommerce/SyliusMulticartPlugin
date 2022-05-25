@@ -50,15 +50,8 @@ class CartRemover implements CartRemoverInterface
     {
         /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
-        if (null === $customer) {
-            throw new CartNotFoundException(
-                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user')
-            );
-        }
-
-        if ($cartNumber === $customer->getActiveCart()) {
-            throw new UnableToDeleteCartException('bitbag_sylius_multicart_plugin.ui.cant_delete_active_cart');
-        }
+        $this->validateCustomerIsNotNull($customer);
+        $this->validateRemovableCart($cartNumber, $customer);
 
         $channel = $this->channelContext->getChannel();
 
@@ -80,4 +73,21 @@ class CartRemover implements CartRemoverInterface
 
         $this->entityManager->flush();
     }
+
+    private function validateCustomerIsNotNull($customer): void
+    {
+        if (null === $customer) {
+            throw new CartNotFoundException(
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user')
+            );
+        }
+    }
+
+    private function validateRemovableCart(int $cartNumber, $customer): void
+    {
+        if ($cartNumber === $customer->getActiveCart()) {
+            throw new UnableToDeleteCartException('bitbag_sylius_multicart_plugin.ui.cant_delete_active_cart');
+        }
+    }
+
 }
