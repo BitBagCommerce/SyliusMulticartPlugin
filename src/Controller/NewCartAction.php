@@ -11,21 +11,28 @@ declare(strict_types=1);
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
 use BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final class NewCartAction
 {
     private DefaultCustomerCartCreatorInterface $cartCreator;
 
+    private EntityManagerInterface $entityManager;
+
     public function __construct(
-        DefaultCustomerCartCreatorInterface $cartCreator
+        DefaultCustomerCartCreatorInterface $cartCreator,
+        EntityManagerInterface $entityManager
     ) {
         $this->cartCreator = $cartCreator;
+        $this->entityManager = $entityManager;
     }
 
     public function __invoke(): Response
     {
+
         $this->cartCreator->createNewCart();
+        $this->entityManager->flush();
 
         return new Response();
     }
