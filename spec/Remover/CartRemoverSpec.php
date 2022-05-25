@@ -75,7 +75,6 @@ class CartRemoverSpec extends ObjectBehavior
         ChannelContextInterface $channelContext,
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
-        EntityManagerInterface $entityManager,
         CustomerInterface $customer,
         ChannelInterface $channel,
         OrderInterface $cart
