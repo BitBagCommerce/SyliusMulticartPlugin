@@ -48,7 +48,6 @@ class CartRemover implements CartRemoverInterface
 
     public function removeCart(int $cartNumber): void
     {
-        $channel = $this->channelContext->getChannel();
         /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
         if (null === $customer) {
@@ -60,6 +59,8 @@ class CartRemover implements CartRemoverInterface
         if ($cartNumber === $customer->getActiveCart()) {
             throw new UnableToDeleteCartException('bitbag_sylius_multicart_plugin.ui.cant_delete_active_cart');
         }
+
+        $channel = $this->channelContext->getChannel();
 
         $carts = $this->orderRepository->findCartsGraterOrEqualNumber(
             $channel,
