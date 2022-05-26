@@ -4,9 +4,9 @@
     </a>
 </p>
 
-<h1 align="center">Plugin Skeleton</h1>
+<h1 align="center">BitBag Multicart Plugin</h1>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+<p align="center"></p>
 
 ## Documentation
 
