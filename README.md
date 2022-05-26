@@ -71,7 +71,7 @@ $ composer install
 $ APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
 $ cd tests/Application
 $ yarn install
-$ yarn run gulp
+$ yarn encore dev
 $ bin/console assets:install public -e test
 $ bin/console doctrine:database:create -e test
 $ bin/console doctrine:schema:create -e test
