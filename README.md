@@ -43,7 +43,7 @@ Read more about  [BitBag Sylius Shipping Export Plugin](https://bitbag.io/bitbag
 1. Require plugin with composer:
 
     ```bash
-    composer require bitbag/multicart-plugin
+    composer require bitbag/multi-cart-plugin
     ```
 
 2. Add plugin dependencies to your `config/bundles.php` file:
