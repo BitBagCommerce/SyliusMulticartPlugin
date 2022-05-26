@@ -1,0 +1,81 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% form_theme form '@SyliusShop/Form/theme.html.twig' %}
+
+{% import '@SyliusUi/Macro/messages.html.twig' as messages %}
+
+{% set header = 'sylius.ui.your_shopping_cart' %}
+
+{% block title %}{{ header|trans }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <dialog id="multi-cart-dialog" class="multi-cart-dialog">
+        <form method="dialog">
+            <p>{{ 'bitbag_sylius_multicart_plugin.ui.do_you_want_to_remove_this_cart'|trans }}</p>
+
+            <div class="options">
+                <button>{{ 'bitbag_sylius_multicart_plugin.ui.cancel'|trans }}</button>
+
+                <button id="deleteConfirmBtn">{{ 'bitbag_sylius_multicart_plugin.ui.confirm'|trans }}</button>
+            </div>
+        </form>
+    </dialog>
+    {% if cart.customer == null %}
+        {% if not cart.empty %}
+            {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
+
+            <div class="ui stackable grid">
+                <div class="eleven wide column">
+                    {{ sylius_template_event('sylius.shop.cart.items', {'cart': cart, 'form': form}) }}
+                </div>
+
+                <div class="five wide column">
+                    {{ sylius_template_event('sylius.shop.cart.summary', {'cart': cart}) }}
+                </div>
+            </div>
+
+            {{ sylius_template_event('sylius.shop.cart.suggestions', {'cart': cart}) }}
+        {% else %}
+            {{ messages.info('sylius.ui.your_cart_is_empty') }}
+        {% endif %}
+    {% else %}
+        {% if not cart.empty %}
+            {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
+
+            <div 
+                id="multi-cart" 
+                class="multi-cart"
+                data-bb-mc
+                data-url-carts-summary="{{ path('bitbag_sylius_multi_cart_plugin_show_carts_summary') }}"
+                data-url-cart-item="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_item') }}"
+                data-url-cart-total="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_total') }}"
+                data-url-carts-active-cart="{{ path('bitbag_sylius_multi_cart_plugin_ajax_get_active_cart') }}"
+            >
+                    {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
+            </div>
+
+            <div id="summary-items" class="ui stackable grid" data-bb-mc-summary-items>
+                {{ render(url('bitbag_sylius_multi_cart_plugin_shop_cart_item')) }}
+                {{ render(url('bitbag_sylius_multi_cart_plugin_shop_cart_total')) }}
+            </div>
+
+            {{ sylius_template_event('sylius.shop.cart.suggestions', {'cart': cart}) }}
+        {% else %}
+            {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
+
+            <div 
+                id="multi-cart" 
+                class="multi-cart"
+                data-bb-mc
+                data-url-carts-summary="{{ path('bitbag_sylius_multi_cart_plugin_show_carts_summary') }}"
+                data-url-cart-item="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_item') }}"
+                data-url-cart-total="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_total') }}"
+                data-url-carts-active-cart="{{ path('bitbag_sylius_multi_cart_plugin_ajax_get_active_cart') }}"
+            >
+                    {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
+            </div>
+
+            <div id="summary-items" class="ui stackable grid" data-bb-mc-summary-items></div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

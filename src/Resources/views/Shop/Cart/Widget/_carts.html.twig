@@ -1,0 +1,23 @@
+{% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
+
+<div class="row multi-cart-widget" 
+    data-bb-mc-widget
+    data-url-update="{{ path('bitbag_sylius_multi_cart_plugin_ajax_cart_content') }}"
+>
+    {% for cart in carts %}
+        {% set isActive = cart.cartNumber == customer.activeCart %}
+        <div 
+            class="change-cart {% if isActive == true %}active{% endif %}"
+            data-bb-mc-change
+            data-url-change="{{ path('bitbag_sylius_multi_cart_plugin_change_active_cart', { 'cartNumber': cart.cartNumber }) }}"
+        >
+            <div>
+                {{- money.convertAndFormat(cart.itemsTotal) -}}
+            </div>
+
+            <div class="quantity">
+                {{ cart.countItems }}
+            </div>
+        </div>
+    {% endfor %}
+</div>

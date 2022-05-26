@@ -1,0 +1,49 @@
+services:
+    bitbag_sylius_multi_cart_plugin.controller.show_carts:
+        class: BitBag\SyliusMultiCartPlugin\Controller\ShowCartsAction
+        arguments:
+            - '@sylius.context.customer'
+            - '@sylius.context.channel'
+            - '@sylius.repository.order'
+            - '@twig'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\NewCartAction
+        arguments:
+            - '@bitbag_sylius_multi_cart_plugin.creator.default_customer_cart_creator'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.ajax_change_active_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction
+        arguments:
+            - '@bitbag_sylius_multi_cart_plugin.switcher.cart_switcher'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.ajax_cart_content:
+        class: BitBag\SyliusMultiCartPlugin\Controller\CartContentAction
+        arguments:
+            - '@sylius.context.cart'
+            - '@twig'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.get_active_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\GetActiveCartAction
+        arguments:
+            - '@sylius.context.cart'
+            - '@serializer'
+            - '@bitbag_sylius_multi_cart_plugin.factory.ajax_partial_cart'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    bitbag_sylius_multi_cart_plugin.controller.ajax_delete_cart:
+        class: BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction
+        arguments:
+            - '@bitbag_sylius_multi_cart_plugin.remover.cart_remover'
+        tags:
+            - { name: 'controller.service_arguments' }

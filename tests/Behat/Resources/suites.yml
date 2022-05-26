@@ -4,7 +4,17 @@ default:
     suites:
         greeting_customer:
             contexts:
-                - acme_sylius_example.context.ui.shop.welcome
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.user
+                - bitbag_sylius_multi_cart.behat.context.setup.shop_security
+                - sylius.behat.context.setup.cart
+                - bitbag_sylius_multi_cart.behat.context.api.multi_cart
+                - sylius.behat.context.hook.doctrine_orm
+                - Behat\MinkExtension\Context\MinkContext
+                - sylius.behat.context.api.shop.cart
+                - sylius.behat.context.ui.admin.managing_orders
+                - sylius.behat.context.setup.product
+
 
             filters:
-                tags: "@greeting_customer"
+                tags: "@multicart"

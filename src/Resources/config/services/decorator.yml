@@ -1,0 +1,19 @@
+services:
+    BitBag\SyliusMultiCartPlugin\Cart\Context\CustomerAndChannelBasedMultiCartContext:
+        decorates: 'sylius.context.cart.customer_and_channel_based'
+        arguments:
+            - '@sylius.context.customer'
+            - '@sylius.context.channel'
+            - '@sylius.repository.order'
+            - '@translator'
+        tags:
+            - {name: 'sylius.context.cart'}
+
+    BitBag\SyliusMultiCartPlugin\Cart\Context\ShopBasedMultiCartContext:
+        decorates: 'sylius.context.cart.new_shop_based'
+        arguments:
+            - '@sylius.context.cart.new_shop_based.inner'
+            - '@sylius.context.shopper'
+            - '@bitbag_sylius_multi_cart_plugin.customizer.cart_customizer'
+        tags:
+            - {name: 'kernel.reset', method: 'reset'}

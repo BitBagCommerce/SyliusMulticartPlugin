@@ -1,0 +1,50 @@
+bitbag_sylius_multi_cart_plugin_ajax:
+  resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing/shop/ajax.yml"
+  prefix: /ajax
+
+bitbag_sylius_multi_cart_plugin_show_carts_summary:
+    path: /carts/summary
+    methods: [GET]
+    defaults:
+        _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
+        template: '@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_carts.html.twig'
+
+bitbag_sylius_multi_cart_plugin_show_carts_widget:
+  path: /carts/widget
+  methods: [GET]
+  defaults:
+      _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
+      template: '@BitBagSyliusMultiCartPlugin/Shop/Cart/Widget/_carts.html.twig'
+
+sylius_shop_cart_items:
+  path: /cart-items
+  methods: [GET]
+  defaults:
+    _controller: sylius.controller.order:summaryAction
+    _sylius:
+      template: "@SyliusShop/Cart/Summary/_items.html.twig"
+      form: Sylius\Bundle\OrderBundle\Form\Type\CartType
+
+bitbag_sylius_multi_cart_plugin_show_carts_button:
+  path: /carts/button
+  methods: [GET]
+  defaults:
+    _controller: bitbag_sylius_multi_cart_plugin.controller.show_carts
+    template: '@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_button.html.twig'
+
+bitbag_sylius_multi_cart_plugin_shop_cart_total:
+  path: /cart-total
+  methods: [GET]
+  defaults:
+    _controller: sylius.controller.order:summaryAction
+    _sylius:
+      template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_total.html.twig"
+
+bitbag_sylius_multi_cart_plugin_shop_cart_item:
+  path: /cart-item
+  methods: [GET]
+  defaults:
+    _controller: sylius.controller.order:summaryAction
+    _sylius:
+      template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_item.html.twig"
+      form: Sylius\Bundle\OrderBundle\Form\Type\CartType

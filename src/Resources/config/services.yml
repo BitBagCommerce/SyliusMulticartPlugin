@@ -1,0 +1,80 @@
+imports:
+    - { resource: "services/decorator.yml" }
+    - { resource: "services/controller.yml" }
+    - { resource: "services/factory.yml" }
+
+services:
+    BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverter:
+        alias: 'bitbag_sylius_multi_cart_plugin.converter.money_converter'
+
+    bitbag_sylius_multi_cart_plugin.converter.money_converter:
+        class: BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverter
+        arguments:
+            - '@sylius.context.shopper'
+            - '@sylius.currency_converter'
+            - '@sylius.money_formatter'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatter:
+        alias: 'bitbag_sylius_multi_cart_plugin.formatter.money_formatter'
+
+    bitbag_sylius_multi_cart_plugin.formatter.money_formatter:
+        class: BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatter
+        arguments:
+            - '@sylius.money_formatter'
+            - '@sylius.context.shopper'
+            - '@bitbag_sylius_multi_cart_plugin.converter.money_converter'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreator:
+        alias: 'bitbag_sylius_multi_cart_plugin.creator.default_customer_cart_creator'
+
+    bitbag_sylius_multi_cart_plugin.creator.default_customer_cart_creator:
+        class: BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreator
+        arguments:
+            - '@sylius.context.cart.new_shop_based'
+            - '@doctrine.orm.entity_manager'
+            - '@sylius.context.customer'
+            - '@sylius.repository.order'
+            - '@sylius.context.shopper'
+            - '@translator'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Remover\CartRemover:
+        alias: 'bitbag_sylius_multi_cart_plugin.remover.cart_remover'
+
+    bitbag_sylius_multi_cart_plugin.remover.cart_remover:
+        class: BitBag\SyliusMultiCartPlugin\Remover\CartRemover
+        arguments:
+            - '@sylius.context.channel'
+            - '@sylius.context.customer'
+            - '@sylius.repository.order'
+            - '@doctrine.orm.entity_manager'
+            - '@translator'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Switcher\CartSwitcher:
+        alias: 'bitbag_sylius_multi_cart_plugin.switcher.cart_switcher'
+
+    bitbag_sylius_multi_cart_plugin.switcher.cart_switcher:
+        class: BitBag\SyliusMultiCartPlugin\Switcher\CartSwitcher
+        arguments:
+            - '@sylius.context.customer'
+            - '@doctrine.orm.entity_manager'
+            - '@translator'
+        tags:
+            - { name: 'controller.service_arguments' }
+
+    BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizer:
+        alias: 'bitbag_sylius_multi_cart_plugin.customizer.cart_customizer'
+
+    bitbag_sylius_multi_cart_plugin.customizer.cart_customizer:
+        class: BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizer
+        arguments:
+            - '@sylius.repository.order'
+        tags:
+            - { name: 'controller.service_arguments' }
