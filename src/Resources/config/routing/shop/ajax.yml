@@ -1,6 +1,6 @@
 bitbag_sylius_multi_cart_plugin_new_cart:
     path: /cart/new
-    methods: [POST]
+    methods: [GET, POST]
     defaults:
         _controller: bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart
 
