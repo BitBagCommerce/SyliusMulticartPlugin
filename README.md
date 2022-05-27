@@ -76,8 +76,6 @@ $ bin/console assets:install public -e test
 $ bin/console doctrine:database:create -e test
 $ bin/console doctrine:schema:create -e test
 $ open http://localhost:8080
-$ vendor/bin/phpstan analyse -c phpstan.neon -l max src/
-$ vendor/bin/ecs check src
 $ vendor/bin/phpunit
 $ vendor/bin/behat
 ```
