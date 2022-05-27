@@ -1,5 +1,5 @@
 {
-    "name": "bitbag/sylius-multi-cart-plugin",
+    "name": "bitbag/multicart-plugin",
     "type": "sylius-plugin",
     "description": "BitBag multi cart plugin for sylius",
     "keywords": [
