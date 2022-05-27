@@ -6,7 +6,7 @@ bitbag_sylius_multi_cart_plugin_new_cart:
 
 bitbag_sylius_multi_cart_plugin_change_active_cart:
     path: /cart/change/{cartNumber}
-    methods: [POST]
+    methods: [GET, POST]
     defaults:
         _controller: bitbag_sylius_multi_cart_plugin.controller.ajax_change_active_cart
 
@@ -24,6 +24,6 @@ bitbag_sylius_multi_cart_plugin_ajax_get_active_cart:
 
 bitbag_sylius_multi_cart_plugin_delete_cart:
     path: /cart/delete/{cartNumber}
-    methods: [POST]
+    methods: [GET, POST]
     defaults:
         _controller: bitbag_sylius_multi_cart_plugin.controller.ajax_delete_cart
