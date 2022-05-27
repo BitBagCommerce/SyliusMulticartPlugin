@@ -64,6 +64,20 @@ Read more about  [BitBag Sylius Shipping Export Plugin](https://bitbag.io/bitbag
     # ...
       - { resource: "@BitBagSyliusMulticartPlugin/Resources/config/sylius_config.yaml" }
     ```
+ 4. Import routing in your `config/routes.yaml` file:
+
+```yaml
+# config/routes.yaml
+
+bitbag_sylius_wishlist_plugin:
+    resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing.yml"
+```
+
+5. Update your database
+
+```bash
+$ bin/console doctrine:migrations:migrate
+```
 
 ## Testing
 ```bash
