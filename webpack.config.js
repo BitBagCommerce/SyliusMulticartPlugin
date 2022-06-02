@@ -1,6 +1,6 @@
 const path = require('path');
 const Encore = require('@symfony/webpack-encore');
-const pluginName = 'skeleton';
+const pluginName = 'multicart';
 
 const getConfig = (pluginName, type) => {
     Encore.reset();
@@ -24,7 +24,6 @@ Encore
     .setOutputPath(`src/Resources/public/`)
     .setPublicPath(`/public/`)
     .addEntry(`bitbag-${pluginName}-shop`, path.resolve(__dirname, `./src/Resources/assets/shop/entry.js`))
-    .addEntry(`bitbag-${pluginName}-admin`, path.resolve(__dirname, `./src/Resources/assets/admin/entry.js`))
     .cleanupOutputBeforeBuild()
     .disableSingleRuntimeChunk()
     .enableSassLoader();
@@ -35,6 +34,5 @@ distConfig.name = `bitbag-plugin-dist`;
 Encore.reset();
 
 const shopConfig = getConfig(pluginName, 'shop')
-const adminConfig = getConfig(pluginName, 'admin')
 
-module.exports = [shopConfig, adminConfig, distConfig];
+module.exports = [shopConfig, distConfig];
