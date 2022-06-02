@@ -62,7 +62,7 @@ Read more about  [BitBag Sylius Shipping Export Plugin](https://bitbag.io/bitbag
     
     imports:
     # ...
-      - { resource: "@BitBagSyliusMultiCartPlugin/Resources/config/config.yaml" }
+      - { resource: "@BitBagSyliusMultiCartPlugin/Resources/config/config.yml" }
     ```
  4. Import routing in your `config/routes.yaml` file:
 
