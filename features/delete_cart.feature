@@ -2,7 +2,7 @@
 Feature: Removing a cart
     In order to remove redundant cart
     As a logged in user
-    I want to be able to delete wishlist
+    I want to be able to delete cart
 
     Background:
         Given the store operates on a single channel in "United States"
