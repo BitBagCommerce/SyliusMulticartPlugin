@@ -12,11 +12,9 @@ namespace BitBag\SyliusMultiCartPlugin\Entity;
 
 use Sylius\Component\Order\Model\OrderItem as BaseOrderItem;
 
-class OrderItem extends BaseOrderItem
+class OrderItem extends BaseOrderItem implements OrderItemInterface
 {
-    private string $name;
-
-    private string $formattedUnitPrice;
+    use OrderItemTrait;
 
     public function __construct(
         int $id,
@@ -30,13 +28,5 @@ class OrderItem extends BaseOrderItem
         $this->name = $name;
         $this->formattedUnitPrice = $formattedUnitPrice;
     }
-    public function getName(): string
-    {
-        return $this->name;
-    }
 
-    public function getFormattedUnitPrice(): string
-    {
-        return $this->formattedUnitPrice;
-    }
 }
