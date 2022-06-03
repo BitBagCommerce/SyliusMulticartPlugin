@@ -8,15 +8,14 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMultiCartPlugin\Entity;
+namespace Tests\BitBag\SyliusMultiCartPlugin\Entity;
 
+use BitBag\SyliusMultiCartPlugin\Entity\OrderItemTrait;
 use Sylius\Component\Order\Model\OrderItem as BaseOrderItem;
 
 class OrderItem extends BaseOrderItem
 {
-    private string $name;
-
-    private string $formattedUnitPrice;
+    use OrderItemTrait;
 
     public function __construct(
         int $id,
@@ -29,14 +28,5 @@ class OrderItem extends BaseOrderItem
         $this->quantity = $quantity;
         $this->name = $name;
         $this->formattedUnitPrice = $formattedUnitPrice;
-    }
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getFormattedUnitPrice(): string
-    {
-        return $this->formattedUnitPrice;
     }
 }

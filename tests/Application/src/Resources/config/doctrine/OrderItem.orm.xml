@@ -5,7 +5,7 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\OrderItem" table="sylius_order_item">
+    <mapped-superclass name="Tests\BitBag\SyliusMultiCartPlugin\Entity\OrderItem" table="sylius_order_item">
 
         <field name="name" type="string" nullable="false" column="name"/>
         <field name="formattedUnitPrice" type="string" nullable="false" column="formatted_unit_price"/>

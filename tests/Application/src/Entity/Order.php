@@ -8,21 +8,13 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMultiCartPlugin\Entity;
+namespace Tests\BitBag\SyliusMultiCartPlugin\Entity;
 
+use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderTrait;
 use Sylius\Component\Core\Model\Order as BaseOrder;
 
 class Order extends BaseOrder implements OrderInterface
 {
-    protected ?int $cartNumber = 1;
-
-    public function getCartNumber(): ?int
-    {
-        return $this->cartNumber;
-    }
-
-    public function setCartNumber(?int $cartNumber): void
-    {
-        $this->cartNumber = $cartNumber;
-    }
+    use OrderTrait;
 }
