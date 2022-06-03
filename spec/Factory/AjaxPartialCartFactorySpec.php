@@ -17,12 +17,9 @@ use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Sylius\Component\Core\Model\OrderItemInterface as BaseOrderItemInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use Sylius\Component\Core\Model\OrderItemInterface;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
 
 final class AjaxPartialCartFactorySpec extends ObjectBehavior
 {

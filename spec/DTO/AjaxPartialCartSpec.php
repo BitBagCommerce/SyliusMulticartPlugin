@@ -11,8 +11,8 @@ declare(strict_types=1);
 namespace spec\BitBag\SyliusMultiCartPlugin\DTO;
 
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCart;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use PhpSpec\ObjectBehavior;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
 
 final class AjaxPartialCartSpec extends ObjectBehavior
 {

@@ -16,7 +16,7 @@ use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
 
 final class OrderItemFactorySpec extends ObjectBehavior
 {
