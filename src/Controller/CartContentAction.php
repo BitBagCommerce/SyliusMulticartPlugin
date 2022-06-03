@@ -43,7 +43,6 @@ final class CartContentAction
         $content = $this->prepareContentArray($templates, $cart);
 
         return new JsonResponse($content);
-
     }
 
     private function prepareContentArray(array $templates, OrderInterface $cart): array

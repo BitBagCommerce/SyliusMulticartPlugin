@@ -44,9 +44,10 @@ final class GetActiveCartAction
 
         $jsonString = $this->serializer->serialize($ajaxPartialCart, 'json');
 
-        if ($cart->countItems() === 0) {
+        if (0 === $cart->countItems()) {
             return new JsonResponse($jsonString, 204, [], true);
         }
+
         return new JsonResponse($jsonString, 200, [], true);
     }
 }

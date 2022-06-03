@@ -62,7 +62,7 @@ final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInte
 
         $carts = $this->orderRepository->countCarts($channel, $customer);
 
-        if ($carts === self::MAX_CART_COUNT) {
+        if (self::MAX_CART_COUNT === $carts) {
             throw new CartNotFoundException(
                 $this->translator->trans('bitbag_sylius_multicart_plugin.ui.max_cart_number_reached')
             );

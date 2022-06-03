@@ -28,5 +28,4 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         $this->name = $name;
         $this->formattedUnitPrice = $formattedUnitPrice;
     }
-
 }
