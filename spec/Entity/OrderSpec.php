@@ -12,7 +12,7 @@ namespace spec\BitBag\SyliusMultiCartPlugin\Entity;
 
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use PhpSpec\ObjectBehavior;
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Order;
+use Tests\BitBag\SyliusMultiCartPlugin\Entity\Order;
 
 final class OrderSpec extends ObjectBehavior
 {

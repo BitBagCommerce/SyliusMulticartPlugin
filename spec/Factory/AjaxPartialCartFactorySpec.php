@@ -19,7 +19,7 @@ use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderItemInterface;
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
+use Tests\BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 
 final class AjaxPartialCartFactorySpec extends ObjectBehavior
 {
