@@ -14,15 +14,5 @@ use Sylius\Component\Core\Model\Order as BaseOrder;
 
 class Order extends BaseOrder implements OrderInterface
 {
-    protected ?int $cartNumber = 1;
-
-    public function getCartNumber(): ?int
-    {
-        return $this->cartNumber;
-    }
-
-    public function setCartNumber(?int $cartNumber): void
-    {
-        $this->cartNumber = $cartNumber;
-    }
+    use OrderTrait;
 }
