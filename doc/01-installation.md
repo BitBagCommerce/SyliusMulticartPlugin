@@ -22,275 +22,273 @@
 4. Add traits to your Customer entity class, when You don't use annotation.
 
 ```php
-<?php
+    <?php
 
-declare(strict_types=1);
+    declare(strict_types=1);
 
-namespace App\Entity\Customer;
+    namespace App\Entity\Customer;
 
-use BitBag\SyliusMulticartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMulticartPlugin\Entity\CustomerTrait;
-use Sylius\Component\Core\Model\Customer as BaseCustomer;
+    use BitBag\SyliusMulticartPlugin\Entity\CustomerInterface;
+    use BitBag\SyliusMulticartPlugin\Entity\CustomerTrait;
+    use Sylius\Component\Core\Model\Customer as BaseCustomer;
 
-class Customer extends BaseCustomer implements CustomerInterface
-{
-    use CustomerTrait;
-}
+    class Customer extends BaseCustomer implements CustomerInterface
+    {
+        use CustomerTrait;
+    }
 ```
 
 Or this way if you use annotations:
 ```php
-<?php
+    <?php
 
-declare(strict_types=1);
+    declare(strict_types=1);
 
-namespace App\Entity\Customer;
+    namespace App\Entity\Customer;
 
-use Doctrine\ORM\Mapping as ORM;
-use BitBag\SyliusMulticartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMulticartPlugin\Entity\CustomerTrait;
-use Sylius\Component\Core\Model\Customer as BaseCustomer;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_customer")
- */
-class Customer extends BaseCustomer implements CustomerInterface
-{
-    use CustomerTrait;
+    use Doctrine\ORM\Mapping as ORM;
+    use BitBag\SyliusMulticartPlugin\Entity\CustomerInterface;
+    use BitBag\SyliusMulticartPlugin\Entity\CustomerTrait;
+    use Sylius\Component\Core\Model\Customer as BaseCustomer;
 
     /**
-     * @ORM\Column(type="integer", name="active_cart", nullable=true)
+     * @ORM\Entity
+     * @ORM\Table(name="sylius_customer")
      */
-    protected ?int $activeCart = 1;
-}
+    class Customer extends BaseCustomer implements CustomerInterface
+    {
+        use CustomerTrait;
+
+        /**
+         * @ORM\Column(type="integer", name="active_cart", nullable=true)
+         */
+        protected ?int $activeCart = 1;
+    }
 ````
 If you don't use annotations, define new Entity mapping inside your `src/Resources/config/doctrine` directory.
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
+    <?xml version="1.0" encoding="UTF-8"?>
 
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                          http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\Customer" table="sylius_customer">
+        <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\Customer" table="sylius_customer">
 
-        <field name="activeCart" type="integer" nullable="true" column="active_cart"/>
+            <field name="activeCart" type="integer" nullable="true" column="active_cart"/>
 
-    </mapped-superclass>
+        </mapped-superclass>
 
-</doctrine-mapping>
+    </doctrine-mapping>
 ```
 For an example, check [/vendor/bitbag/multicart-plugin/src/Resources/config/doctrine/Customer.orm.xml]() file.
 
 Override Customer resource:
 
 ```yaml
-# config/packages/_sylius.yaml
-...
+    # config/packages/_sylius.yaml
+    ...
 
-sylius_customer:
-    resources:
-        customer:
-            classes:
-                model: App\Entity\Customer\Customer
+    sylius_customer:
+        resources:
+            customer:
+                classes:
+                    model: App\Entity\Customer\Customer
 ```
 5. Add traits to your Order entity class, when You don't use annotation.
 
 ```php
-<?php
+    <?php
 
-declare(strict_types=1);
+    declare(strict_types=1);
 
-namespace App\Entity\Order;
+    namespace App\Entity\Order;
 
-use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderTrait;
-use Sylius\Component\Core\Model\Order as BaseOrder;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderTrait;
+    use Sylius\Component\Core\Model\Order as BaseOrder;
 
-use Sylius\Component\Core\Model\Order as BaseOrder;
+    use Sylius\Component\Core\Model\Order as BaseOrder;
 
-class Order extends BaseOrder implements OrderInterface
-{
-    use AbandonedEmailOrderTrait;
-}
+    class Order extends BaseOrder implements OrderInterface
+    {
+        use AbandonedEmailOrderTrait;
+    }
 ```
 Or this way if you use annotations:
 
 ```php
-<?php
+    <?php
 
-declare(strict_types=1);
+    declare(strict_types=1);
 
-namespace App\Entity\Order;
+    namespace App\Entity\Order;
 
-use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderTrait;
-use Doctrine\ORM\Mapping as ORM;
-use Sylius\Component\Core\Model\Order as BaseOrder;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_order")
- */
-class Order extends BaseOrder implements OrderInterface
-{
-    use OrderTrait;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderTrait;
+    use Doctrine\ORM\Mapping as ORM;
+    use Sylius\Component\Core\Model\Order as BaseOrder;
 
     /**
-     * @ORM\Column(type="integer", name="cart_number", nullable=true)
+     * @ORM\Entity
+     * @ORM\Table(name="sylius_order")
      */
-    protected ?int $cartNumber = 1;
-}
+    class Order extends BaseOrder implements OrderInterface
+    {
+        use OrderTrait;
+
+        /**
+         * @ORM\Column(type="integer", name="cart_number", nullable=true)
+         */
+        protected ?int $cartNumber = 1;
+    }
 ```
 
 
 If you don't use annotations, define new Entity mapping inside your src/Resources/config/doctrine directory.
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
+    <?xml version="1.0" encoding="UTF-8"?>
 
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                          http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\Order" table="sylius_order">
+        <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\Order" table="sylius_order">
 
-        <field name="cartNumber" type="integer" nullable="true" column="cart_number"/>
+            <field name="cartNumber" type="integer" nullable="true" column="cart_number"/>
 
-    </mapped-superclass>
+        </mapped-superclass>
 
-</doctrine-mapping>
+    </doctrine-mapping>
 
 ```
 Override Order resource:
 
 ```yaml
-# config/packages/_sylius.yaml
-...
+    # config/packages/_sylius.yaml
+    ...
 
-sylius_order:
-    resources:
-        order:
-            classes:
-                model: App\Entity\Order\Order
+    sylius_order:
+        resources:
+            order:
+                classes:
+                    model: App\Entity\Order\Order
 ```
 
 6. Add traits to your OrderItem entity class, when You don't use annotation.
 
 ```php
-<?php
+    <?php
 
-declare(strict_types=1);
+    declare(strict_types=1);
 
-namespace App\Entity\Order;
+    namespace App\Entity\Order;
 
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItemInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItemTrait;
-use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderItemInterface;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderItemTrait;
+    use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
 
-class OrderItem extends BaseOrderItem implements OrderItemInterface
-{
-    use OrderItemTrait;
+    class OrderItem extends BaseOrderItem implements OrderItemInterface
+    {
+        use OrderItemTrait;
 
-    public function __construct(
-        int $id,
-        string $name,
-        int $quantity,
-        string $formattedUnitPrice
-    ) {
-        parent::__construct();
-        $this->id = $id;
-        $this->quantity = $quantity;
-        $this->name = $name;
-        $this->formattedUnitPrice = $formattedUnitPrice;
-    }  
-}
+        public function __construct(
+            int $id,
+            string $name,
+            int $quantity,
+            string $formattedUnitPrice
+        ) {
+            parent::__construct();
+            $this->id = $id;
+            $this->quantity = $quantity;
+            $this->name = $name;
+            $this->formattedUnitPrice = $formattedUnitPrice;
+        }  
+    }
 
 
 ```
 Or this way if you use annotations:
 
 ```php
-<?php
+    <?php
 
-declare(strict_types=1);
+    declare(strict_types=1);
 
-namespace App\Entity\Order;
+    namespace App\Entity\Order;
 
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItemInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItemTrait;
-use Doctrine\ORM\Mapping as ORM;
-use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_order_item")
- */
-class OrderItem extends BaseOrderItem implements OrderItemInterface
-{
-    use OrderItemTrait;
-    
-    /**
-     * @ORM\Column(type="string", name="name")
-     */
-    private $name;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderItemInterface;
+    use BitBag\SyliusMultiCartPlugin\Entity\OrderItemTrait;
+    use Doctrine\ORM\Mapping as ORM;
+    use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
 
     /**
-     * @ORM\Column(type="string", name="formatted_unit_price")
+     * @ORM\Entity
+     * @ORM\Table(name="sylius_order_item")
      */
-    private string $formattedUnitPrice;
-    
-    public function __construct(
-        int $id,
-        string $name,
-        int $quantity,
-        string $formattedUnitPrice
-    ) {
-        parent::__construct();
-        $this->id = $id;
-        $this->quantity = $quantity;
-        $this->name = $name;
-        $this->formattedUnitPrice = $formattedUnitPrice;
+    class OrderItem extends BaseOrderItem implements OrderItemInterface
+    {
+        use OrderItemTrait;
+
+        /**
+         * @ORM\Column(type="string", name="name")
+         */
+        private $name;
+
+        /**
+         * @ORM\Column(type="string", name="formatted_unit_price")
+         */
+        private string $formattedUnitPrice;
+
+        public function __construct(
+            int $id,
+            string $name,
+            int $quantity,
+            string $formattedUnitPrice
+        ) {
+            parent::__construct();
+            $this->id = $id;
+            $this->quantity = $quantity;
+            $this->name = $name;
+            $this->formattedUnitPrice = $formattedUnitPrice;
+        }
     }
-}
-
-}
 ```
 
 If you don't use annotations, define new Entity mapping inside your src/Resources/config/doctrine directory.
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
+    <?xml version="1.0" encoding="UTF-8"?>
 
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                          http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\OrderItem" table="sylius_order_item">
+        <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\OrderItem" table="sylius_order_item">
 
-        <field name="name" type="string" nullable="false" column="name"/>
-        <field name="formattedUnitPrice" type="string" nullable="false" column="formatted_unit_price"/>
+            <field name="name" type="string" nullable="false" column="name"/>
+            <field name="formattedUnitPrice" type="string" nullable="false" column="formatted_unit_price"/>
 
-    </mapped-superclass>
+        </mapped-superclass>
 
-</doctrine-mapping>
+    </doctrine-mapping>
 
 ```
 Override OrderItem resource:
 
 ```yaml
-# config/packages/_sylius.yaml
-...
+    # config/packages/_sylius.yaml
+    ...
 
-sylius_order:
-    resources:
-        order_item:
-            classes:
-                model: App\Entity\Order\OrderItem
+    sylius_order:
+        resources:
+            order_item:
+                classes:
+                    model: App\Entity\Order\OrderItem
 ```
 
 
