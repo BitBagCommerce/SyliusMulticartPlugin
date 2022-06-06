@@ -17,7 +17,7 @@ Like what we do? Want to join us? Check out our job listings on our [career page
 
 * [Overview](#overview)
 * [Support](#we-are-here-to-help)
-* [Installation](#installation)
+* [Installation](./doc/01-installation.md)
     * [Testing](#testing)
 * [About us](#about-us)
     * [Community](#community)
@@ -36,48 +36,6 @@ This **open-source plugin was developed to help the Sylius community**. If you h
 [![](https://bitbag.io/wp-content/uploads/2020/10/button-contact.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_one_page_checkout)
 
 Read more about  [BitBag Sylius Shipping Export Plugin](https://bitbag.io/bitbag-shipping-export-plugin-simple-way-to-control-shipments-in-your-online-store/?utm_source=github&utm_medium=referral&utm_campaign=plugins_one_page_checkout)
-
-
-## Installation
-
-1. Require plugin with composer:
-
-    ```bash
-    composer require bitbag/multi-cart-plugin
-    ```
-
-2. Add plugin dependencies to your `config/bundles.php` file:
-
-    ```php
-        return [
-         ...
-            BitBag\SyliusMulticartPlugin\BitBagSyliusMulticartPlugin::class => ['all' => true],
-        ];
-    ```  
-
-3. Add an import to Sylius configuration:
-
-    ```yaml
-    # config/packages/_sylius.yaml
-    
-    imports:
-    # ...
-      - { resource: "@BitBagSyliusMultiCartPlugin/Resources/config/config.yml" }
-    ```
- 4. Import routing in your `config/routes.yaml` file:
-
-```yaml
-# config/routes.yaml
-
-bitbag_sylius_multicart_plugin:
-    resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing.yml"
-```
-
-5. Update your database
-
-```bash
-$ bin/console doctrine:migrations:migrate
-```
 
 ## Testing
 ```bash
