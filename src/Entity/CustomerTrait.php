@@ -10,9 +10,17 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Entity;
 
-use Sylius\Component\Core\Model\Order as BaseOrder;
-
-class Order extends BaseOrder implements OrderInterface
+trait CustomerTrait
 {
-    use OrderTrait;
+    protected ?int $activeCart = 1;
+
+    public function getActiveCart(): ?int
+    {
+        return $this->activeCart;
+    }
+
+    public function setActiveCart(?int $activeCart): void
+    {
+        $this->activeCart = $activeCart;
+    }
 }

@@ -30,7 +30,6 @@ final class NewCartAction
 
     public function __invoke(): Response
     {
-
         $this->cartCreator->createNewCart();
         $this->entityManager->flush();
 

@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Entity;
 
-use Sylius\Component\Core\Model\Order as BaseOrder;
-
-class Order extends BaseOrder implements OrderInterface
+interface OrderItemInterface
 {
-    use OrderTrait;
+    public function getName(): string;
+
+    public function getFormattedUnitPrice(): string;
 }

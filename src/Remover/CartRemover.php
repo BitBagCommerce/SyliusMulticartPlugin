@@ -89,5 +89,4 @@ class CartRemover implements CartRemoverInterface
             throw new UnableToDeleteCartException('bitbag_sylius_multicart_plugin.ui.cant_delete_active_cart');
         }
     }
-
 }
