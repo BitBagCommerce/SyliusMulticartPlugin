@@ -277,8 +277,9 @@ We recommend you to use Webpack (Encore), for which we have prepared four differ
 - [Your own custom config](./01.4-custom-solution.md)
   
 <small>
-   *Default option for plugin development
+   * Default option for plugin development
 </small>
    
+
 However, if you are not using Webpack, here are instructions on how to add optimized and compressed assets directly to your project templates:
 - [Non webpack solution](./01.5-non-webpack.md)
