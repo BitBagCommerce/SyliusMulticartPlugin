@@ -64,7 +64,9 @@
                     {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
 
-            <div id="summary-items" class="ui stackable grid" data-bb-mc-summary-items></div>
+            <div id="summary-items" class="ui stackable grid" data-bb-mc-summary-items>
+                <div class="multi-cart-banner-empty"><p>Your cart is empty</p></div>
+            </div>
             {{ sylius_template_event('sylius.shop.cart.suggestions', {'cart': cart}) }}
         {% endif %}
     {% endif %}
