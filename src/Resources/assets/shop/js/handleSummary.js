@@ -59,6 +59,7 @@ export class handleCartWidget {
 
             if (res.ok) {
                 this.config.update();
+                location.reload();
             } else {
                 throw new Error('Fetch failed');
             }
