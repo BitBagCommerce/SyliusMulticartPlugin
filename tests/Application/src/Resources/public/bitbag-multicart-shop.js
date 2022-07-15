@@ -185,6 +185,7 @@ class handleCartWidget {
   };
   changeActiveCart = async e => {
     const changeActiveCartUrl = e.currentTarget.getAttribute(this.config.cartChangeUrl);
+    const flashMessage = document.querySelector('.sylius-flash-message');
 
     try {
       const res = await fetch(changeActiveCartUrl, {
@@ -193,7 +194,7 @@ class handleCartWidget {
 
       if (res.ok) {
         this.config.update();
-        location.reload();
+        flashMessage.remove();
       } else {
         throw new Error('Fetch failed');
       }
