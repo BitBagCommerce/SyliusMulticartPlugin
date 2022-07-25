@@ -162,7 +162,8 @@ class handleCartWidget {
       cartsSummaryUrl: 'data-url-carts-summary',
       cartSummaryItemUrl: 'data-url-cart-item',
       cartSummaryTotalUrl: 'data-url-cart-total',
-      cartSummaryActiveUrl: 'data-url-carts-active-cart'
+      cartSummaryActiveUrl: 'data-url-carts-active-cart',
+      flashMessage: '[data-sylius-flash-message]'
     };
     this.config = { ...defaults,
       ...config
@@ -185,7 +186,7 @@ class handleCartWidget {
   };
   changeActiveCart = async e => {
     const changeActiveCartUrl = e.currentTarget.getAttribute(this.config.cartChangeUrl);
-    const flashMessage = document.querySelector('.sylius-flash-message');
+    const flashMessage = document.querySelector(this.config.flashMessage);
 
     try {
       const res = await fetch(changeActiveCartUrl, {
