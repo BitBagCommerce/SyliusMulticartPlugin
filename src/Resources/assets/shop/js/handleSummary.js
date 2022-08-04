@@ -16,6 +16,7 @@ export class handleCartWidget {
             cartSummaryItemUrl: 'data-url-cart-item',
             cartSummaryTotalUrl: 'data-url-cart-total',
             cartSummaryActiveUrl: 'data-url-carts-active-cart',
+            flashMessage: '[data-sylius-flash-message]',
         };
         this.config = { ...defaults, ...config };
     }
@@ -53,12 +54,14 @@ export class handleCartWidget {
         const changeActiveCartUrl = e.currentTarget.getAttribute(
             this.config.cartChangeUrl
         );
+        const flashMessage = document.querySelector(this.config.flashMessage)
 
         try {
             const res = await fetch(changeActiveCartUrl, { method: 'POST' });
 
             if (res.ok) {
                 this.config.update();
+                flashMessage.remove();
             } else {
                 throw new Error('Fetch failed');
             }
