@@ -40,7 +40,7 @@
         "symfony/intl": "^5.4 || ^6.0",
         "symfony/web-profiler-bundle": "^5.4 || ^6.0",
         "symfony/webpack-encore-bundle": "^1.13",
-        "vimeo/psalm": "4.7.1",
+        "vimeo/psalm": "4.12",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0"
     },
     "config": {
@@ -48,7 +48,7 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true,
-            "symfony/thanks": true
+            "symfony/thanks": false
         }
     },
     "extra": {
@@ -79,7 +79,6 @@
         ]
     },
     "conflict": {
-        "doctrine/dbal": "^3.0",
-        "symfony/password-hasher": "^6.0"
+        "doctrine/dbal": "^3.0"
     }
 }
