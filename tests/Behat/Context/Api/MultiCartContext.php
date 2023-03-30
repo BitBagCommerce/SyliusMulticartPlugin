@@ -19,7 +19,6 @@ use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\RequestStack;
 use FriendsOfBehat\PageObjectExtension\Page\Page;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository;
@@ -49,8 +48,6 @@ final class MultiCartContext extends RawMinkContext implements Context
 
     private TokenStorageInterface $tokenStorage;
 
-    private RequestStack $requestStack;
-
     private NewCartAction $newCartAction;
 
     private DeleteCartAction $deleteCartAction;
@@ -66,7 +63,6 @@ final class MultiCartContext extends RawMinkContext implements Context
         ChannelContextInterface $channelContext,
         CustomerContextInterface $customerContext,
         TokenStorageInterface $tokenStorage,
-        RequestStack $requestStack,
         NewCartAction $newCartAction,
         DeleteCartAction $deleteCartAction,
         ChangeActiveCartAction $changeActiveCartAction,
@@ -78,7 +74,6 @@ final class MultiCartContext extends RawMinkContext implements Context
         $this->channelContext = $channelContext;
         $this->customerContext = $customerContext;
         $this->tokenStorage = $tokenStorage;
-        $this->requestStack = $requestStack;
         $this->newCartAction = $newCartAction;
         $this->deleteCartAction = $deleteCartAction;
         $this->changeActiveCartAction = $changeActiveCartAction;

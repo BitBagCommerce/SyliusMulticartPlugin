@@ -20,7 +20,6 @@
             <argument type="service" id="sylius.context.channel" />
             <argument type="service" id="sylius.context.customer" />
             <argument type="service" id="security.token_storage" />
-            <argument type="service" id="request_stack" />
             <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_new_cart" />
             <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_delete_cart" />
             <argument type="service" id="bitbag_sylius_multi_cart_plugin.controller.ajax_change_active_cart" />
