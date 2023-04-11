@@ -20,7 +20,7 @@ sylius_shop_cart_items:
   path: /cart-items
   methods: [GET]
   defaults:
-    _controller: sylius.controller.order:summaryAction
+    _controller: sylius.controller.order::summaryAction
     _sylius:
       template: "@SyliusShop/Cart/Summary/_items.html.twig"
       form: Sylius\Bundle\OrderBundle\Form\Type\CartType
@@ -36,7 +36,7 @@ bitbag_sylius_multi_cart_plugin_shop_cart_total:
   path: /cart-total
   methods: [GET]
   defaults:
-    _controller: sylius.controller.order:summaryAction
+    _controller: sylius.controller.order::summaryAction
     _sylius:
       template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_total.html.twig"
 
@@ -44,7 +44,7 @@ bitbag_sylius_multi_cart_plugin_shop_cart_item:
   path: /cart-item
   methods: [GET]
   defaults:
-    _controller: sylius.controller.order:summaryAction
+    _controller: sylius.controller.order::summaryAction
     _sylius:
       template: "@BitBagSyliusMultiCartPlugin/Shop/Cart/Summary/_item.html.twig"
       form: Sylius\Bundle\OrderBundle\Form\Type\CartType

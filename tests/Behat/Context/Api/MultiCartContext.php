@@ -28,17 +28,13 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Webmozart\Assert\Assert;
 
 final class MultiCartContext extends RawMinkContext implements Context
 {
     protected static string $domain;
-
-    private HttpClientInterface $client;
 
     private RouterInterface $router;
 
@@ -52,8 +48,6 @@ final class MultiCartContext extends RawMinkContext implements Context
 
     private TokenStorageInterface $tokenStorage;
 
-    private SessionInterface $session;
-
     private NewCartAction $newCartAction;
 
     private DeleteCartAction $deleteCartAction;
@@ -63,27 +57,23 @@ final class MultiCartContext extends RawMinkContext implements Context
     private CartContextInterface $cartContext;
 
     public function __construct(
-        HttpClientInterface $client,
         RouterInterface $router,
         OrderRepositoryInterface $orderRepository,
         SharedStorageInterface $sharedStorage,
         ChannelContextInterface $channelContext,
         CustomerContextInterface $customerContext,
         TokenStorageInterface $tokenStorage,
-        SessionInterface $session,
         NewCartAction $newCartAction,
         DeleteCartAction $deleteCartAction,
         ChangeActiveCartAction $changeActiveCartAction,
         CartContextInterface $cartContext
     ) {
-        $this->client = $client;
         $this->router = $router;
         $this->orderRepository = $orderRepository;
         $this->sharedStorage = $sharedStorage;
         $this->channelContext = $channelContext;
         $this->customerContext = $customerContext;
         $this->tokenStorage = $tokenStorage;
-        $this->session = $session;
         $this->newCartAction = $newCartAction;
         $this->deleteCartAction = $deleteCartAction;
         $this->changeActiveCartAction = $changeActiveCartAction;
