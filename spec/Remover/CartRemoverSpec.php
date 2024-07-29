@@ -17,12 +17,10 @@ use BitBag\SyliusMultiCartPlugin\Remover\CartRemover;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartRemoverSpec extends ObjectBehavior
