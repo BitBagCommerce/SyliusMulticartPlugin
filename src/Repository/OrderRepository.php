@@ -15,6 +15,7 @@ use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
+/** @phpstan-ignore-next-line - extends generic class */
 class OrderRepository extends BaseOrderRepository implements OrderRepositoryInterface
 {
     public function findCarts(ChannelInterface $channel, ?CustomerInterface $customer): array

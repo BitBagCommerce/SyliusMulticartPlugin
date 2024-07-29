@@ -13,6 +13,7 @@ namespace BitBag\SyliusMultiCartPlugin\MoneyConverter;
 use Sylius\Component\Core\Context\ShopperContext;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;
+use Sylius\Component\Currency\Model\CurrencyInterface;
 
 class MoneyConverter implements MoneyConverterInterface
 {
@@ -32,7 +33,10 @@ class MoneyConverter implements MoneyConverterInterface
     {
         /** @var ChannelInterface $channel */
         $channel = $this->shopperContext->getChannel();
-        $baseCurrency = $channel->getBaseCurrency()->getCode();
+        /** @var CurrencyInterface $currency */
+        $currency = $channel->getBaseCurrency();
+        /** @var string $baseCurrency */
+        $baseCurrency = $currency->getCode();
         $currencyCode = $this->shopperContext->getCurrencyCode();
 
         return $this->currencyConverter->convert(

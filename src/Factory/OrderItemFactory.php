@@ -25,10 +25,17 @@ class OrderItemFactory implements OrderItemFactoryInterface
 
     public function fromOrderItem(OrderItemInterface $orderItem): OrderItem
     {
+        /** @var int $id */
+        $id = $orderItem->getId();
+        /** @var string $productName */
+        $productName = $orderItem->getProductName();
+        /** @var int $quantity */
+        $quantity = $orderItem->getQuantity();
+
         return new OrderItem(
-            $orderItem->getId(),
-            $orderItem->getProductName(),
-            $orderItem->getQuantity(),
+            $id,
+            $productName,
+            $quantity,
             $this->convertAndFormatMoneyHelper->formatMoney($orderItem->getUnitPrice()),
         );
     }
