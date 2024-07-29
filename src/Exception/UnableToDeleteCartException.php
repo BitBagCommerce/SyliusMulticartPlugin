@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMulticartPlugin\Exception;
+namespace BitBag\SyliusMultiCartPlugin\Exception;
 
 final class UnableToDeleteCartException extends \Exception
 {

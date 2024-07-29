@@ -12,7 +12,7 @@ namespace BitBag\SyliusMultiCartPlugin\Remover;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMulticartPlugin\Exception\UnableToDeleteCartException;
+use BitBag\SyliusMultiCartPlugin\Exception\UnableToDeleteCartException;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
