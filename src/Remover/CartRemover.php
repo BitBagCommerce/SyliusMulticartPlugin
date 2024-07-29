@@ -37,7 +37,7 @@ class CartRemover implements CartRemoverInterface
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
         EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         $this->channelContext = $channelContext;
         $this->customerContext = $customerContext;
@@ -78,7 +78,7 @@ class CartRemover implements CartRemoverInterface
     {
         if (null === $customer) {
             throw new CartNotFoundException(
-                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user')
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user'),
             );
         }
     }

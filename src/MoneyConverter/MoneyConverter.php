@@ -22,7 +22,7 @@ class MoneyConverter implements MoneyConverterInterface
 
     public function __construct(
         ShopperContext $shopperContext,
-        CurrencyConverterInterface $currencyConverter
+        CurrencyConverterInterface $currencyConverter,
     ) {
         $this->shopperContext = $shopperContext;
         $this->currencyConverter = $currencyConverter;
@@ -38,7 +38,7 @@ class MoneyConverter implements MoneyConverterInterface
         return $this->currencyConverter->convert(
             $amount,
             $baseCurrency,
-            $currencyCode
+            $currencyCode,
         );
     }
 }

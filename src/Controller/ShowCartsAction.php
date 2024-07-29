@@ -32,7 +32,7 @@ final class ShowCartsAction
         CustomerContextInterface $customerContext,
         ChannelContextInterface $channelContext,
         OrderRepositoryInterface $orderRepository,
-        Environment $twig
+        Environment $twig,
     ) {
         $this->customerContext = $customerContext;
         $this->channelContext = $channelContext;
@@ -57,7 +57,7 @@ final class ShowCartsAction
                 'customer' => $customer,
                 'carts' => $carts,
                 'counted' => $counted,
-            ]
+            ],
         );
 
         return new Response($content);

@@ -36,7 +36,7 @@ final class ShopBasedMultiCartContext implements CartContextInterface
     public function __construct(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
-        CartCustomizerInterface $cartCustomizer
+        CartCustomizerInterface $cartCustomizer,
     ) {
         $this->cartContext = $cartContext;
         $this->shopperContext = $shopperContext;

@@ -30,7 +30,7 @@ class AjaxPartialCart
         string $formattedItemsTotal,
         ?string $currency,
         array $items,
-        int $itemsCount
+        int $itemsCount,
     ) {
         $this->cartNumber = $cartNumber;
         $this->formattedItemsTotal = $formattedItemsTotal;

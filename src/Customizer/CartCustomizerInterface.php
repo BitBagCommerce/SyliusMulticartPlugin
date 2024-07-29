@@ -21,6 +21,6 @@ interface CartCustomizerInterface
     public function increaseCartNumberOnCart(
         ChannelInterface $channel,
         CustomerInterface $customer,
-        OrderInterface $cart
+        OrderInterface $cart,
     ): void;
 }

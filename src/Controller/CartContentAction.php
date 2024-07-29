@@ -62,7 +62,7 @@ final class CartContentAction
             $template,
             [
                 'cart' => $cart,
-            ]
+            ],
         );
     }
 }

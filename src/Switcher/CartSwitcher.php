@@ -27,7 +27,7 @@ class CartSwitcher implements CartSwitcherInterface
     public function __construct(
         CustomerContextInterface $customerContext,
         EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         $this->customerContext = $customerContext;
         $this->entityManager = $entityManager;
@@ -40,7 +40,7 @@ class CartSwitcher implements CartSwitcherInterface
         $customer = $this->customerContext->getCustomer();
         if (null === $customer) {
             throw new CartNotFoundException(
-                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user')
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user'),
             );
         }
 

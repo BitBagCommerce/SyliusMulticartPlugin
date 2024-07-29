@@ -28,7 +28,7 @@ final class GetActiveCartAction
     public function __construct(
         CartContextInterface $cartContext,
         SerializerInterface $serializer,
-        AjaxPartialCartFactoryInterface $ajaxPartialCartFactory
+        AjaxPartialCartFactoryInterface $ajaxPartialCartFactory,
     ) {
         $this->cartContext = $cartContext;
         $this->serializer = $serializer;

@@ -22,7 +22,7 @@ interface OrderRepositoryInterface extends BaseOrderRepositoryInterface
     public function findCartsGraterOrEqualNumber(
         ChannelInterface $channel,
         CustomerInterface $customer,
-        int $cartNumber
+        int $cartNumber,
     ): array;
 
     public function findBiggestCartNumber(ChannelInterface $channel, CustomerInterface $customer): int;

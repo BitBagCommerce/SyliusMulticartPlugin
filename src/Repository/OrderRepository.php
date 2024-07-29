@@ -29,13 +29,13 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
             ->addOrderBy('o.cartNumber', 'DESC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     public function findCartsGraterOrEqualNumber(
         ChannelInterface $channel,
         CustomerInterface $customer,
-        int $cartNumber
+        int $cartNumber,
     ): array {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
@@ -49,12 +49,12 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
             ->addOrderBy('o.cartNumber', 'ASC')
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 
     public function findBiggestCartNumber(
         ChannelInterface $channel,
-        CustomerInterface $customer
+        CustomerInterface $customer,
     ): int {
         return (int) $this->createQueryBuilder('o')
             ->select('MAX(o.cartNumber)')
@@ -67,7 +67,7 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
             ->addOrderBy('o.createdAt', 'DESC')
             ->getQuery()
             ->getSingleScalarResult()
-            ;
+        ;
     }
 
     public function countCarts(ChannelInterface $channel, ?CustomerInterface $customer): int
@@ -83,12 +83,12 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
             ->addOrderBy('o.createdAt', 'DESC')
             ->getQuery()
             ->getSingleScalarResult()
-            ;
+        ;
     }
 
     public function findLatestNotEmptyActiveCart(
         ChannelInterface $channel,
-        CustomerInterface $customer
+        CustomerInterface $customer,
     ): ?OrderInterface {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
@@ -103,6 +103,6 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 }
