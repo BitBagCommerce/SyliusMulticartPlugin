@@ -17,6 +17,7 @@ Like what we do? Want to join us? Check out our job listings on our [career page
 
 * [Overview](#overview)
 * [Support](#we-are-here-to-help)
+* [Functionalities](#functionalities)
 * [Installation](./doc/01-installation.md)
     * [Testing](#testing)
 * [About us](#about-us)
@@ -36,6 +37,11 @@ This **open-source plugin was developed to help the Sylius community**. If you h
 [![](https://bitbag.io/wp-content/uploads/2020/10/button-contact.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_one_page_checkout)
 
 Read more about  [BitBag Sylius Shipping Export Plugin](https://bitbag.io/bitbag-shipping-export-plugin-simple-way-to-control-shipments-in-your-online-store/?utm_source=github&utm_medium=referral&utm_campaign=plugins_one_page_checkout)
+
+# Functionalities
+
+All main functionalities of the plugin are described [here.](https://github.com/BitBagCommerce/SyliusMulticartPlugin/blob/main/doc/functionalities.md)
+
 
 ## Testing
 ```bash
