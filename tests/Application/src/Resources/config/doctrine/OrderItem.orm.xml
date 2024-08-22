@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-
-    <mapped-superclass name="BitBag\SyliusMultiCartPlugin\Entity\OrderItem" table="sylius_order_item">
-
+                                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <mapped-superclass name="Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem" table="sylius_order_item">
         <field name="name" type="string" nullable="false" column="name"/>
-        <field name="formattedUnitPrice" type="string" nullable="false" column="formatted_unit_price"/>
-
+        <field name="formattedUnitPrice" type="string" nullable="false" column="formatted_unit_price" />
     </mapped-superclass>
-
 </doctrine-mapping>

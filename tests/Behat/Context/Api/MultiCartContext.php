@@ -16,7 +16,6 @@ use BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\NewCartAction;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
@@ -24,6 +23,7 @@ use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepositoryInterface;
 use Webmozart\Assert\Assert;
 
 final class MultiCartContext extends RawMinkContext implements Context

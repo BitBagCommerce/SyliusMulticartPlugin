@@ -8,21 +8,19 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMultiCartPlugin\Entity;
+namespace BitBag\SyliusMultiCartPlugin\Model;
 
-trait OrderItemTrait
+trait CustomerTrait
 {
-    private string $name;
+    protected ?int $activeCart = 1;
 
-    private string $formattedUnitPrice;
-
-    public function getName(): string
+    public function getActiveCart(): ?int
     {
-        return $this->name;
+        return $this->activeCart;
     }
 
-    public function getFormattedUnitPrice(): string
+    public function setActiveCart(?int $activeCart): void
     {
-        return $this->formattedUnitPrice;
+        $this->activeCart = $activeCart;
     }
 }

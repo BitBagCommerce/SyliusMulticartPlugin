@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
 
 class OrderItemFactory implements OrderItemFactoryInterface
 {

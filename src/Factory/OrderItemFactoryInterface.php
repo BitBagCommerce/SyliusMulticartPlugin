@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use Sylius\Component\Core\Model\OrderItemInterface;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
 
 interface OrderItemFactoryInterface
 {

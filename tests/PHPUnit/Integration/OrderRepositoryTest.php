@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusMultiCartPlugin\PHPUnit\Integration;
 
-use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepositoryInterface;
 
 class OrderRepositoryTest extends IntegrationTestCase
 {

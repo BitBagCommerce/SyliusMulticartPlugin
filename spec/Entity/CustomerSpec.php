@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusMultiCartPlugin\Entity;
 
-use BitBag\SyliusMultiCartPlugin\Entity\Customer;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use PhpSpec\ObjectBehavior;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Customer;
 
 final class CustomerSpec extends ObjectBehavior
 {

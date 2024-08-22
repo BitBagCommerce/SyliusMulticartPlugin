@@ -15,3 +15,19 @@ parameters:
 sylius_shop:
     product_grid:
         include_all_descendants: true
+        
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Order
+                repository: Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepository
+        order_item:
+            classes:
+                model: Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem
+
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                model: Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Customer

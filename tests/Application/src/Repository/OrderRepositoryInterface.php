@@ -8,7 +8,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusMultiCartPlugin\Repository;
+namespace Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;

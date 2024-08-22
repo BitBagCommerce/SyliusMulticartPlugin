@@ -13,7 +13,6 @@ namespace spec\BitBag\SyliusMultiCartPlugin\Cart\Context;
 use BitBag\SyliusMultiCartPlugin\Cart\Context\CustomerAndChannelBasedMultiCartContext;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
@@ -22,6 +21,7 @@ use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepositoryInterface;
 
 final class CustomerAndChannelBasedMultiCartContextSpec extends ObjectBehavior
 {

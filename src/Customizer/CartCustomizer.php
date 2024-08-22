@@ -12,8 +12,8 @@ namespace BitBag\SyliusMultiCartPlugin\Customizer;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepositoryInterface;
 
 final class CartCustomizer implements CartCustomizerInterface
 {
