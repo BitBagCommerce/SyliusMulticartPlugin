@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\DTO;
 
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
+use Sylius\Component\Core\Model\OrderItem;
 
 class AjaxPartialCart
 {

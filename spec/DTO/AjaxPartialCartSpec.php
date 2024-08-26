@@ -12,7 +12,7 @@ namespace spec\BitBag\SyliusMultiCartPlugin\DTO;
 
 use BitBag\SyliusMultiCartPlugin\DTO\AjaxPartialCart;
 use PhpSpec\ObjectBehavior;
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
+use Sylius\Component\Core\Model\OrderItem;
 
 final class AjaxPartialCartSpec extends ObjectBehavior
 {

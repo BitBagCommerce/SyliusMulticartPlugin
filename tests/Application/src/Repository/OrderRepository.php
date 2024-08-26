@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository as BaseOrderRepository;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;

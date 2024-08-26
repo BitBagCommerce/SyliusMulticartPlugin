@@ -22,9 +22,6 @@ sylius_order:
             classes:
                 model: Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Order
                 repository: Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepository
-        order_item:
-            classes:
-                model: Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem
 
 sylius_customer:
     resources:

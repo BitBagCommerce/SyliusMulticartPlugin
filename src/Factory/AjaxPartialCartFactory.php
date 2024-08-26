@@ -24,7 +24,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 
     public function __construct(
         MoneyFormatterInterface $moneyFormatter,
-        OrderItemFactoryInterface $ajaxPartialCartItemFactory,
+        OrderItemFactoryInterface $ajaxPartialCartItemFactory
     ) {
         $this->moneyFormatter = $moneyFormatter;
         $this->ajaxPartialCartItemFactory = $ajaxPartialCartItemFactory;
@@ -43,9 +43,9 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
         );
     }
 
-    /** @phpstan-ignore-next-line - extends generic interface */
     private function createCartItems(Collection $orderItems): Collection
     {
+        /** @var Collection $cartItems */
         $cartItems = new ArrayCollection();
         foreach ($orderItems as $orderItem) {
             $orderItems = $this->ajaxPartialCartItemFactory->fromOrderItem($orderItem);

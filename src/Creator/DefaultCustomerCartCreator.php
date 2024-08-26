@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusMultiCartPlugin\Creator;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -18,7 +19,6 @@ use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepositoryInterface;
 
 final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInterface
 {
