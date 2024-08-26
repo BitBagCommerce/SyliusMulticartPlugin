@@ -16,10 +16,10 @@ use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactory;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
+use BitBag\SyliusMultiCartPlugin\View\OrderItemView;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderItemInterface;
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
 
 final class AjaxPartialCartFactorySpec extends ObjectBehavior
 {
@@ -48,7 +48,7 @@ final class AjaxPartialCartFactorySpec extends ObjectBehavior
         OrderItemInterface $orderItem,
         MoneyFormatterInterface $convertAndFormatMoneyHelper,
         OrderItemFactoryInterface $ajaxPartialCartItemFactory,
-        OrderItem $multicartOrderItem
+        OrderItemView $multicartOrderItem
     ): void {
         $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
 

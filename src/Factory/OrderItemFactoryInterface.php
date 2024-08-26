@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
+use BitBag\SyliusMultiCartPlugin\View\OrderItemView;
 use Sylius\Component\Core\Model\OrderItemInterface;
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\OrderItem;
 
 interface OrderItemFactoryInterface
 {
-    public function fromOrderItem(OrderItemInterface $orderItem): OrderItem;
+    public function fromOrderItem(OrderItemInterface $orderItem): OrderItemView;
 }

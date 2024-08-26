@@ -8,13 +8,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity;
+namespace BitBag\SyliusMultiCartPlugin\View;
 
 use BitBag\SyliusMultiCartPlugin\Entity\OrderItemInterface;
 use BitBag\SyliusMultiCartPlugin\Model\OrderItemTrait;
 use Sylius\Component\Order\Model\OrderItem as BaseOrderItem;
 
-class OrderItem extends BaseOrderItem implements OrderItemInterface
+class OrderItemView extends BaseOrderItem implements OrderItemInterface
 {
     use OrderItemTrait;
 
@@ -22,7 +22,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
         int $id,
         string $name,
         int $quantity,
-        string $formattedUnitPrice
+        string $formattedUnitPrice,
     ) {
         parent::__construct();
         $this->id = $id;
