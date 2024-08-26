@@ -30,7 +30,7 @@ Sylius\Component\Locale\Model\Locale:
   locale_de_de:
     code: "de_DE"
 
-BitBag\SyliusMultiCartPlugin\Entity\Customer:
+Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Customer:
   customer_1:
     firstName: "Bruce"
     lastName: "Wayne"
@@ -44,7 +44,7 @@ BitBag\SyliusMultiCartPlugin\Entity\Customer:
     emailCanonical: "cat@woman-DC.com"
     activeCart: "1"
 
-BitBag\SyliusMultiCartPlugin\Entity\Order:
+Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Order:
   order_1:
     customer: "@customer_1"
     currency_code: "EUR"
