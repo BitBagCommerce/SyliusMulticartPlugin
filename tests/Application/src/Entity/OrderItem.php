@@ -26,8 +26,8 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
     ) {
         parent::__construct();
         $this->id = $id;
-        $this->quantity = $quantity;
         $this->name = $name;
+        $this->quantity = $quantity;
         $this->formattedUnitPrice = $formattedUnitPrice;
     }
 }

@@ -26,6 +26,7 @@ class OrderItemFactory implements OrderItemFactoryInterface
     public function fromOrderItem(OrderItemInterface $orderItem): OrderItem
     {
         $id = $orderItem->getId();
+        /** @var string $productName */
         $productName = $orderItem->getProductName();
         $quantity = $orderItem->getQuantity();
 
