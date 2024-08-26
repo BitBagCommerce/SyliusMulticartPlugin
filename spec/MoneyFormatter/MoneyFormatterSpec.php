@@ -15,9 +15,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use Sylius\Component\Core\Context\ShopperContext;
-use Sylius\Component\Core\Model\ChannelInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverterInterface;
-use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface as BaseMoneyFormatterInterface;
 
 final class MoneyFormatterSpec extends ObjectBehavior

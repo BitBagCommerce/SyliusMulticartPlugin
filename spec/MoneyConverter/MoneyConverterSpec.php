@@ -12,11 +12,8 @@ namespace spec\BitBag\SyliusMultiCartPlugin\MoneyConverter;
 
 use BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverter;
 use BitBag\SyliusMultiCartPlugin\MoneyConverter\MoneyConverterInterface;
-use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatter;
-use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Sylius\Bundle\MoneyBundle\Formatter\MoneyFormatterInterface as BaseMoneyFormatterInterface;
 use Sylius\Component\Core\Context\ShopperContext;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Converter\CurrencyConverterInterface;

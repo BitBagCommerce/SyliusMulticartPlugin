@@ -14,6 +14,7 @@ use BitBag\SyliusMultiCartPlugin\Cart\Context\ShopBasedMultiCartContext;
 use BitBag\SyliusMultiCartPlugin\Customizer\CartCustomizerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
@@ -23,7 +24,6 @@ use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
-use Tests\BitBag\SyliusMultiCartPlugin\Application\src\Repository\OrderRepositoryInterface;
 
 final class ShopBasedMultiCartContextSpec extends ObjectBehavior
 {
