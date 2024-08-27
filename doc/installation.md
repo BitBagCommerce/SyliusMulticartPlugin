@@ -1,46 +1,82 @@
-# BitBag SyliusMulticartPlugin
-## Installation
-1. *We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.*
-2. Require plugin with composer:
-    ```bash
-    composer require bitbag/multicart-plugin --no-scripts
-    ```
-3. Add plugin dependencies to your `config/bundles.php` file:
-    ```php
-        return [
-         ...
-   
-            BitBag\SyliusMulticartPlugin\BitBagSyliusMulticartPlugin::class => ['all' => true],
-        ];
-    ```  
-4. Import required config in your `config/packages/_sylius.yaml` file:
-    ```yaml
-   # config/packages/_sylius.yaml
-        ...
-   
-        - { resource: "@BitBagSyliusMultiCartPlugin/Resources/config/config.yml" }
-    ```
+# Installation
 
+## Overview:
+GENERAL
+- [Requirements](#requirements)
+- [Composer](#composer)
+- [Basic configuration](#basic-configuration)
+--- 
+BACKEND
+- [Entities](#entities)
+    - [Attribute mapping](#attribute-mapping)
+    - [XML mapping](#xml-mapping)
+- [Repositories](#repositories)
+---
+FRONTEND
+- [Templates](#templates)
+- [Webpack](#webpack)
+---
+ADDITIONAL
+- [Known Issues](#known-issues)
+---
 
-5. Import routing in your `config/routes.yaml` file:
+## Requirements:
+We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
 
-    ```yaml
-    # config/routes.yaml
+| Package       | Version         |
+|---------------|-----------------|
+| PHP           | \>=8.0          |
+| sylius/sylius | 1.12.x - 1.13.x |
+| MySQL         | \>= 5.7         |
+| NodeJS        | \>= 18.x        |
+
+## Composer:
+```bash
+composer require bitbag/multicart-plugin --no-scripts
+```
+
+## Basic configuration:
+Add plugin dependencies to your `config/bundles.php` file:
+
+```php
+# config/bundles.php
+
+return [
     ...
-   
-    bitbag_sylius_multi_cart:
-        resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing.yml"
-    ```
+    BitBag\SyliusMulticartPlugin\BitBagSyliusMulticartPlugin::class => ['all' => true],
+];
+```
 
-6. Depending on whether you use doctrine attributes or xml mapping:
+Import required config in your `config/packages/_sylius.yaml` file:
 
-   - [ATTRIBUTES](01_attribute_mapping.md)
-   - [XML](01_xml_mapping.md)
+```yaml
+# config/packages/_sylius.yaml
 
+imports:
+    ...
+    - { resource: "@BitBagSyliusMultiCartPlugin/Resources/config/config.yml" }
+```
 
-7. Add OrderRepository:
+Add routing to your `config/routes.yaml` file:
+```yaml
+# config/routes.yaml
+
+bitbag_sylius_multi_cart:
+    resource: "@BitBagSyliusMultiCartPlugin/Resources/config/routing.yml"
+```
+
+## Entities
+You can implement entity configuration by using both xml-mapping and attribute-mapping. Depending on your preference, choose either one or the other:
+### Attribute mapping
+- [Attribute mapping configuration](installation/attribute-mapping.md)
+### XML mapping
+- [XML mapping configuration](installation/xml-mapping.md)
+
+## Repositories
+Add repository with following trait:
 ```php
 <?php
+// src/Repository/OrderRepository.php
 
 declare(strict_types=1);
 
@@ -145,14 +181,41 @@ class OrderRepository extends BaseOrderRepository implements OrderRepositoryInte
 }
 ```
 
-8. Update your database
-    ```bash
-    $ bin/console cache:clear
-    $ bin/console doctrine:migrations:diff
-    $ bin/console doctrine:migrations:migrate
-    ```
+Override `config/packages/_sylius.yaml` configuration:
+```yaml
+# config/packages/_sylius.yaml
 
-9. Copy templates files from:
+sylius_order:
+    resources:
+        order:
+            classes:
+                ...
+                repository: App\Repository\OrderRepository
+```
+
+### Update your database
+First, please run legacy-versioned migrations by using command:
+```bash
+bin/console doctrine:migrations:migrate
+```
+
+After migration, please create a new diff migration and update database:
+```bash
+bin/console doctrine:migrations:diff
+bin/console doctrine:migrations:migrate
+```
+**Note:** If you are running it on production, add the `-e prod` flag to this command.
+
+### Clear application cache by using command:
+```bash
+bin/console cache:clear
+```
+**Note:** If you are running it on production, add the `-e prod` flag to this command.
+
+## Templates
+Copy required templates into correct directories in your project.
+
+**ShopBundle** (`templates/bundles/SyliusShopBundle`):
 ```
 vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/summary.html.twig
 
@@ -166,38 +229,61 @@ vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBun
 vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Widget/_popup_items.html.twig
 ```
 
-to:
+## Webpack
+### Webpack.config.js
+
+Please setup your `webpack.config.js` file to require the plugin's webpack configuration. To do so, please put the line below somewhere on top of your webpack.config.js file:
+```js
+const [bitbagMulticartShop] = require('./vendor/bitbag/multicart-plugin/webpack.config')
 ```
-templates/bundles/SyliusShopBundle/Cart/summary.html.twig
-
-templates/bundles/SyliusShopBundle/Cart/Summary/_header.html.twig
-templates/bundles/SyliusShopBundle/Cart/Summary/_items.html.twig
-templates/bundles/SyliusShopBundle/Cart/Summary/_totals.html.twig
-
-templates/bundles/SyliusShopBundle/Cart/Widget/_button.html.twig
-templates/bundles/SyliusShopBundle/Cart/Widget/_popup.html.twig
-templates/bundles/SyliusShopBundle/Cart/Widget/_popup_carts.html.twig
-templates/bundles/SyliusShopBundle/Cart/Widget/_popup_items.html.twig
-```   
-
-or by Unix commands:
+As next step, please add the imported consts into final module exports:
+```js
+module.exports = [..., bitbagMulticartShop];
 ```
-mkdir -p templates/bundles/SyliusShopBundle/Cart
-mkdir -p templates/bundles/SyliusShopBundle/Cart/Summary
-mkdir -p templates/bundles/SyliusShopBundle/Cart/Widget
 
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/summary.html.twig templates/bundles/SyliusShopBundle/Cart/summary.html.twig
+### Assets
+Add the asset configuration into `config/packages/assets.yaml`:
+```yaml
+framework:
+    assets:
+        packages:
+            ...
+            multicart_shop:
+                json_manifest_path: '%kernel.project_dir%/public/build/bitbag/multicart/shop/manifest.json'
+```
 
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Summary/_header.html.twig templates/bundles/SyliusShopBundle/Cart/Summary/_header.html.twig
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Summary/_items.html.twig templates/bundles/SyliusShopBundle/Cart/Summary/_items.html.twig
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Summary/_totals.html.twig templates/bundles/SyliusShopBundle/Cart/Summary/_totals.html.twig
+### Webpack Encore
+Add the webpack configuration into `config/packages/webpack_encore.yaml`:
 
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Widget/_button.html.twig templates/bundles/SyliusShopBundle/Cart/Widget/_button.html.twig
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Widget/_popup.html.twig templates/bundles/SyliusShopBundle/Cart/Widget/_popup.html.twig
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Widget/_popup_carts.html.twig templates/bundles/SyliusShopBundle/Cart/Widget/_popup_carts.html.twig
-cp vendor/bitbag/multicart-plugin/tests/Application/templates/bundles/SyliusShopBundle/Cart/Widget/_popup_items.html.twig templates/bundles/SyliusShopBundle/Cart/Widget/_popup_items.html.twig
-```  
+```yaml
+webpack_encore:
+    output_path: '%kernel.project_dir%/public/build/default'
+    builds:
+        ...
+        multicart_shop: '%kernel.project_dir%/public/build/bitbag/multicart/shop'
+```
 
-10. Add plugin assets to your project
-- [Import webpack config](./01.1-webpack-config.md)
+### Encore functions
+Add encore functions to your templates:
 
+SyliusShopBundle:
+```php
+{# @SyliusShopBundle/_scripts.html.twig #}
+{{ encore_entry_script_tags('bitbag-multicart-shop', null, 'multicart_shop') }}
+
+{# @SyliusShopBundle/_styles.html.twig #}
+{{ encore_entry_link_tags('bitbag-multicart-shop', null, 'multicart_shop') }}
+```
+
+### Run commands
+```bash
+yarn install
+yarn encore dev # or prod, depends on your environment
+```
+
+## Known issues
+### Translations not displaying correctly
+For incorrectly displayed translations, execute the command:
+```bash
+bin/console cache:clear
+```

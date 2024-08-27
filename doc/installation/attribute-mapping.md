@@ -1,8 +1,7 @@
-## Attribute-mapping entities extension
+# Attribute-mapping
 
-### Configuration
-Remember to mark it appropriately in the config/doctrine.yaml configuration file.
-```
+Check the mapping settings in `config/packages/doctrine.yaml` and, if necessary, change them accordingly.
+```yaml
 doctrine:
     ...
     orm:
@@ -11,14 +10,15 @@ doctrine:
             App:
                 ...
                 type: attribute
-                ...
 ```
 
-### Extending entities:
-#### Extending Customer entity:
+Extend entities with parameters and methods using attributes and traits:
+
+- `Customer` entity:
 
 ```php
 <?php
+// src/Entity/Customer/Customer.php
 
 declare(strict_types=1);
 
@@ -45,10 +45,11 @@ class Customer extends BaseCustomer implements CustomerInterface
 }
 ```
 
+- `Order` entity:
 
-#### Extending Order entity:
 ```php
 <?php
+// src/Entity/Order/Order.php
 
 declare(strict_types=1);
 
@@ -74,14 +75,3 @@ class Order extends BaseOrder implements OrderInterface
     }
 }
 ```
-
-config/packages/_sylius.yaml (add only the repository)
-
-````yaml
-sylius_order:
-    resources:
-        order:
-            classes:
-                model: App\Entity\Order\Order
-                repository: App\Repository\OrderRepository
-````

@@ -1,8 +1,7 @@
-## XML-mapping entities extension 
+# XML-mapping
 
-### Configuration
-Remember to mark it appropriately in the config/doctrine.yaml configuration file.
-```
+Check the mapping settings in `config/packages/doctrine.yaml` and, if necessary, change them accordingly.
+```yaml
 doctrine:
     ...
     orm:
@@ -14,11 +13,13 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Resources/config/doctrine'
 ```
 
-### Extending entities:
-#### Extending Customer entity:
+Extend entities with parameters and methods using attributes and traits:
+
+- `Customer` entity:
 
 ```php
 <?php
+// src/Entity/Customer.php
 
 declare(strict_types=1);
 
@@ -34,10 +35,11 @@ class Customer extends BaseCustomer implements CustomerInterface
 }
 ```
 
+- `Order` entity:
 
-#### Extending Order entity:
 ```php
 <?php
+// src/Entity/Order.php
 
 declare(strict_types=1);
 
@@ -53,9 +55,11 @@ class Order extends BaseOrder implements OrderInterface
 }
 ```
 
-#### Define new Entity mapping inside your  `src/Resources/config/doctrine` directory.
+Define new Entity mapping inside `src/Resources/config/doctrine` directory.
 
-- CUSTOMER
+- `Customer` entity:
+
+`src/Resources/config/doctrine/Customer.orm.xml`
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -69,7 +73,10 @@ class Order extends BaseOrder implements OrderInterface
 </doctrine-mapping>
 ```
 
-- ORDER
+- `Order` entity:
+
+`src/Resources/config/doctrine/Order.orm.xml`
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
@@ -82,18 +89,19 @@ class Order extends BaseOrder implements OrderInterface
 </doctrine-mapping>
 ```
 
-````yaml
+Override `config/packages/_sylius.yaml` configuration:
+```yaml
+# config/_sylius.yaml
+
 sylius_order:
     resources:
         order:
             classes:
                 model: App\Entity\Order
-                repository: App\Repository\OrderRepository
 
 sylius_customer:
     resources:
         customer:
             classes:
                 model: App\Entity\Customer
-
-````
+```
