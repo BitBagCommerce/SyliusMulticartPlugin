@@ -17,7 +17,7 @@ Like what we do? Want to join us? Check out our job listings on our [career page
 
 * [Overview](#overview)
 * [Support](#we-are-here-to-help)
-* [Installation](./doc/01-installation.md)
+* [Installation](./doc/installation.md)
     * [Testing](#testing)
 * [About us](#about-us)
     * [Community](#community)
