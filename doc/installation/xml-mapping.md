@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerTrait;
+use BitBag\SyliusMultiCartPlugin\Model\CustomerTrait;
 use Sylius\Component\Core\Model\Customer as BaseCustomer;
 
 class Customer extends BaseCustomer implements CustomerInterface
@@ -46,7 +46,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderTrait;
+use BitBag\SyliusMultiCartPlugin\Model\OrderTrait;
 use Sylius\Component\Core\Model\Order as BaseOrder;
 
 class Order extends BaseOrder implements OrderInterface
@@ -83,7 +83,7 @@ Define new Entity mapping inside `src/Resources/config/doctrine` directory.
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <mapped-superclass name="Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Order" table="sylius_order">
+    <mapped-superclass name="App\Entity\Order" table="sylius_order">
         <field name="cartNumber" type="integer" nullable="true" column="cart_number" />
     </mapped-superclass>
 </doctrine-mapping>

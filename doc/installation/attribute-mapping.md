@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace App\Entity\Customer;
 
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerTrait;
+use BitBag\SyliusMultiCartPlugin\Model\CustomerTrait;
 use Sylius\Component\Core\Model\Customer as BaseCustomer;
 
 class Customer extends BaseCustomer implements CustomerInterface
@@ -48,7 +48,7 @@ declare(strict_types=1);
 namespace App\Entity\Order;
 
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderTrait;
+use BitBag\SyliusMultiCartPlugin\Model\OrderTrait;
 use Sylius\Component\Core\Model\Order as BaseOrder;
 
 class Order extends BaseOrder implements OrderInterface
