@@ -43,7 +43,7 @@ Add plugin dependencies to your `config/bundles.php` file:
 
 return [
     ...
-    BitBag\SyliusMulticartPlugin\BitBagSyliusMulticartPlugin::class => ['all' => true],
+    BitBag\SyliusMultiCartPlugin\BitBagSyliusMultiCartPlugin::class => ['all' => true],
 ];
 ```
 

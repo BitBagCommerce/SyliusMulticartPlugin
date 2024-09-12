@@ -30,18 +30,10 @@ use Sylius\Component\Core\Model\Customer as BaseCustomer;
 
 class Customer extends BaseCustomer implements CustomerInterface
 {
+    use CustomerTrait;
+
     #[ORM\Column(name: "active_cart", type: "integer", nullable: true)]
     protected ?int $activeCart = 1;
-
-    public function getActiveCart(): ?int
-    {
-        return $this->activeCart;
-    }
-
-    public function setActiveCart(?int $activeCart): void
-    {
-        $this->activeCart = $activeCart;
-    }
 }
 ```
 
@@ -61,17 +53,9 @@ use Sylius\Component\Core\Model\Order as BaseOrder;
 
 class Order extends BaseOrder implements OrderInterface
 {
+    use OrderTrait;
+
     #[ORM\Column(name: "cart_number", type: "integer", nullable: true)]
     protected ?int $cartNumber = 1;
-    
-    public function getCartNumber(): ?int
-    {
-        return $this->cartNumber;
-    }
-
-    public function setCartNumber(?int $cartNumber): void
-    {
-        $this->cartNumber = $cartNumber;
-    }
 }
 ```
