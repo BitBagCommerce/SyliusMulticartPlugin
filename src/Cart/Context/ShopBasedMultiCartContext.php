@@ -17,6 +17,7 @@ use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Context\ShopperContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Currency\Context\CurrencyNotFoundException;
+use Sylius\Component\Currency\Model\CurrencyInterface;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -36,7 +37,7 @@ final class ShopBasedMultiCartContext implements CartContextInterface
     public function __construct(
         CartContextInterface $cartContext,
         ShopperContextInterface $shopperContext,
-        CartCustomizerInterface $cartCustomizer
+        CartCustomizerInterface $cartCustomizer,
     ) {
         $this->cartContext = $cartContext;
         $this->shopperContext = $shopperContext;
@@ -50,7 +51,7 @@ final class ShopBasedMultiCartContext implements CartContextInterface
         }
 
         $cart = $this->cartContext->getCart();
-        /** @var OrderInterface $cart */
+        /** @var OrderInterface|null $cart */
         Assert::isInstanceOf($cart, OrderInterface::class);
 
         try {
@@ -58,7 +59,9 @@ final class ShopBasedMultiCartContext implements CartContextInterface
             $channel = $this->shopperContext->getChannel();
 
             $cart->setChannel($channel);
-            $cart->setCurrencyCode($channel->getBaseCurrency()->getCode());
+            /** @var CurrencyInterface $currency */
+            $currency = $channel->getBaseCurrency();
+            $cart->setCurrencyCode($currency->getCode());
             $cart->setLocaleCode($this->shopperContext->getLocaleCode());
         } catch (ChannelNotFoundException | CurrencyNotFoundException | LocaleNotFoundException $exception) {
             throw new CartNotFoundException('Sylius was not able to prepare the cart.', $exception);

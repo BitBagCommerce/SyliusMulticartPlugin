@@ -15,6 +15,7 @@ use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface as BaseOrderRepositoryInterface;
 
+/** @phpstan-ignore-next-line - extends generic interface */
 interface OrderRepositoryInterface extends BaseOrderRepositoryInterface
 {
     public function findCarts(ChannelInterface $channel, ?CustomerInterface $customer): array;
@@ -22,7 +23,7 @@ interface OrderRepositoryInterface extends BaseOrderRepositoryInterface
     public function findCartsGraterOrEqualNumber(
         ChannelInterface $channel,
         CustomerInterface $customer,
-        int $cartNumber
+        int $cartNumber,
     ): array;
 
     public function findBiggestCartNumber(ChannelInterface $channel, CustomerInterface $customer): int;

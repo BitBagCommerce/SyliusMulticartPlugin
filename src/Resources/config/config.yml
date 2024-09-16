@@ -1,3 +1,2 @@
 imports:
   - { resource: "@BitBagSyliusMultiCartPlugin/Resources/config/services.yml" }
-  - { resource: "@BitBagSyliusMultiCartPlugin/Resources/config/resources.yml" }

@@ -64,7 +64,7 @@ This plugin allows users to create multiple carts for their own use.
 
 # Installation
 ---
-The SyliusMulticartPlugin installation process can be found **[here](./doc/01-installation.md).**
+The SyliusMulticartPlugin installation process can be found **[here](./doc/installation.md).**
 
 # Testing
 ---

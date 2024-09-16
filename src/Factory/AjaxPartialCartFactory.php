@@ -24,7 +24,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
 
     public function __construct(
         MoneyFormatterInterface $moneyFormatter,
-        OrderItemFactoryInterface $ajaxPartialCartItemFactory
+        OrderItemFactoryInterface $ajaxPartialCartItemFactory,
     ) {
         $this->moneyFormatter = $moneyFormatter;
         $this->ajaxPartialCartItemFactory = $ajaxPartialCartItemFactory;
@@ -39,7 +39,7 @@ class AjaxPartialCartFactory implements AjaxPartialCartFactoryInterface
             $this->moneyFormatter->formatMoney($order->getItemsTotal()),
             $order->getCurrencyCode(),
             $this->createCartItems($orderItems)->toArray(),
-            $orderItems->count()
+            $orderItems->count(),
         );
     }
 

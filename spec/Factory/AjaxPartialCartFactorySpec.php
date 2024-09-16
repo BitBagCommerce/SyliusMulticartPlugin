@@ -16,12 +16,9 @@ use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactory;
 use BitBag\SyliusMultiCartPlugin\Factory\AjaxPartialCartFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
+use BitBag\SyliusMultiCartPlugin\View\OrderItemView;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use Sylius\Component\Core\Model\OrderItemInterface as BaseOrderItemInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
 final class AjaxPartialCartFactorySpec extends ObjectBehavior
@@ -51,7 +48,7 @@ final class AjaxPartialCartFactorySpec extends ObjectBehavior
         OrderItemInterface $orderItem,
         MoneyFormatterInterface $convertAndFormatMoneyHelper,
         OrderItemFactoryInterface $ajaxPartialCartItemFactory,
-        OrderItem $multicartOrderItem
+        OrderItemView $multicartOrderItem
     ): void {
         $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
 

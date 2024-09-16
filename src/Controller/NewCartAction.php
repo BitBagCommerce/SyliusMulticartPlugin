@@ -22,7 +22,7 @@ final class NewCartAction
 
     public function __construct(
         DefaultCustomerCartCreatorInterface $cartCreator,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
     ) {
         $this->cartCreator = $cartCreator;
         $this->entityManager = $entityManager;

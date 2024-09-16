@@ -18,7 +18,7 @@ final class ChangeActiveCartAction
     private CartSwitcherInterface $switcher;
 
     public function __construct(
-        CartSwitcherInterface $switcher
+        CartSwitcherInterface $switcher,
     ) {
         $this->switcher = $switcher;
     }

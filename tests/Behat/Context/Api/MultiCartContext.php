@@ -16,15 +16,9 @@ use BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\NewCartAction;
 use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use FriendsOfBehat\PageObjectExtension\Page\Page;
 use Sylius\Behat\Service\SharedStorageInterface;
-use Sylius\Bundle\CoreBundle\Doctrine\ORM\OrderRepository;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Sylius\Component\Core\Model\OrderItemInterface;
-use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
@@ -66,7 +60,7 @@ final class MultiCartContext extends RawMinkContext implements Context
         NewCartAction $newCartAction,
         DeleteCartAction $deleteCartAction,
         ChangeActiveCartAction $changeActiveCartAction,
-        CartContextInterface $cartContext
+        CartContextInterface $cartContext,
     ) {
         $this->router = $router;
         $this->orderRepository = $orderRepository;
@@ -127,7 +121,7 @@ final class MultiCartContext extends RawMinkContext implements Context
 
         if ($cartNumber !== $customer->getActiveCart()) {
             throw new \Exception(
-                sprintf('Current active cart number is not %s', $cartNumber)
+                sprintf('Current active cart number is not %s', $cartNumber),
             );
         }
     }
@@ -146,7 +140,7 @@ final class MultiCartContext extends RawMinkContext implements Context
 
         if ($number !== $countCarts) {
             throw new \Exception(
-                sprintf('Number of carts is not equal %s', $number)
+                sprintf('Number of carts is not equal %s', $number),
             );
         }
     }
@@ -171,7 +165,6 @@ final class MultiCartContext extends RawMinkContext implements Context
 
         $allCarts = $this->orderRepository->findCarts($channel, $customer);
 
-
         $allCartsItemsNumber = [];
 
         foreach ($allCarts as $specificCart) {
@@ -179,7 +172,6 @@ final class MultiCartContext extends RawMinkContext implements Context
             $cartItems = $specificCart->countItems();
 
             $allCartsItemsNumber[] = $cartItems;
-
         }
 
         Assert::eq(array_sum($allCartsItemsNumber), $number);

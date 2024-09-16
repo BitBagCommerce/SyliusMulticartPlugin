@@ -42,7 +42,7 @@ final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInte
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
         ChannelContextInterface $channelContext,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         $this->shopBasedMultiCartContext = $shopBasedMultiCartContext;
         $this->entityManager = $entityManager;
@@ -64,7 +64,7 @@ final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInte
 
         if (self::MAX_CART_COUNT === $carts) {
             throw new CartNotFoundException(
-                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.max_cart_number_reached')
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.max_cart_number_reached'),
             );
         }
 

@@ -18,7 +18,7 @@ final class DeleteCartAction
     private CartRemoverInterface $remover;
 
     public function __construct(
-        CartRemoverInterface $remover
+        CartRemoverInterface $remover,
     ) {
         $this->remover = $remover;
     }

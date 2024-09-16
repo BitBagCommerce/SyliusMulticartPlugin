@@ -16,6 +16,7 @@ use BitBag\SyliusMultiCartPlugin\Exception\UnableToDeleteCartException;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -37,7 +38,7 @@ class CartRemover implements CartRemoverInterface
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
         EntityManagerInterface $entityManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         $this->channelContext = $channelContext;
         $this->customerContext = $customerContext;
@@ -48,11 +49,12 @@ class CartRemover implements CartRemoverInterface
 
     public function removeCart(int $cartNumber): void
     {
-        /** @var CustomerInterface|null $customer */
+        /** @var CustomerInterface $customer */
         $customer = $this->customerContext->getCustomer();
         $this->validateCustomerIsNotNull($customer);
         $this->validateRemovableCart($cartNumber, $customer);
 
+        /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
 
         $carts = $this->orderRepository->findCartsGraterOrEqualNumber(
@@ -74,16 +76,16 @@ class CartRemover implements CartRemoverInterface
         $this->entityManager->flush();
     }
 
-    private function validateCustomerIsNotNull($customer): void
+    private function validateCustomerIsNotNull(?CustomerInterface $customer): void
     {
         if (null === $customer) {
             throw new CartNotFoundException(
-                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user')
+                $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user'),
             );
         }
     }
 
-    private function validateRemovableCart(int $cartNumber, $customer): void
+    private function validateRemovableCart(int $cartNumber, CustomerInterface $customer): void
     {
         if ($cartNumber === $customer->getActiveCart()) {
             throw new UnableToDeleteCartException('bitbag_sylius_multicart_plugin.ui.cant_delete_active_cart');

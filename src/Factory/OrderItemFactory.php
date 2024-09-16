@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Factory;
 
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
+use BitBag\SyliusMultiCartPlugin\View\OrderItemView;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
 class OrderItemFactory implements OrderItemFactoryInterface
@@ -23,11 +23,14 @@ class OrderItemFactory implements OrderItemFactoryInterface
         $this->convertAndFormatMoneyHelper = $convertAndFormatMoneyHelper;
     }
 
-    public function fromOrderItem(OrderItemInterface $orderItem): OrderItem
+    public function fromOrderItem(OrderItemInterface $orderItem): OrderItemView
     {
-        return new OrderItem(
+        /** @var string $productName */
+        $productName = $orderItem->getProductName();
+
+        return new OrderItemView(
             $orderItem->getId(),
-            $orderItem->getProductName(),
+            $productName,
             $orderItem->getQuantity(),
             $this->convertAndFormatMoneyHelper->formatMoney($orderItem->getUnitPrice()),
         );

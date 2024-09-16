@@ -25,7 +25,7 @@ class MoneyFormatter implements MoneyFormatterInterface
     public function __construct(
         BaseMoneyFormatterInterface $moneyFormatter,
         ShopperContext $shopperContext,
-        MoneyConverterInterface $currencyConverter
+        MoneyConverterInterface $currencyConverter,
     ) {
         $this->moneyFormatter = $moneyFormatter;
         $this->shopperContext = $shopperContext;
@@ -39,7 +39,7 @@ class MoneyFormatter implements MoneyFormatterInterface
 
         return $this->moneyFormatter->format(
             $convertedAmount,
-            $currencyCode
+            $currencyCode,
         );
     }
 }

@@ -13,10 +13,10 @@ namespace spec\BitBag\SyliusMultiCartPlugin\Factory;
 use BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactory;
 use BitBag\SyliusMultiCartPlugin\Factory\OrderItemFactoryInterface;
 use BitBag\SyliusMultiCartPlugin\MoneyFormatter\MoneyFormatterInterface;
+use BitBag\SyliusMultiCartPlugin\View\OrderItemView;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
-use BitBag\SyliusMultiCartPlugin\Entity\OrderItem;
 
 final class OrderItemFactorySpec extends ObjectBehavior
 {
@@ -49,6 +49,6 @@ final class OrderItemFactorySpec extends ObjectBehavior
 
         $convertAndFormatMoneyHelper->formatMoney(Argument::type('integer'))->willReturn('converted_string');
 
-        $this->fromOrderItem($orderItem)->shouldHaveType(OrderItem::class);
+        $this->fromOrderItem($orderItem)->shouldHaveType(OrderItemView::class);
     }
 }
