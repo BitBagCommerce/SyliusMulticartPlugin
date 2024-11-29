@@ -14,29 +14,6 @@ doctrine:
 
 Extend entities with parameters and methods using attributes and traits:
 
-- `Customer` entity:
-
-```php
-<?php
-// src/Entity/Customer/Customer.php
-
-declare(strict_types=1);
-
-namespace App\Entity\Customer;
-
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Model\CustomerTrait;
-use Sylius\Component\Core\Model\Customer as BaseCustomer;
-
-class Customer extends BaseCustomer implements CustomerInterface
-{
-    use CustomerTrait;
-
-    #[ORM\Column(name: "active_cart", type: "integer", nullable: true)]
-    protected ?int $activeCart = 1;
-}
-```
-
 - `Order` entity:
 
 ```php

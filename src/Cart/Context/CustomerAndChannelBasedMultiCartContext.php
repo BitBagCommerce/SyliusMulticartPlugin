@@ -10,11 +10,12 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Cart\Context;
 
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Context\CookieContextInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -23,24 +24,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class CustomerAndChannelBasedMultiCartContext implements CartContextInterface
 {
-    private CustomerContextInterface $customerContext;
-
-    private ChannelContextInterface $channelContext;
-
-    private OrderRepositoryInterface $orderRepository;
-
-    private TranslatorInterface $translator;
-
     public function __construct(
-        CustomerContextInterface $customerContext,
-        ChannelContextInterface $channelContext,
-        OrderRepositoryInterface $orderRepository,
-        TranslatorInterface $translator,
+        private readonly CustomerContextInterface $customerContext,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly CookieContextInterface $cookieContext,
+        private readonly TranslatorInterface $translator,
+        private readonly bool $allowMulticartForAnonymous,
     ) {
-        $this->customerContext = $customerContext;
-        $this->channelContext = $channelContext;
-        $this->orderRepository = $orderRepository;
-        $this->translator = $translator;
     }
 
     public function getCart(): OrderInterface
@@ -56,13 +47,21 @@ final class CustomerAndChannelBasedMultiCartContext implements CartContextInterf
 
         /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
-        if (null === $customer) {
+
+        if (null === $customer && false === $this->allowMulticartForAnonymous) {
             throw new CartNotFoundException(
                 $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user'),
             );
         }
 
-        $cart = $this->orderRepository->findLatestNotEmptyActiveCart($channel, $customer);
+        /** @var string|null $machineId */
+        $machineId = null;
+
+        if ((null === $customer && true === $this->allowMulticartForAnonymous)) {
+            $machineId = $this->cookieContext->getMachineId();
+        }
+
+        $cart = $this->orderRepository->findLatestNotEmptyActiveCart($channel, $customer, $machineId);
         if (null === $cart) {
             throw new CartNotFoundException(
                 $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_for_currently_logged_in_user'),

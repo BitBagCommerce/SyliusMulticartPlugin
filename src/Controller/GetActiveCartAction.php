@@ -19,20 +19,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class GetActiveCartAction
 {
-    private CartContextInterface $cartContext;
-
-    private SerializerInterface $serializer;
-
-    private AjaxPartialCartFactoryInterface $ajaxPartialCartFactory;
-
     public function __construct(
-        CartContextInterface $cartContext,
-        SerializerInterface $serializer,
-        AjaxPartialCartFactoryInterface $ajaxPartialCartFactory,
+        private readonly CartContextInterface $cartContext,
+        private readonly SerializerInterface $serializer,
+        private readonly AjaxPartialCartFactoryInterface $ajaxPartialCartFactory,
     ) {
-        $this->cartContext = $cartContext;
-        $this->serializer = $serializer;
-        $this->ajaxPartialCartFactory = $ajaxPartialCartFactory;
     }
 
     public function __invoke(): Response

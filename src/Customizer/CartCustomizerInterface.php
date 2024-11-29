@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Customizer;
 
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 
 interface CartCustomizerInterface
 {
@@ -20,7 +20,8 @@ interface CartCustomizerInterface
 
     public function increaseCartNumberOnCart(
         ChannelInterface $channel,
-        CustomerInterface $customer,
+        ?CustomerInterface $customer,
         OrderInterface $cart,
+        ?string $machineId,
     ): void;
 }

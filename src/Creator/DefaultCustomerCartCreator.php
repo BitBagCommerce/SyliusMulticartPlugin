@@ -10,11 +10,12 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Creator;
 
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Context\CookieContextInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -22,34 +23,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInterface
 {
-    private CartContextInterface $shopBasedMultiCartContext;
-
-    private EntityManagerInterface $entityManager;
-
-    private CustomerContextInterface $customerContext;
-
-    private OrderRepositoryInterface $orderRepository;
-
-    private ChannelContextInterface $channelContext;
-
-    private TranslatorInterface $translator;
-
-    private const MAX_CART_COUNT = 8;
+    private const int MAX_CART_COUNT = 8;
 
     public function __construct(
-        CartContextInterface $shopBasedMultiCartContext,
-        EntityManagerInterface $entityManager,
-        CustomerContextInterface $customerContext,
-        OrderRepositoryInterface $orderRepository,
-        ChannelContextInterface $channelContext,
-        TranslatorInterface $translator,
+        private readonly CartContextInterface $shopBasedMultiCartContext,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly CustomerContextInterface $customerContext,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly CookieContextInterface $cookieContext,
+        private readonly TranslatorInterface $translator,
+        private readonly bool $allowMulticartForAnonymous,
     ) {
-        $this->shopBasedMultiCartContext = $shopBasedMultiCartContext;
-        $this->entityManager = $entityManager;
-        $this->customerContext = $customerContext;
-        $this->orderRepository = $orderRepository;
-        $this->channelContext = $channelContext;
-        $this->translator = $translator;
     }
 
     public function createNewCart(): void
@@ -57,10 +42,17 @@ final class DefaultCustomerCartCreator implements DefaultCustomerCartCreatorInte
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
 
-        /** @var CustomerInterface $customer */
+        /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
 
-        $carts = $this->orderRepository->countCarts($channel, $customer);
+        /** @var string|null $machineId */
+        $machineId = null;
+
+        if ((null === $customer && true === $this->allowMulticartForAnonymous)) {
+            $machineId = $this->cookieContext->getMachineId();
+        }
+
+        $carts = $this->orderRepository->countCarts($channel, $customer, $machineId);
 
         if (self::MAX_CART_COUNT === $carts) {
             throw new CartNotFoundException(

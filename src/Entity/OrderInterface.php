@@ -17,4 +17,12 @@ interface OrderInterface extends BaseOrderInterface
     public function getCartNumber(): ?int;
 
     public function setCartNumber(?int $cartNumber): void;
+
+    public function getMachineId(): ?string;
+
+    public function setMachineId(?string $machineId): void;
+
+    public function isActive(): ?bool;
+
+    public function setIsActive(?bool $isActive): void;
 }

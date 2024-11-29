@@ -1,6 +1,6 @@
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
-{% if sylius.customer is not null %}
+{% if sylius.customer is not null or allow_multicart_for_anonymous %}
     <div class="column">
         {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_widget')) }}
     </div>

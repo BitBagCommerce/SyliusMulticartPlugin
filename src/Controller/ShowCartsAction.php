@@ -10,46 +10,44 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Controller;
 
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Context\CookieContextInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
 final class ShowCartsAction
 {
-    private CustomerContextInterface $customerContext;
-
-    private ChannelContextInterface $channelContext;
-
-    private OrderRepositoryInterface $orderRepository;
-
-    private Environment $twig;
-
     public function __construct(
-        CustomerContextInterface $customerContext,
-        ChannelContextInterface $channelContext,
-        OrderRepositoryInterface $orderRepository,
-        Environment $twig,
+        private readonly CustomerContextInterface $customerContext,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly CookieContextInterface $cookieContext,
+        private readonly Environment $twig,
+        private readonly bool $allowMulticartForAnonymous,
     ) {
-        $this->customerContext = $customerContext;
-        $this->channelContext = $channelContext;
-        $this->orderRepository = $orderRepository;
-        $this->twig = $twig;
     }
 
     public function __invoke(string $template): Response
     {
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
-        /** @var CustomerInterface $customer */
+        /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
 
-        $carts = $this->orderRepository->findCarts($channel, $customer);
+        /** @var string|null $machineId */
+        $machineId = null;
 
-        $counted = $this->orderRepository->countCarts($channel, $customer);
+        if (null === $customer && true === $this->allowMulticartForAnonymous) {
+            $machineId = $this->cookieContext->getMachineId();
+        }
+
+        $carts = $this->orderRepository->findCarts($channel, $customer, $machineId);
+
+        $counted = $this->orderRepository->countCarts($channel, $customer, $machineId);
 
         $content = $this->twig->render(
             $template,
@@ -57,6 +55,7 @@ final class ShowCartsAction
                 'customer' => $customer,
                 'carts' => $carts,
                 'counted' => $counted,
+                'machineId' => $machineId,
             ],
         );
 

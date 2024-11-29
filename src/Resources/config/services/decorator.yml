@@ -5,7 +5,9 @@ services:
             - '@sylius.context.customer'
             - '@sylius.context.channel'
             - '@sylius.repository.order'
+            - '@bitbag_sylius_multi_cart_plugin.context.cookie'
             - '@translator'
+            - '%allow_multicart_for_anonymous%'
         tags:
             - {name: 'sylius.context.cart'}
 
@@ -15,5 +17,9 @@ services:
             - '@sylius.context.cart.new_shop_based.inner'
             - '@sylius.context.shopper'
             - '@bitbag_sylius_multi_cart_plugin.customizer.cart_customizer'
+            - '@sylius.repository.order'
+            - '@bitbag_sylius_multi_cart_plugin.context.cookie'
+            - '@translator'
+            - '%allow_multicart_for_anonymous%'
         tags:
             - {name: 'kernel.reset', method: 'reset'}

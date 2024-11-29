@@ -30,7 +30,7 @@ Sylius\Component\Locale\Model\Locale:
   locale_de_de:
     code: "de_DE"
 
-Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Customer:
+Sylius\Component\Core\Model\Customer:
   customer_1:
     firstName: "Bruce"
     lastName: "Wayne"

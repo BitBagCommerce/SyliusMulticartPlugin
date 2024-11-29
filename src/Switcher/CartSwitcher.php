@@ -10,44 +10,64 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMultiCartPlugin\Switcher;
 
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Context\CookieContextInterface;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
+use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartSwitcher implements CartSwitcherInterface
 {
-    private CustomerContextInterface $customerContext;
-
-    private EntityManagerInterface $entityManager;
-
-    private TranslatorInterface $translator;
-
     public function __construct(
-        CustomerContextInterface $customerContext,
-        EntityManagerInterface $entityManager,
-        TranslatorInterface $translator,
+        private readonly CustomerContextInterface $customerContext,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly OrderRepositoryInterface $orderRepository,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly CookieContextInterface $cookieContext,
+        private readonly TranslatorInterface $translator,
+        private readonly bool $allowMulticartForAnonymous,
     ) {
-        $this->customerContext = $customerContext;
-        $this->entityManager = $entityManager;
-        $this->translator = $translator;
     }
 
     public function switchCart(int $cartNumber): void
     {
         /** @var CustomerInterface|null $customer */
         $customer = $this->customerContext->getCustomer();
-        if (null === $customer) {
+
+        if (null === $customer && false === $this->allowMulticartForAnonymous) {
             throw new CartNotFoundException(
                 $this->translator->trans('bitbag_sylius_multicart_plugin.ui.sylius_was_not_able_to_find_the_cart_as_there_is_no_logged_in_user'),
             );
         }
 
-        if ($cartNumber !== $customer->getActiveCart()) {
-            $customer->setActiveCart($cartNumber);
+        /** @var ChannelInterface $channel */
+        $channel = $this->channelContext->getChannel();
 
-            $this->entityManager->flush();
+        /** @var string|null $machineId */
+        $machineId = null;
+
+        if ((null === $customer && true === $this->allowMulticartForAnonymous)) {
+            $machineId = $this->cookieContext->getMachineId();
         }
+
+        /** @var OrderInterface $activeCart */
+        $activeCart = $this->orderRepository->findActiveCart($channel, $customer, $machineId);
+
+        /** @var OrderInterface $pickedCart */
+        $pickedCart = $this->orderRepository->findPickedCart($channel, $customer, $machineId, $cartNumber);
+
+        if ($pickedCart === $activeCart) {
+            return;
+        }
+
+        $activeCart->setIsActive(false);
+        $pickedCart->setIsActive(true);
+
+        $this->entityManager->flush();
     }
 }

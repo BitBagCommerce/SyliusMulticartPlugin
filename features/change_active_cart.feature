@@ -20,5 +20,5 @@ Feature: Changing active cart
         Given I am logged in as "shop@example.com"
         And the customer has created empty cart
         And User creates new cart for current locale code
-        When User changes active cart to "2" cart for current locale code
-        Then User active cart number should be "2"
+        When User changes active cart to "1" cart for current locale code
+        Then User active cart number should be "1"

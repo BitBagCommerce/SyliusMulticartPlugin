@@ -15,26 +15,6 @@ doctrine:
 
 Extend entities with parameters and methods using attributes and traits:
 
-- `Customer` entity:
-
-```php
-<?php
-// src/Entity/Customer.php
-
-declare(strict_types=1);
-
-namespace App\Entity;
-
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
-use BitBag\SyliusMultiCartPlugin\Model\CustomerTrait;
-use Sylius\Component\Core\Model\Customer as BaseCustomer;
-
-class Customer extends BaseCustomer implements CustomerInterface
-{
-    use CustomerTrait;
-}
-```
-
 - `Order` entity:
 
 ```php
@@ -57,22 +37,6 @@ class Order extends BaseOrder implements OrderInterface
 
 Define new Entity mapping inside `src/Resources/config/doctrine` directory.
 
-- `Customer` entity:
-
-`src/Resources/config/doctrine/Customer.orm.xml`
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
-                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <mapped-superclass name="App\Entity\Customer" table="sylius_customer">
-        <field name="activeCart" type="integer" nullable="true" column="active_cart" />
-    </mapped-superclass>
-</doctrine-mapping>
-```
-
 - `Order` entity:
 
 `src/Resources/config/doctrine/Order.orm.xml`
@@ -85,6 +49,8 @@ Define new Entity mapping inside `src/Resources/config/doctrine` directory.
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <mapped-superclass name="App\Entity\Order" table="sylius_order">
         <field name="cartNumber" type="integer" nullable="true" column="cart_number" />
+        <field name="machineId" type="string" nullable="true" column="machine_id"/>
+        <field name="isActive" type="boolean" nullable="true" column="is_active"/>
     </mapped-superclass>
 </doctrine-mapping>
 ```
@@ -98,10 +64,4 @@ sylius_order:
         order:
             classes:
                 model: App\Entity\Order
-
-sylius_customer:
-    resources:
-        customer:
-            classes:
-                model: App\Entity\Customer
 ```

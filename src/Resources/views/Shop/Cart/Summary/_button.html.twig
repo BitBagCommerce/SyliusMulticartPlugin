@@ -1,5 +1,5 @@
-{% if customer != null %}
-    <button 
+{% if allow_multicart_for_anonymous or customer is not null %}
+    <button
         class="ui right floated black button"
         data-bb-mc-newcart
         data-bb-mc-max="8"

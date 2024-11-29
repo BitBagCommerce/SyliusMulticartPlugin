@@ -11,13 +11,14 @@ declare(strict_types=1);
 namespace spec\BitBag\SyliusMultiCartPlugin\Cart\Context;
 
 use BitBag\SyliusMultiCartPlugin\Cart\Context\CustomerAndChannelBasedMultiCartContext;
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Context\CookieContextInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -29,13 +30,16 @@ final class CustomerAndChannelBasedMultiCartContextSpec extends ObjectBehavior
         CustomerContextInterface $customerContext,
         ChannelContextInterface $channelContext,
         OrderRepositoryInterface $orderRepository,
-        TranslatorInterface $translator
+        CookieContextInterface $cookieContext,
+        TranslatorInterface $translator,
     ): void {
         $this->beConstructedWith(
             $customerContext,
             $channelContext,
             $orderRepository,
-            $translator
+            $cookieContext,
+            $translator,
+            true,
         );
     }
 
@@ -49,7 +53,7 @@ final class CustomerAndChannelBasedMultiCartContextSpec extends ObjectBehavior
         $this->shouldHaveType(CartContextInterface::class);
     }
 
-    function it_gets_cart(
+    function it_gets_cart_with_logged_in_customer(
         CustomerContextInterface $customerContext,
         ChannelContextInterface $channelContext,
         OrderRepositoryInterface $orderRepository,
@@ -59,9 +63,25 @@ final class CustomerAndChannelBasedMultiCartContextSpec extends ObjectBehavior
     ): void {
         $channelContext->getChannel()->willReturn($channel);
         $customerContext->getCustomer()->willReturn($customer);
-        $orderRepository->findLatestNotEmptyActiveCart($channel, $customer)->willReturn($cart);
+        $orderRepository->findLatestNotEmptyActiveCart($channel, $customer, null)->willReturn($cart);
 
         $this->getCart()->shouldHaveType(OrderInterface::class);
+    }
+
+    function it_gets_cart_for_anonymous_user_with_cookie(
+        CustomerContextInterface $customerContext,
+        ChannelContextInterface $channelContext,
+        OrderRepositoryInterface $orderRepository,
+        CookieContextInterface $cookieContext,
+        ChannelInterface $channel,
+        OrderInterface $cart
+    ): void {
+        $channelContext->getChannel()->willReturn($channel);
+        $customerContext->getCustomer()->willReturn(null);
+        $cookieContext->getMachineId()->willReturn('machine-id');
+        $orderRepository->findLatestNotEmptyActiveCart($channel, null, 'machine-id')->willReturn($cart);
+
+        $this->getCart()->shouldReturn($cart);
     }
 
     function it_throws_exception_for_missing_channel(
@@ -92,7 +112,7 @@ final class CustomerAndChannelBasedMultiCartContextSpec extends ObjectBehavior
     ): void {
         $channelContext->getChannel()->willReturn($channel);
         $customerContext->getCustomer()->willReturn($customer);
-        $orderRepository->findLatestNotEmptyActiveCart($channel, $customer)->willReturn(null);
+        $orderRepository->findLatestNotEmptyActiveCart($channel, $customer, null)->willReturn(null);
 
         $this->shouldThrow(CartNotFoundException::class)->during('getCart', []);
     }

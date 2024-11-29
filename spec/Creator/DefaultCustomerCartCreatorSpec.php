@@ -10,14 +10,15 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusMultiCartPlugin\Creator;
 
+use BitBag\SyliusMultiCartPlugin\Context\CookieContextInterface;
 use BitBag\SyliusMultiCartPlugin\Creator\DefaultCustomerCartCreator;
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
@@ -31,6 +32,7 @@ class DefaultCustomerCartCreatorSpec extends ObjectBehavior
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
         ChannelContextInterface $channelContext,
+        CookieContextInterface $cookieContext,
         TranslatorInterface $translator
     ): void {
         $this->beConstructedWith(
@@ -39,7 +41,9 @@ class DefaultCustomerCartCreatorSpec extends ObjectBehavior
             $customerContext,
             $orderRepository,
             $channelContext,
-            $translator
+            $cookieContext,
+            $translator,
+            true
         );
     }
 
@@ -61,7 +65,31 @@ class DefaultCustomerCartCreatorSpec extends ObjectBehavior
         $customerContext->getCustomer()->willReturn($customer);
         $channelContext->getChannel()->willReturn($channel);
 
-        $orderRepository->countCarts($channel, $customer)->willReturn(1);
+        $orderRepository->countCarts($channel, $customer, null)->willReturn(1);
+
+        $shopBasedMultiCartContext->getCart()->willReturn($order);
+
+        $entityManager->persist($order)->shouldBeCalled();
+        $entityManager->flush()->shouldBeCalled();
+
+        $this->createNewCart()->shouldBeNull();
+    }
+
+    function it_creates_new_cart_for_anonymous_user_with_machine_id(
+        CustomerContextInterface $customerContext,
+        ChannelContextInterface $channelContext,
+        ChannelInterface $channel,
+        OrderRepositoryInterface $orderRepository,
+        CartContextInterface $shopBasedMultiCartContext,
+        OrderInterface $order,
+        CookieContextInterface $cookieContext,
+        EntityManagerInterface $entityManager
+    ): void {
+        $customerContext->getCustomer()->willReturn(null);
+        $channelContext->getChannel()->willReturn($channel);
+        $cookieContext->getMachineId()->willReturn('machine-id');
+
+        $orderRepository->countCarts($channel, null, 'machine-id')->willReturn(1);
 
         $shopBasedMultiCartContext->getCart()->willReturn($order);
 
@@ -81,7 +109,7 @@ class DefaultCustomerCartCreatorSpec extends ObjectBehavior
         $customerContext->getCustomer()->willReturn($customer);
         $channelContext->getChannel()->willReturn($channel);
 
-        $orderRepository->countCarts($channel, $customer)->willThrow(new CartNotFoundException);
+        $orderRepository->countCarts($channel, $customer, null)->willThrow(new CartNotFoundException);
 
         $this->shouldThrow(CartNotFoundException::class)->during('createNewCart', []);
     }

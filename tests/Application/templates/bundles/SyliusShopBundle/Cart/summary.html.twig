@@ -9,7 +9,7 @@
 {% block title %}{{ header|trans }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    {% if cart.customer == null %}
+    {% if cart.customer is null and allow_multicart_for_anonymous == false %}
         {% if not cart.empty %}
             {{ sylius_template_event('sylius.shop.cart.header', {'header': header, 'cart': cart}) }}
 
@@ -40,7 +40,7 @@
                 data-url-cart-total="{{ path('bitbag_sylius_multi_cart_plugin_shop_cart_total') }}"
                 data-url-carts-active-cart="{{ path('bitbag_sylius_multi_cart_plugin_ajax_get_active_cart') }}"
             >
-                    {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
+                {{ render(url('bitbag_sylius_multi_cart_plugin_show_carts_summary')) }}
             </div>
 
             <div id="summary-items" class="ui stackable grid" data-bb-mc-summary-items>

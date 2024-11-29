@@ -18,7 +18,7 @@ Sylius\Component\Locale\Model\Locale:
   locale_en_us:
     code: "en_US"
 
-Tests\BitBag\SyliusMultiCartPlugin\Application\src\Entity\Customer:
+Sylius\Component\Core\Model\Customer:
   customer:
     firstName: "Bruce"
     lastName: "Wayne"

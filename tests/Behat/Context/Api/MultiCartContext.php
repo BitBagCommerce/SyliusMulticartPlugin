@@ -15,10 +15,12 @@ use Behat\MinkExtension\Context\RawMinkContext;
 use BitBag\SyliusMultiCartPlugin\Controller\ChangeActiveCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\DeleteCartAction;
 use BitBag\SyliusMultiCartPlugin\Controller\NewCartAction;
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Repository\OrderRepositoryInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
@@ -116,13 +118,26 @@ final class MultiCartContext extends RawMinkContext implements Context
     {
         /** @var ShopUserInterface $user */
         $user = $this->sharedStorage->get('user');
+        /** @var ChannelInterface $channel */
+        $channel = $this->channelContext->getChannel();
         /** @var CustomerInterface $customer */
         $customer = $user->getCustomer();
+        $machineId = null;
 
-        if ($cartNumber !== $customer->getActiveCart()) {
-            throw new \Exception(
-                sprintf('Current active cart number is not %s', $cartNumber),
-            );
+        if (null === $customer) {
+            $machineId = 'machine-id';
+        }
+
+        /** @var OrderInterface|null $activeCart */
+        $activeCart = $this->orderRepository->findActiveCart($channel, $customer, $machineId);
+
+        if ($activeCart !== null) {
+            $activeCartNumber = $activeCart->getCartNumber();
+            if ($activeCartNumber !== $cartNumber) {
+                throw new \Exception('Expected cart number $cartNumber, but found $activeCartNumber.');
+            }
+        } else {
+            throw new \Exception('No active cart found for user.');
         }
     }
 
@@ -136,7 +151,7 @@ final class MultiCartContext extends RawMinkContext implements Context
         $channel = $this->channelContext->getChannel();
         $customer = $this->customerContext->getCustomer();
 
-        $countCarts = $this->orderRepository->countCarts($channel, $customer);
+        $countCarts = $this->orderRepository->countCarts($channel, $customer, null);
 
         if ($number !== $countCarts) {
             throw new \Exception(
@@ -162,8 +177,9 @@ final class MultiCartContext extends RawMinkContext implements Context
     {
         $channel = $this->channelContext->getChannel();
         $customer = $this->customerContext->getCustomer();
+        $machineId = null;
 
-        $allCarts = $this->orderRepository->findCarts($channel, $customer);
+        $allCarts = $this->orderRepository->findCarts($channel, $customer, $machineId);
 
         $allCartsItemsNumber = [];
 

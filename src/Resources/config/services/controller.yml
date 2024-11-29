@@ -5,7 +5,9 @@ services:
             - '@sylius.context.customer'
             - '@sylius.context.channel'
             - '@sylius.repository.order'
+            - '@bitbag_sylius_multi_cart_plugin.context.cookie'
             - '@twig'
+            - '%allow_multicart_for_anonymous%'
         tags:
             - { name: 'controller.service_arguments' }
 

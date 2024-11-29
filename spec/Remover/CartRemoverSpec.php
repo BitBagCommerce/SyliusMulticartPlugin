@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusMultiCartPlugin\Remover;
 
-use BitBag\SyliusMultiCartPlugin\Entity\CustomerInterface;
+use BitBag\SyliusMultiCartPlugin\Context\CookieContextInterface;
 use BitBag\SyliusMultiCartPlugin\Entity\OrderInterface;
 use BitBag\SyliusMultiCartPlugin\Exception\UnableToDeleteCartException;
 use BitBag\SyliusMultiCartPlugin\Remover\CartRemover;
@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Order\Context\CartNotFoundException;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -30,6 +31,7 @@ class CartRemoverSpec extends ObjectBehavior
         CustomerContextInterface $customerContext,
         OrderRepositoryInterface $orderRepository,
         EntityManagerInterface $entityManager,
+        CookieContextInterface $cookieContext,
         TranslatorInterface $translator
     ): void {
         $this->beConstructedWith(
@@ -37,7 +39,9 @@ class CartRemoverSpec extends ObjectBehavior
             $customerContext,
             $orderRepository,
             $entityManager,
-            $translator
+            $cookieContext,
+            $translator,
+            true
         );
     }
 
@@ -46,69 +50,100 @@ class CartRemoverSpec extends ObjectBehavior
         $this->shouldHaveType(CartRemover::class);
     }
 
-    function it_handles_request_and_deletes_cart_for_logged_user(
-        ChannelContextInterface $channelContext,
+    function it_removes_cart_for_logged_in_user(
         CustomerContextInterface $customerContext,
-        OrderRepositoryInterface $orderRepository,
-        EntityManagerInterface $entityManager,
         CustomerInterface $customer,
+        ChannelContextInterface $channelContext,
         ChannelInterface $channel,
-        OrderInterface $cart
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $activeCart,
+        OrderInterface $cartToRemove,
+        EntityManagerInterface $entityManager,
     ): void {
-        $cartNumber = 1;
-        $channelContext->getChannel()->willReturn($channel);
         $customerContext->getCustomer()->willReturn($customer);
-        $customer->getActiveCart()->willReturn(2);
+        $channelContext->getChannel()->willReturn($channel);
 
-        $orderRepository->findCartsGraterOrEqualNumber($channel, $customer, $cartNumber)->willReturn([$cart]);
-        $cart->getCartNumber()->willReturn(1);
+        $orderRepository->findActiveCart($channel, $customer, null)->willReturn($activeCart);
+        $activeCart->getCartNumber()->willReturn(1);
 
-        $entityManager->remove($cart)->shouldBeCalled();
+        $orderRepository->findCartsGraterOrEqualNumber($channel, $customer, 2, null)->willReturn([$cartToRemove]);
+        $cartToRemove->getCartNumber()->willReturn(2);
+
+        $entityManager->remove($cartToRemove)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
 
-        $this->removeCart($cartNumber)->shouldBeNull();
+        $this->removeCart(2);
     }
 
-    function it_stops_the_handle_request_due_to_null_cart_number(
-        ChannelContextInterface $channelContext,
+    function it_removes_cart_for_anonymous_user_with_allow_multicart_enabled(
         CustomerContextInterface $customerContext,
-        OrderRepositoryInterface $orderRepository,
-        CustomerInterface $customer,
-        ChannelInterface $channel,
-        OrderInterface $cart
-    ): void {
-        $cartNumber = 1;
-        $channelContext->getChannel()->willReturn($channel);
-        $customerContext->getCustomer()->willReturn($customer);
-        $customer->getActiveCart()->willReturn(2);
-
-        $orderRepository->findCartsGraterOrEqualNumber($channel, $customer, $cartNumber)->willReturn([$cart]);
-        $cart->getCartNumber()->willReturn(null);
-
-        $this->removeCart($cartNumber)->shouldBeNull();
-    }
-
-    function it_throws_cart_not_found_exception_for_anonymous_user(
         ChannelContextInterface $channelContext,
         ChannelInterface $channel,
-        CustomerContextInterface $customerContext
+        CookieContextInterface $cookieContext,
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $activeCart,
+        OrderInterface $cartToRemove,
+        EntityManagerInterface $entityManager
     ): void {
+        $customerContext->getCustomer()->willReturn(null);
+        $channelContext->getChannel()->willReturn($channel);
+        $cookieContext->getMachineId()->willReturn('unique-machine-id');
+
+        $orderRepository->findActiveCart($channel, null, 'unique-machine-id')->willReturn($activeCart);
+        $activeCart->getCartNumber()->willReturn(1);
+
+        $orderRepository->findCartsGraterOrEqualNumber($channel, null, 2, 'unique-machine-id')->willReturn([$cartToRemove]);
+        $cartToRemove->getCartNumber()->willReturn(2);
+
+        $entityManager->remove($cartToRemove)->shouldBeCalled();
+        $entityManager->flush()->shouldBeCalled();
+
+        $this->removeCart(2);
+    }
+
+    function it_throws_exception_when_anonymous_user_cannot_use_multicart(
+        ChannelContextInterface $channelContext,
+        ChannelInterface $channel,
+        CustomerContextInterface $customerContext,
+        CookieContextInterface $cookieContext,
+        OrderRepositoryInterface $orderRepository,
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $translator,
+    ): void {
+        $this->beConstructedWith(
+            $channelContext,
+            $customerContext,
+            $orderRepository,
+            $entityManager,
+            $cookieContext,
+            $translator,
+            false
+        );
+
         $channelContext->getChannel()->willReturn($channel);
         $customerContext->getCustomer()->willReturn(null);
 
-        $this->shouldThrow(CartNotFoundException::class)->during('removeCart', [ 1 ]);
+        $this
+            ->shouldThrow(CartNotFoundException::class)
+            ->during('removeCart', [1]);
     }
 
-    function it_throws_exception_for_removing_active_cart(
+    function it_throws_exception_when_trying_to_remove_active_cart(
+        CustomerContextInterface $customerContext,
+        CustomerInterface $customer,
         ChannelContextInterface $channelContext,
         ChannelInterface $channel,
-        CustomerContextInterface $customerContext,
-        CustomerInterface $customer
+        OrderRepositoryInterface $orderRepository,
+        OrderInterface $activeCart
     ): void {
-        $channelContext->getChannel()->willReturn($channel);
         $customerContext->getCustomer()->willReturn($customer);
-        $customer->getActiveCart()->willReturn(1);
+        $channelContext->getChannel()->willReturn($channel);
 
-        $this->shouldThrow(UnableToDeleteCartException::class)->during('removeCart', [ 1 ]);
+        $orderRepository->findActiveCart($channel, $customer, null)->willReturn($activeCart);
+        $activeCart->getCartNumber()->willReturn(1);
+
+        $this
+            ->shouldThrow(UnableToDeleteCartException::class)
+            ->during('removeCart', [1]);
     }
 }
